@@ -16,9 +16,9 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableTransactionManagement  //开启事务管理
 @MapperScan("com.coderman.*.mapper") //扫描mapper
 @Import(FdfsClientConfig.class)
-public class XinguanApplication {
+public class ErahubJljaManageApplication {
     public static void main(String[] args) {
-        SpringApplication.run(XinguanApplication.class,args);
+        SpringApplication.run(ErahubJljaManageApplication.class,args);
     }
 }
 
