@@ -30,7 +30,7 @@ spring:
         file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
 mybatis:
   mapper-locations: classpath:mapper/*/*Mapper.xml
-  type-aliases-package: com.erahub.common.model
+  type-aliases-package: com.coderman.common.model
   configuration:
     map-underscore-to-camel-case: true
 fdfs:
