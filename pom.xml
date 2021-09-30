@@ -5,11 +5,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>xinguan-common</module>
-        <module>xinguan-system</module>
-        <module>xinguan-business</module>
-        <module>xinguan-web</module>
-        <module>xinguan-generator</module>
+        <module>erahub_jlja_manage-common</module>
+        <module>erahub_jlja_manage-system</module>
+        <module>erahub_jlja_manage-business</module>
+        <module>erahub_jlja_manage-web</module>
+        <module>erahub_jlja_manage-generator</module>
     </modules>
 
     <parent>
@@ -19,12 +19,12 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.coderman</groupId>
-    <artifactId>goods</artifactId>
+    <groupId>com.erahub</groupId>
+    <artifactId>erahub_jlja_manage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>xinguan</name>
+    <name>erahub_jlja_manage</name>
 
-    <description>project for xinguan 2020</description>
+    <description>project for erahub_jlja_manage 2020</description>
 
     <properties>
         <java.version>1.8</java.version>
