@@ -30,15 +30,15 @@ spring:
         file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
 mybatis:
   mapper-locations: classpath:mapper/*/*Mapper.xml
-  type-aliases-package: com.coderman.common.model
+  type-aliases-package: com.erahub.common.model
   configuration:
     map-underscore-to-camel-case: true
 fdfs:
-  resHost: https://www.zykhome.club/
+  resHost: http://127.0.0.1:8989
   storagePort: 80
   connect-timeout: 1000
   so-timeout: 1500
-  trackerList: 39.99.182.103:22122
+  trackerList: 127.0.0.1:22122
   thumbImage:
     width: 100
     height: 100
