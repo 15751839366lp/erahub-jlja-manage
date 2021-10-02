@@ -1,19 +1,19 @@
 package com.erahub.business.service.imp;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.business.mapper.HealthMapper;
 import com.erahub.business.service.HealthService;
 import com.erahub.common.error.BusinessCodeEnum;
 import com.erahub.common.error.BusinessException;
+import com.erahub.common.model.business.Consumer;
 import com.erahub.common.model.business.Health;
 import com.erahub.common.vo.business.HealthVO;
 import com.erahub.common.vo.system.PageVO;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
-
 import java.util.Date;
 import java.util.List;
 
@@ -64,12 +64,13 @@ public class HealthServiceImpl implements HealthService {
      */
     @Override
     public PageVO<Health> history(Long id,Integer pageNum,Integer pageSize) {
-        Example o = new Example(Health.class);
-        o.setOrderByClause("create_time desc");
-        PageHelper.startPage(pageNum,pageSize);
-        o.createCriteria().andEqualTo("userId",id);
-        List<Health> health = healthMapper.selectByExample(o);
-        PageInfo<Health> pageInfo=new PageInfo<>(health);
-        return new PageVO<>(pageInfo.getTotal(),pageInfo.getList());
+        IPage<Health> healthIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<Health> healthQueryWrapper = new QueryWrapper<>();
+        healthQueryWrapper.orderByDesc("create_time");
+        healthQueryWrapper.eq("user_id",id);
+
+        healthIPage = healthMapper.selectPage(healthIPage, healthQueryWrapper);
+        List<Health> health = healthIPage.getRecords();
+        return new PageVO<>(healthIPage.getTotal(),health);
     }
 }

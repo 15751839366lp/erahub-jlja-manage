@@ -1,8 +1,12 @@
 package com.erahub.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.common.enums.system.RoleStatusEnum;
 import com.erahub.common.error.SystemCodeEnum;
 import com.erahub.common.error.SystemException;
+import com.erahub.common.model.system.Log;
 import com.erahub.common.model.system.Menu;
 import com.erahub.common.model.system.Role;
 import com.erahub.common.model.system.RoleMenu;
@@ -13,15 +17,11 @@ import com.erahub.system.mapper.MenuMapper;
 import com.erahub.system.mapper.RoleMapper;
 import com.erahub.system.mapper.RoleMenuMapper;
 import com.erahub.system.service.RoleService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import tk.mybatis.mapper.entity.Example;
-
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,16 +54,18 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public PageVO<RoleVO> findRoleList(Integer pageNum, Integer pageSize, RoleVO roleVO) {
-        PageHelper.startPage(pageNum,pageSize);
-        Example o = new Example(Role.class);
+        IPage<Role> roleIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
+
         String roleName = roleVO.getRoleName();
         if (roleName!=null&&!"".equals(roleName)){
-            o.createCriteria().andLike("roleName","%"+roleName+"%");
+            roleQueryWrapper.like("role_name",roleName);
         }
-        List<Role> roles = roleMapper.selectByExample(o);
+        roleIPage = roleMapper.selectPage(roleIPage, roleQueryWrapper);
+        List<Role> roles = roleIPage.getRecords();
         List<RoleVO> roleVOS= RoleConverter.converterToRoleVOList(roles);
-        PageInfo<Role> info=new PageInfo<>(roles);
-        return new PageVO<>(info.getTotal(),roleVOS);
+
+        return new PageVO<>(roleIPage.getTotal(),roleVOS);
     }
 
     /**
@@ -73,9 +75,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void add(RoleVO roleVO) throws SystemException {
         @NotBlank(message = "角色名必填") String roleName = roleVO.getRoleName();
-        Example o = new Example(Role.class);
-        o.createCriteria().andEqualTo("roleName",roleName);
-        int i = roleMapper.selectCountByExample(o);
+        QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
+        roleQueryWrapper.eq("role_name",roleName);
+        int i = roleMapper.selectCount(roleQueryWrapper);
         if(i!=0){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"该角色名已被占用");
         }
@@ -94,15 +96,15 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @Override
     public void deleteById(Long id) throws SystemException {
-        Role role = roleMapper.selectByPrimaryKey(id);
+        Role role = roleMapper.selectById(id);
         if(role==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要删除的角色不存在");
         }
-        roleMapper.deleteByPrimaryKey(id);
+        roleMapper.deleteById(id);
         //删除对应的[角色-菜单]记录
-        Example o = new Example(RoleMenu.class);
-        o.createCriteria().andEqualTo("roleId",id);
-        roleMenuMapper.deleteByExample(o);
+        QueryWrapper<RoleMenu> roleMenuQueryWrapper = new QueryWrapper<>();
+        roleMenuQueryWrapper.eq("role_id",id);
+        roleMenuMapper.delete(roleMenuQueryWrapper);
     }
 
     /**
@@ -112,7 +114,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public RoleVO edit(Long id) throws SystemException {
-        Role role = roleMapper.selectByPrimaryKey(id);
+        Role role = roleMapper.selectById(id);
         if(role==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"编辑的角色不存在");
         }
@@ -129,13 +131,14 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void update(Long id, RoleVO roleVO) throws SystemException {
         @NotBlank(message = "角色名必填") String roleName = roleVO.getRoleName();
-        Role dbRole = roleMapper.selectByPrimaryKey(id);
+        Role dbRole = roleMapper.selectById(id);
         if(dbRole==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要更新的角色不存在");
         }
-        Example o = new Example(Role.class);
-        o.createCriteria().andEqualTo("roleName",roleName);
-        List<Role> roles = roleMapper.selectByExample(o);
+        QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
+        roleQueryWrapper.eq("role_name",roleName);
+
+        List<Role> roles = roleMapper.selectList(roleQueryWrapper);
         if(!CollectionUtils.isEmpty(roles)){
             Role role = roles.get(0);
             if(!role.getId().equals(id)){
@@ -145,7 +148,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = new Role();
         BeanUtils.copyProperties(roleVO,role);
         role.setModifiedTime(new Date());
-        roleMapper.updateByPrimaryKeySelective(role);
+        roleMapper.updateById(role);
     }
 
     /**
@@ -155,7 +158,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public void updateStatus(Long id, Boolean status) throws SystemException {
-        Role role = roleMapper.selectByPrimaryKey(id);
+        Role role = roleMapper.selectById(id);
         if(role==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"角色不存在");
         }
@@ -163,12 +166,12 @@ public class RoleServiceImpl implements RoleService {
         t.setId(id);
         t.setStatus(status?RoleStatusEnum.DISABLE.getStatusCode():
                 RoleStatusEnum.AVAILABLE.getStatusCode());
-        roleMapper.updateByPrimaryKeySelective(t);
+        roleMapper.updateById(t);
     }
 
     @Override
     public List<Role> findAll() {
-        return roleMapper.selectAll();
+        return roleMapper.selectList(null);
     }
 
     /**
@@ -178,14 +181,15 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public List<Long> findMenuIdsByRoleId(Long id) throws SystemException {
-        Role role = roleMapper.selectByPrimaryKey(id);
+        Role role = roleMapper.selectById(id);
         if(role==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"该角色已不存在");
         }
         List<Long> ids=new ArrayList<>();
-        Example o = new Example(RoleMenu.class);
-        o.createCriteria().andEqualTo("roleId",id);
-        List<RoleMenu> roleMenus = roleMenuMapper.selectByExample(o);
+        QueryWrapper<RoleMenu> roleMenuQueryWrapper = new QueryWrapper<>();
+        roleMenuQueryWrapper.eq("role_id",id);
+
+        List<RoleMenu> roleMenus = roleMenuMapper.selectList(roleMenuQueryWrapper);
         if(!CollectionUtils.isEmpty(roleMenus)){
             for (RoleMenu roleMenu : roleMenus) {
                 ids.add(roleMenu.getMenuId());
@@ -202,25 +206,26 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @Override
     public void authority(Long id,Long[] mids) throws SystemException {
-        Role role = roleMapper.selectByPrimaryKey(id);
+        Role role = roleMapper.selectById(id);
         if(role==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"该角色不存在");
         }
         //先删除原来的权限
-        Example o = new Example(RoleMenu.class);
-        o.createCriteria().andEqualTo("roleId",id);
-        roleMenuMapper.deleteByExample(o);
+        QueryWrapper<RoleMenu> roleMenuQueryWrapper = new QueryWrapper<>();
+        roleMenuQueryWrapper.eq("role_id",id);
+
+        roleMenuMapper.delete(roleMenuQueryWrapper);
         //增加现在分配的角色
         if(mids.length>0){
             for (Long mid : mids) {
-                Menu menu = menuMapper.selectByPrimaryKey(mid);
+                Menu menu = menuMapper.selectById(mid);
                 if(menu==null){
                     throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"menuId="+mid+",菜单权限不存在");
                 }else {
                     RoleMenu roleMenu = new RoleMenu();
                     roleMenu.setRoleId(id);
                     roleMenu.setMenuId(mid);
-                    roleMenuMapper.insertSelective(roleMenu);
+                    roleMenuMapper.insert(roleMenu);
                 }
             }
         }

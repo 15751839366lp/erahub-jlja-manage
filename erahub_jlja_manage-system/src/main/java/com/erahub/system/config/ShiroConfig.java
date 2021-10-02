@@ -1,5 +1,7 @@
-package com.erahub.system.shiro;
+package com.erahub.system.config;
 
+import com.erahub.system.shiro.JWTFilter;
+import com.erahub.system.shiro.UserRealm;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;

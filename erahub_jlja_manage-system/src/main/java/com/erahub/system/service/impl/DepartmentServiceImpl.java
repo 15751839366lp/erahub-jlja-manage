@@ -1,6 +1,9 @@
 package com.erahub.system.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.common.enums.buisiness.BizUserTypeEnum;
 import com.erahub.common.enums.system.UserStatusEnum;
 import com.erahub.common.enums.system.UserTypeEnum;
@@ -19,14 +22,10 @@ import com.erahub.system.mapper.RoleMapper;
 import com.erahub.system.mapper.UserMapper;
 import com.erahub.system.mapper.UserRoleMapper;
 import com.erahub.system.service.DepartmentService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import tk.mybatis.mapper.entity.Example;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,27 +60,29 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public PageVO<DepartmentVO> findDepartmentList(Integer pageNum, Integer pageSize, DepartmentVO departmentVO) {
-        PageHelper.startPage(pageNum, pageSize);
-        Example o = new Example(Department.class);
+        IPage<Department> departmentIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<Department> wrapper = new QueryWrapper<>();
         if (departmentVO.getName() != null && !"".equals(departmentVO.getName())) {
-            o.createCriteria().andLike("name", "%" + departmentVO.getName() + "%");
+            wrapper.like("name", departmentVO.getName());
         }
-        List<Department> departments = departmentMapper.selectByExample(o);
+        departmentIPage = departmentMapper.selectPage(departmentIPage, wrapper);
+        List<Department> departments = departmentIPage.getRecords();
         //转vo
         List<DepartmentVO> departmentVOS = new ArrayList<>();
         if (!CollectionUtils.isEmpty(departments)) {
             for (Department department : departments) {
                 DepartmentVO d = new DepartmentVO();
                 BeanUtils.copyProperties(department, d);
-                Example o1 = new Example(User.class);
-                o1.createCriteria().andEqualTo("departmentId",department.getId())
-                        .andNotEqualTo("type", UserTypeEnum.SYSTEM_ADMIN.getTypeCode());
-                d.setTotal(userMapper.selectCountByExample(o1));
+                QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+                userQueryWrapper.eq("department_id", department.getId());
+                userQueryWrapper.ne("type", UserTypeEnum.SYSTEM_ADMIN.getTypeCode());
+
+                d.setTotal(userMapper.selectCount(userQueryWrapper));
                 departmentVOS.add(d);
             }
         }
-        PageInfo<Department> info = new PageInfo<>(departments);
-        return new PageVO<>(info.getTotal(), departmentVOS);
+
+        return new PageVO<>(departmentIPage.getTotal(), departmentVOS);
     }
 
     /**
@@ -91,15 +92,16 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public List<DeanVO> findDeanList() {
-        Example o = new Example(Role.class);
-        o.createCriteria().andEqualTo("roleName", BizUserTypeEnum.DEAN.getVal());
-        List<Role> roles = roleMapper.selectByExample(o);
+        QueryWrapper<Role> wrapper = new QueryWrapper<>();
+        wrapper.eq("role_name", BizUserTypeEnum.DEAN.getVal());
+
+        List<Role> roles = roleMapper.selectList(wrapper);
         List<DeanVO> list = new ArrayList<>();
         if (!CollectionUtils.isEmpty(roles)) {
             Role role = roles.get(0);
-            Example o1 = new Example(UserRole.class);
-            o1.createCriteria().andEqualTo("roleId", role.getId());
-            List<UserRole> userRoleList = userRoleMapper.selectByExample(o1);
+            QueryWrapper<UserRole> userRoleQueryWrapper= new QueryWrapper<>();
+            userRoleQueryWrapper.eq("role_id", role.getId());
+            List<UserRole> userRoleList = userRoleMapper.selectList(userRoleQueryWrapper);
             if (!CollectionUtils.isEmpty(userRoleList)) {
                 //存放所有系主任的id
                 List<Long> userIds = new ArrayList<>();
@@ -108,7 +110,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 }
                 if(userIds.size()>0){
                     for (Long userId : userIds) {
-                        User user = userMapper.selectByPrimaryKey(userId);
+                        User user = userMapper.selectById(userId);
                         //所有可用的
                         if(user!=null&&user.getStatus()== UserStatusEnum.AVAILABLE.getStatusCode()){
                             DeanVO deanVO = new DeanVO();
@@ -143,7 +145,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public DepartmentVO edit(Long id) throws SystemException {
-        Department department = departmentMapper.selectByPrimaryKey(id);
+        Department department = departmentMapper.selectById(id);
         if(department==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"编辑的部门不存在");
         }
@@ -157,7 +159,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public void update(Long id, DepartmentVO departmentVO) throws SystemException {
-        Department dbDepartment = departmentMapper.selectByPrimaryKey(id);
+        Department dbDepartment = departmentMapper.selectById(id);
         if(dbDepartment==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要更新的部门不存在");
         }
@@ -165,7 +167,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         BeanUtils.copyProperties(departmentVO,department);
         department.setId(id);
         department.setModifiedTime(new Date());
-        departmentMapper.updateByPrimaryKeySelective(department);
+        departmentMapper.updateById(department);
     }
 
     /**
@@ -174,26 +176,27 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public void delete(Long id) throws SystemException {
-        Department department = departmentMapper.selectByPrimaryKey(id);
+        Department department = departmentMapper.selectById(id);
         if(department==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要删除的部门不存在");
         }
-        departmentMapper.deleteByPrimaryKey(id);
+        departmentMapper.deleteById(id);
     }
 
     @Override
     public List<DepartmentVO> findAllVO() {
-        List<Department> departments = departmentMapper.selectAll();
+        List<Department> departments = departmentMapper.selectList(null);
         //转vo
         List<DepartmentVO> departmentVOS = new ArrayList<>();
         if (!CollectionUtils.isEmpty(departments)) {
             for (Department department : departments) {
                 DepartmentVO d = new DepartmentVO();
                 BeanUtils.copyProperties(department, d);
-                Example o = new Example(User.class);
-                o.createCriteria().andEqualTo("departmentId",department.getId())
-                .andNotEqualTo("type",0);
-                d.setTotal(userMapper.selectCountByExample(o));
+                QueryWrapper<User> userQueryWrapper= new QueryWrapper<>();
+                userQueryWrapper.eq("department_id",department.getId());
+                userQueryWrapper.ne("type",0);
+
+                d.setTotal(userMapper.selectCount(userQueryWrapper));
                 departmentVOS.add(d);
             }
         }
@@ -202,6 +205,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Department> findAll() {
-        return departmentMapper.selectAll();
+        return departmentMapper.selectList(null);
     }
 }

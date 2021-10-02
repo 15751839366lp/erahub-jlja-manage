@@ -1,23 +1,23 @@
 package com.erahub.business.service.imp;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.business.mapper.ProductMapper;
 import com.erahub.business.mapper.ProductStockMapper;
 import com.erahub.business.service.ProductService;
 import com.erahub.business.converter.ProductConverter;
 import com.erahub.common.error.BusinessCodeEnum;
 import com.erahub.common.error.BusinessException;
+import com.erahub.common.model.business.InStock;
 import com.erahub.common.model.business.Product;
 import com.erahub.common.vo.business.ProductStockVO;
 import com.erahub.common.vo.business.ProductVO;
 import com.erahub.common.vo.system.PageVO;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
-
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -51,46 +51,51 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public PageVO<ProductVO> findProductList(Integer pageNum, Integer pageSize, ProductVO productVO) {
-        PageHelper.startPage(pageNum, pageSize);
         List<Product> products;
-        Example o = new Example(Product.class);
-        Example.Criteria criteria = o.createCriteria();
+
+        IPage<Product> productIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
+
         if (productVO.getStatus() != null) {
-            criteria.andEqualTo("status", productVO.getStatus());
+            productQueryWrapper.eq("status", productVO.getStatus());
         }
         if(productVO.getThreeCategoryId()!=null){
-            criteria.andEqualTo("oneCategoryId",productVO.getOneCategoryId())
-                    .andEqualTo("twoCategoryId",productVO.getTwoCategoryId())
-                    .andEqualTo("threeCategoryId",productVO.getThreeCategoryId());
-            products = productMapper.selectByExample(o);
+            productQueryWrapper.eq("oneCategoryId", productVO.getOneCategoryId());
+            productQueryWrapper.eq("twoCategoryId", productVO.getTwoCategoryId());
+            productQueryWrapper.eq("threeCategoryId", productVO.getThreeCategoryId());
+
+            productIPage = productMapper.selectPage(productIPage, productQueryWrapper);
+            products = productIPage.getRecords();
             List<ProductVO> categoryVOS= ProductConverter.converterToVOList(products);
-            PageInfo<Product> info = new PageInfo<>(products);
-            return new PageVO<>(info.getTotal(), categoryVOS);
+
+            return new PageVO<>(productIPage.getTotal(), categoryVOS);
         }
         if(productVO.getTwoCategoryId()!=null){
-            criteria.andEqualTo("oneCategoryId",productVO.getOneCategoryId())
-                    .andEqualTo("twoCategoryId",productVO.getTwoCategoryId());
-            products = productMapper.selectByExample(o);
+            productQueryWrapper.eq("oneCategoryId", productVO.getOneCategoryId());
+            productQueryWrapper.eq("twoCategoryId", productVO.getTwoCategoryId());
+
+            productIPage = productMapper.selectPage(productIPage, productQueryWrapper);
+            products = productIPage.getRecords();
             List<ProductVO> categoryVOS=ProductConverter.converterToVOList(products);
-            PageInfo<Product> info = new PageInfo<>(products);
-            return new PageVO<>(info.getTotal(), categoryVOS);
+            return new PageVO<>(productIPage.getTotal(), categoryVOS);
         }
         if(productVO.getOneCategoryId()!=null) {
-            criteria.andEqualTo("oneCategoryId", productVO.getOneCategoryId());
-            products = productMapper.selectByExample(o);
-            List<ProductVO> categoryVOS = ProductConverter.converterToVOList(products);
-            PageInfo<Product> info = new PageInfo<>(products);
-            return new PageVO<>(info.getTotal(), categoryVOS);
-        }
-        o.setOrderByClause("sort asc");
-        if (productVO.getName() != null && !"".equals(productVO.getName())) {
-            criteria.andLike("name", "%" + productVO.getName() + "%");
-        }
+            productQueryWrapper.eq("oneCategoryId", productVO.getOneCategoryId());
 
-        products = productMapper.selectByExample(o);
+            productIPage = productMapper.selectPage(productIPage, productQueryWrapper);
+            products = productIPage.getRecords();
+            List<ProductVO> categoryVOS = ProductConverter.converterToVOList(products);
+            return new PageVO<>(productIPage.getTotal(), categoryVOS);
+        }
+        productQueryWrapper.orderByAsc("sort");
+        if (productVO.getName() != null && !"".equals(productVO.getName())) {
+            productQueryWrapper.like("name", productVO.getName());
+        }
+        productIPage = productMapper.selectPage(productIPage, productQueryWrapper);
+        products = productIPage.getRecords();
         List<ProductVO> categoryVOS=ProductConverter.converterToVOList(products);
-        PageInfo<Product> info = new PageInfo<>(products);
-        return new PageVO<>(info.getTotal(), categoryVOS);
+
+        return new PageVO<>(productIPage.getTotal(), categoryVOS);
     }
 
 
@@ -123,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public ProductVO edit(Long id) {
-        Product product = productMapper.selectByPrimaryKey(id);
+        Product product = productMapper.selectById(id);
         return ProductConverter.converterToProductVO(product);
     }
 
@@ -143,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
             product.setTwoCategoryId(categoryKeys[1]);
             product.setThreeCategoryId(categoryKeys[2]);
         }
-        productMapper.updateByPrimaryKey(product);
+        productMapper.updateById(product);
     }
 
     /**
@@ -154,12 +159,12 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) throws BusinessException {
         Product t = new Product();
         t.setId(id);
-        Product product = productMapper.selectByPrimaryKey(t);
+        Product product = productMapper.selectById(id);
         //只有物资处于回收站,或者待审核的情况下可删除
         if(product.getStatus()!=1&&product.getStatus()!=2){
             throw new BusinessException(BusinessCodeEnum.PRODUCT_STATUS_ERROR);
         }else {
-            productMapper.deleteByPrimaryKey(id);
+            productMapper.deleteById(id);
         }
     }
 
@@ -172,10 +177,12 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public PageVO<ProductStockVO> findProductStocks(Integer pageNum, Integer pageSize, ProductVO productVO) {
-        PageHelper.startPage(pageNum, pageSize);
+        productVO.setPageNum(pageNum);
+        productVO.setPageSize(pageSize);
+
         List<ProductStockVO> productStockVOList=productStockMapper.findProductStocks(productVO);
-        PageInfo<ProductStockVO> info = new PageInfo<>(productStockVOList);
-        return new PageVO<>(info.getTotal(), productStockVOList);
+        Integer count =productStockMapper.findProductStocksCount(productVO);
+        return new PageVO<>(count , productStockVOList);
     }
 
     /**
@@ -184,7 +191,8 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<ProductStockVO> findAllStocks(Integer pageNum, Integer pageSize, ProductVO productVO) {
-        PageHelper.startPage(pageNum, pageSize);
+        productVO.setPageNum(pageNum);
+        productVO.setPageSize(pageSize);
         return productStockMapper.findAllStocks(productVO);
     }
 
@@ -196,12 +204,12 @@ public class ProductServiceImpl implements ProductService {
     public void remove(Long id) throws BusinessException {
         Product t = new Product();
         t.setId(id);
-        Product product = productMapper.selectByPrimaryKey(t);
+        Product product = productMapper.selectById(id);
         if(product.getStatus()!=0){
             throw new BusinessException(BusinessCodeEnum.PRODUCT_STATUS_ERROR);
         }else {
             t.setStatus(1);
-            productMapper.updateByPrimaryKeySelective(t);
+            productMapper.updateById(t);
         }
     }
 
@@ -213,12 +221,12 @@ public class ProductServiceImpl implements ProductService {
     public void back(Long id) throws BusinessException {
         Product t = new Product();
         t.setId(id);
-        Product product = productMapper.selectByPrimaryKey(t);
+        Product product = productMapper.selectById(id);
         if(product.getStatus()!=1){
             throw new BusinessException(BusinessCodeEnum.PRODUCT_STATUS_ERROR);
         }else {
             t.setStatus(0);
-            productMapper.updateByPrimaryKeySelective(t);
+            productMapper.updateById(t);
         }
     }
 
@@ -230,12 +238,12 @@ public class ProductServiceImpl implements ProductService {
     public void publish(Long id) throws BusinessException {
         Product t = new Product();
         t.setId(id);
-        Product product = productMapper.selectByPrimaryKey(t);
+        Product product = productMapper.selectById(id);
         if(product.getStatus()!=2){
             throw new BusinessException(BusinessCodeEnum.PRODUCT_STATUS_ERROR);
         }else {
             t.setStatus(0);
-            productMapper.updateByPrimaryKeySelective(t);
+            productMapper.updateById(t);
         }
     }
 

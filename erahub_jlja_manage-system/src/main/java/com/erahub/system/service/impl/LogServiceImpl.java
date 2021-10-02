@@ -1,21 +1,21 @@
 package com.erahub.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.common.error.SystemCodeEnum;
 import com.erahub.common.error.SystemException;
+import com.erahub.common.model.system.Department;
 import com.erahub.common.model.system.Log;
 import com.erahub.common.model.system.LoginLog;
 import com.erahub.common.vo.system.LogVO;
 import com.erahub.common.vo.system.PageVO;
 import com.erahub.system.mapper.LogMapper;
 import com.erahub.system.service.LogService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import tk.mybatis.mapper.entity.Example;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,30 +46,30 @@ public class LogServiceImpl implements LogService {
      */
     @Override
     public void delete(Long id) throws SystemException {
-        Log log = logMapper.selectByPrimaryKey(id);
+        Log log = logMapper.selectById(id);
         if(log==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要删除的操作日志不存在");
         }
-        logMapper.deleteByPrimaryKey(id);
+        logMapper.deleteById(id);
     }
 
 
     @Override
     public PageVO<LogVO> findLogList(Integer pageNum, Integer pageSize, LogVO logVO) {
-        PageHelper.startPage(pageNum,pageSize);
-        Example o = new Example(LoginLog.class);
-        Example.Criteria criteria = o.createCriteria();
-        o.setOrderByClause("create_time desc");
+        IPage<Log> loginLogIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<Log> loginLogQueryWrapper = new QueryWrapper<>();
+        loginLogQueryWrapper.orderByDesc("create_time");
         if(logVO.getLocation()!=null&&!"".equals(logVO.getLocation())){
-            criteria.andLike("location","%"+logVO.getLocation()+"%");
+            loginLogQueryWrapper.like("location",logVO.getLocation());
         }
         if(logVO.getIp()!=null&&!"".equals(logVO.getIp())){
-            criteria.andLike("ip","%"+logVO.getIp()+"%");
+            loginLogQueryWrapper.like("ip",logVO.getIp());
         }
         if(logVO.getUsername()!=null&&!"".equals(logVO.getUsername())){
-            criteria.andLike("username","%"+logVO.getUsername()+"%");
+            loginLogQueryWrapper.like("username",logVO.getUsername());
         }
-        List<Log> loginLogs = logMapper.selectByExample(o);
+        loginLogIPage = logMapper.selectPage(loginLogIPage, loginLogQueryWrapper);
+        List<Log> loginLogs = loginLogIPage.getRecords();
         List<LogVO> logVOS=new ArrayList<>();
         if(!CollectionUtils.isEmpty(loginLogs)){
             for (Log loginLog : loginLogs) {
@@ -78,8 +78,8 @@ public class LogServiceImpl implements LogService {
                 logVOS.add(logVO1);
             }
         }
-        PageInfo<Log> info=new PageInfo<>(loginLogs);
-        return new PageVO<>(info.getTotal(),logVOS);
+
+        return new PageVO<>(loginLogIPage.getTotal(),logVOS);
     }
 
     /**
@@ -89,7 +89,7 @@ public class LogServiceImpl implements LogService {
     @Override
     public void batchDelete(List<Long> list) throws SystemException {
         for (Long id : list) {
-            Log log = logMapper.selectByPrimaryKey(id);
+            Log log = logMapper.selectById(id);
             if(log==null){
                 throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"id="+id+",操作日志不存在");
             }

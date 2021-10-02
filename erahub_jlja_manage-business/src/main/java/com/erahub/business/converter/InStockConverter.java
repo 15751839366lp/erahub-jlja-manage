@@ -34,7 +34,7 @@ public class InStockConverter {
             for (InStock inStock : inStocks) {
                 InStockVO inStockVO = new InStockVO();
                 BeanUtils.copyProperties(inStock,inStockVO);
-                Supplier supplier = supplierMapper.selectByPrimaryKey(inStock.getSupplierId());
+                Supplier supplier = supplierMapper.selectById(inStock.getSupplierId());
                 if(supplier!=null){
                     inStockVO.setSupplierName(supplier.getName());
                     inStockVO.setPhone(supplier.getPhone());

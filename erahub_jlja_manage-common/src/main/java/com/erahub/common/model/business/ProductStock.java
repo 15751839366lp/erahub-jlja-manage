@@ -1,17 +1,17 @@
 package com.erahub.common.model.business;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * 商品库存
  */
 @Data
-@Table(name = "biz_product_stock")
+@TableName("biz_product_stock")
 public class ProductStock {
-    @Id
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String pNum;

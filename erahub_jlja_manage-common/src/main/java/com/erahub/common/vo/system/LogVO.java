@@ -1,9 +1,10 @@
 package com.erahub.common.vo.system;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -11,7 +12,8 @@ import java.util.Date;
  */
 @Data
 public class LogVO {
-    @Id
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String username;

@@ -1,22 +1,20 @@
 package com.erahub.common.model.system;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.wuwenze.poi.annotation.Excel;
 import com.wuwenze.poi.annotation.ExcelField;
 import lombok.Data;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Data
 @Excel(value = "菜单表格")
-@Table(name = "tb_menu")
+@TableName("tb_menu")
 public class Menu {
 
-    @Id
+    @TableId(value = "id", type = IdType.AUTO)
     @ExcelField(value = "编号", width = 50)
-    @GeneratedValue(generator = "JDBC")
     private Long id;
 
     @ExcelField(value = "父级id", width = 50)

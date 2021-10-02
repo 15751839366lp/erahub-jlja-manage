@@ -1,18 +1,18 @@
 package com.erahub.common.model.system;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.wuwenze.poi.annotation.Excel;
 import com.wuwenze.poi.annotation.ExcelField;
 import lombok.Data;
-
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Excel("department")
 @Data
-@Table(name = "tb_department")
+@TableName("tb_department")
 public class Department {
-    @Id
+    @TableId(value = "id", type = IdType.AUTO)
     @ExcelField(value = "编号", width = 50)
     private Long id;
 

@@ -1,5 +1,8 @@
 package com.erahub.business.service.imp;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.business.service.OutStockService;
 import com.erahub.business.converter.OutStockConverter;
 import com.erahub.business.mapper.*;
@@ -12,18 +15,12 @@ import com.erahub.common.vo.business.OutStockDetailVO;
 import com.erahub.common.vo.business.OutStockItemVO;
 import com.erahub.common.vo.business.OutStockVO;
 import com.erahub.common.vo.system.PageVO;
-import com.erahub.business.mapper.*;
-import com.erahub.business.mapper.*;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import tk.mybatis.mapper.entity.Example;
-
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -64,24 +61,24 @@ public class OutStockServiceImpl implements OutStockService {
      */
     @Override
     public PageVO<OutStockVO> findOutStockList(Integer pageNum, Integer pageSize, OutStockVO outStockVO) {
-        PageHelper.startPage(pageNum,pageSize);
-        Example o = new Example(OutStock.class);
-        Example.Criteria criteria = o.createCriteria();
-        o.setOrderByClause("create_time desc");
+        IPage<OutStock> outStockIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<OutStock> outStockQueryWrapper = new QueryWrapper<>();
+        outStockQueryWrapper.orderByDesc("create_time");
+
         if(outStockVO.getOutNum()!=null&&!"".equals(outStockVO.getOutNum())){
-            criteria.andLike("outNum","%"+outStockVO.getOutNum()+"%");
+            outStockQueryWrapper.like("out_num",outStockVO.getOutNum());
         }
         if(outStockVO.getType()!=null){
-            criteria.andEqualTo("type",outStockVO.getType());
+            outStockQueryWrapper.eq("type",outStockVO.getType());
         }
         if(outStockVO.getStatus()!=null){
-            criteria.andEqualTo("status",outStockVO.getStatus());
+            outStockQueryWrapper.eq("status",outStockVO.getStatus());
         }
-
-        List<OutStock> outStocks = outStockMapper.selectByExample(o);
+        outStockIPage = outStockMapper.selectPage(outStockIPage, outStockQueryWrapper);
+        List<OutStock> outStocks = outStockIPage.getRecords();
         List<OutStockVO> outStockVOS=outStockConverter.converterToVOList(outStocks);
-        PageInfo<OutStock> outStockPageInfo = new PageInfo<>(outStocks);
-        return new PageVO<>(outStockPageInfo.getTotal(),outStockVOS);
+
+        return new PageVO<>(outStockIPage.getTotal(),outStockVOS);
     }
 
     /**
@@ -103,16 +100,17 @@ public class OutStockServiceImpl implements OutStockService {
                 int productNumber = (int) item.get("productNumber");
                 //物资编号
                 Integer productId = (Integer) item.get("productId");
-                Product dbProduct = productMapper.selectByPrimaryKey(productId);
+                Product dbProduct = productMapper.selectById(productId);
                 if (dbProduct == null) {
                     throw new BusinessException(BusinessCodeEnum.PRODUCT_NOT_FOUND);
                 }else if(productNumber<=0){
                     throw new BusinessException(BusinessCodeEnum.PRODUCT_OUT_STOCK_NUMBER_ERROR,dbProduct.getName()+"发放数量不合法,无法入库");
                 } else {
                     //校验库存
-                    Example o=new Example(ProductStock.class);
-                    o.createCriteria().andEqualTo("pNum",dbProduct.getPNum());
-                    ProductStock productStock = productStockMapper.selectOneByExample(o);
+                    QueryWrapper<ProductStock> productStockQueryWrapper = new QueryWrapper<>();
+                    productStockQueryWrapper.eq("p_num",dbProduct.getPNum());
+
+                    ProductStock productStock = productStockMapper.selectOne(productStockQueryWrapper);
                     if(productStock==null){
                         throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"该物资在库存中不存在");
                     }
@@ -152,7 +150,7 @@ public class OutStockServiceImpl implements OutStockService {
      */
     @Override
     public void remove(Long id) throws BusinessException {
-        OutStock outStock = outStockMapper.selectByPrimaryKey(id);
+        OutStock outStock = outStockMapper.selectById(id);
         if(outStock==null){
             throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"发放单不存在");
         }
@@ -164,7 +162,7 @@ public class OutStockServiceImpl implements OutStockService {
             OutStock out = new OutStock();
             out.setStatus(1);
             out.setId(id);
-            outStockMapper.updateByPrimaryKeySelective(out);
+            outStockMapper.updateById(out);
         }
     }
 
@@ -176,12 +174,12 @@ public class OutStockServiceImpl implements OutStockService {
     public void back(Long id) throws BusinessException {
         OutStock t = new OutStock();
         t.setId(id);
-        OutStock outStock = outStockMapper.selectByPrimaryKey(t);
+        OutStock outStock = outStockMapper.selectById(id);
         if(outStock.getStatus()!=1){
             throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"发放单状态不正确");
         }else {
             t.setStatus(0);
-            outStockMapper.updateByPrimaryKeySelective(t);
+            outStockMapper.updateById(t);
         }
     }
 
@@ -195,12 +193,12 @@ public class OutStockServiceImpl implements OutStockService {
     @Override
     public OutStockDetailVO detail(Long id, Integer pageNum, Integer pageSize) throws BusinessException {
         OutStockDetailVO outStockDetailVO = new OutStockDetailVO();
-        OutStock outStock = outStockMapper.selectByPrimaryKey(id);
+        OutStock outStock = outStockMapper.selectById(id);
         if(outStock==null){
             throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"发放单不存在");
         }
         BeanUtils.copyProperties(outStock,outStockDetailVO);
-        Consumer consumer = consumerMapper.selectByPrimaryKey(outStock.getConsumerId());
+        Consumer consumer = consumerMapper.selectById(outStock.getConsumerId());
         if(consumer==null){
             throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"物资领取方不存在,或已被删除");
         }
@@ -209,19 +207,21 @@ public class OutStockServiceImpl implements OutStockService {
         outStockDetailVO.setConsumerVO(consumerVO);
         String outNum = outStock.getOutNum();//发放单号
         //查询该单所有的物资
-        Example o = new Example(OutStockInfo.class);
-        PageHelper.startPage(pageNum,pageSize);
-        o.createCriteria().andEqualTo("outNum",outNum);
-        List<OutStockInfo> outStockInfoList = outStockInfoMapper.selectByExample(o);
-        outStockDetailVO.setTotal(new PageInfo<>(outStockInfoList).getTotal());
+        IPage<OutStockInfo> outStockInfoIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<OutStockInfo> outStockInfoQueryWrapper = new QueryWrapper<>();
+        outStockInfoQueryWrapper.eq("out_num",outNum);
+        outStockInfoIPage = outStockInfoMapper.selectPage(outStockInfoIPage, outStockInfoQueryWrapper);
+        List<OutStockInfo> outStockInfoList = outStockInfoIPage.getRecords();
+        outStockDetailVO.setTotal(outStockInfoIPage.getTotal());
 
         if(!CollectionUtils.isEmpty(outStockInfoList)){
             for (OutStockInfo outStockInfo : outStockInfoList) {
                 String pNum = outStockInfo.getPNum();
                 //查出物资
-                Example o1 = new Example(Product.class);
-                o1.createCriteria().andEqualTo("pNum",pNum);
-                List<Product> products = productMapper.selectByExample(o1);
+                QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
+                productQueryWrapper.eq("p_num",pNum);
+
+                List<Product> products = productMapper.selectList(productQueryWrapper);
                 if(!CollectionUtils.isEmpty(products)){
                     Product product = products.get(0);
                     OutStockItemVO outStockItemVO = new OutStockItemVO();
@@ -244,18 +244,19 @@ public class OutStockServiceImpl implements OutStockService {
      */
     @Override
     public void delete(Long id) throws BusinessException {
-        OutStock outStock = outStockMapper.selectByPrimaryKey(id);
+        OutStock outStock = outStockMapper.selectById(id);
         if(outStock==null){
             throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"发放单不存在");
         }else if(outStock.getStatus()!=1&&outStock.getStatus()!=2){
             throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"发放单状态错误,无法删除");
         }else {
-           outStockMapper.deleteByPrimaryKey(id);
+           outStockMapper.deleteById(id);
         }
         String inNum = outStock.getOutNum();//单号
-        Example o = new Example(OutStockInfo.class);
-        o.createCriteria().andEqualTo("outNum",inNum);
-        outStockInfoMapper.deleteByExample(o);
+        QueryWrapper<OutStockInfo> outStockInfoQueryWrapper = new QueryWrapper<>();
+        outStockInfoQueryWrapper.eq("out_num",inNum);
+
+        outStockInfoMapper.delete(outStockInfoQueryWrapper);
     }
 
     /**
@@ -264,8 +265,8 @@ public class OutStockServiceImpl implements OutStockService {
      */
     @Override
     public void publish(Long id) throws BusinessException {
-        OutStock outStock = outStockMapper.selectByPrimaryKey(id);
-        Consumer consumer = consumerMapper.selectByPrimaryKey(outStock.getConsumerId());
+        OutStock outStock = outStockMapper.selectById(id);
+        Consumer consumer = consumerMapper.selectById(outStock.getConsumerId());
         if(outStock==null){
             throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"发放单不存在");
         }
@@ -276,23 +277,26 @@ public class OutStockServiceImpl implements OutStockService {
             throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"发放来源信息错误");
         }
         String outNum = outStock.getOutNum();//发放单号
-        Example o = new Example(OutStockInfo.class);
-        o.createCriteria().andEqualTo("outNum",outNum);
-        List<OutStockInfo> infoList = outStockInfoMapper.selectByExample(o);//发放详情
+        QueryWrapper<OutStockInfo> outStockInfoQueryWrapper = new QueryWrapper<>();
+        outStockInfoQueryWrapper.eq("out_num",outNum);
+
+        List<OutStockInfo> infoList = outStockInfoMapper.selectList(outStockInfoQueryWrapper);//发放详情
         if(!CollectionUtils.isEmpty(infoList)){
             for (OutStockInfo outStockInfo : infoList) {
                 //物资编号
                 String pNum = outStockInfo.getPNum();
                 Integer productNumber = outStockInfo.getProductNumber();//入库物资数
-                Example o1 = new Example(Product.class);
-                o1.createCriteria().andEqualTo("pNum",pNum);
-                List<Product> products = productMapper.selectByExample(o1);
+                QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
+                productQueryWrapper.eq("p_num",pNum);
+
+                List<Product> products = productMapper.selectList(productQueryWrapper);
                 if(products.size()>0){
                     Product product = products.get(0);
                     //如果存在，就减少数量
-                    Example o2 = new Example(ProductStock.class);
-                    o2.createCriteria().andEqualTo("pNum",product.getPNum());
-                    List<ProductStock> productStocks = productStockMapper.selectByExample(o2);
+                    QueryWrapper<ProductStock> productStockQueryWrapper = new QueryWrapper<>();
+                    productStockQueryWrapper.eq("p_num",product.getPNum());
+
+                    List<ProductStock> productStocks = productStockMapper.selectList(productStockQueryWrapper);
                     if(!CollectionUtils.isEmpty(productStocks)){
                         //更新数量
                         ProductStock productStock = productStocks.get(0);
@@ -300,14 +304,14 @@ public class OutStockServiceImpl implements OutStockService {
                             throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"物资:"+product.getName()+"的库存不足");
                         }
                         productStock.setStock(productStock.getStock()-productNumber);
-                        productStockMapper.updateByPrimaryKey(productStock);
+                        productStockMapper.updateById(productStock);
                     }else {
                         throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"该物资在库存中找不到");
                     }
                     //修改入库单状态.
                     outStock.setCreateTime(new Date());
                     outStock.setStatus(0);
-                    outStockMapper.updateByPrimaryKeySelective(outStock);
+                    outStockMapper.updateById(outStock);
                 }else {
                     throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"物资编号为:["+pNum+"]的物资不存在");
                 }

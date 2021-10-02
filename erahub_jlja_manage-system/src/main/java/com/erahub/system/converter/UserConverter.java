@@ -47,7 +47,7 @@ public class UserConverter {
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user,userVO);
         userVO.setStatus(user.getStatus() == 0);
-        Department department = departmentMapper.selectByPrimaryKey(user.getDepartmentId());
+        Department department = departmentMapper.selectById(user.getDepartmentId());
         if(department!=null&&department.getName()!=null){
             userVO.setDepartmentName(department.getName());
             userVO.setDepartmentId(department.getId());

@@ -1,11 +1,15 @@
 package com.erahub.business.service.imp;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.business.mapper.ProductCategoryMapper;
 import com.erahub.business.mapper.ProductMapper;
 import com.erahub.business.service.ProductCategoryService;
 import com.erahub.business.converter.ProductCategoryConverter;
 import com.erahub.common.error.BusinessCodeEnum;
 import com.erahub.common.error.BusinessException;
+import com.erahub.common.model.business.InStock;
 import com.erahub.common.model.business.Product;
 import com.erahub.common.model.business.ProductCategory;
 import com.erahub.common.utils.CategoryTreeBuilder;
@@ -13,12 +17,9 @@ import com.erahub.common.utils.ListPageUtils;
 import com.erahub.common.vo.business.ProductCategoryTreeNodeVO;
 import com.erahub.common.vo.business.ProductCategoryVO;
 import com.erahub.common.vo.system.PageVO;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     /**
      * 商品类别列表
+     *
      * @param pageNum
      * @param pageSize
      * @param ProductCategoryVO
@@ -47,29 +49,30 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      */
     @Override
     public PageVO<ProductCategoryVO> findProductCategoryList(Integer pageNum, Integer pageSize, ProductCategoryVO ProductCategoryVO) {
-        PageHelper.startPage(pageNum, pageSize);
-        Example o = new Example(ProductCategory.class);
-        Example.Criteria criteria = o.createCriteria();
-        o.setOrderByClause("sort asc");
-        if (ProductCategoryVO.getName() != null && !"".equals(ProductCategoryVO.getName())) {
-            criteria.andLike("name", "%" + ProductCategoryVO.getName() + "%");
-        }
-        List<ProductCategory> productCategories = productCategoryMapper.selectByExample(o);
-        List<ProductCategoryVO> categoryVOS= ProductCategoryConverter.converterToVOList(productCategories);
-        PageInfo<ProductCategory> info = new PageInfo<>(productCategories);
+        IPage<ProductCategory> productCategoryIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<ProductCategory> productCategoryQueryWrapper = new QueryWrapper<>();
+        productCategoryQueryWrapper.orderByAsc("sort");
 
-        return new PageVO<>(info.getTotal(), categoryVOS);
+        if (ProductCategoryVO.getName() != null && !"".equals(ProductCategoryVO.getName())) {
+            productCategoryQueryWrapper.like("name", ProductCategoryVO.getName());
+        }
+        productCategoryIPage = productCategoryMapper.selectPage(productCategoryIPage, productCategoryQueryWrapper);
+        List<ProductCategory> productCategories = productCategoryIPage.getRecords();
+        List<ProductCategoryVO> categoryVOS = ProductCategoryConverter.converterToVOList(productCategories);
+
+        return new PageVO<>(productCategoryIPage.getTotal(), categoryVOS);
     }
 
 
     /**
      * 添加商品类别
+     *
      * @param ProductCategoryVO
      */
     @Override
     public void add(ProductCategoryVO ProductCategoryVO) {
         ProductCategory productCategory = new ProductCategory();
-        BeanUtils.copyProperties(ProductCategoryVO,productCategory);
+        BeanUtils.copyProperties(ProductCategoryVO, productCategory);
         productCategory.setCreateTime(new Date());
         productCategory.setModifiedTime(new Date());
         productCategoryMapper.insert(productCategory);
@@ -77,94 +80,102 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     /**
      * 编辑商品类别
+     *
      * @param id
      * @return
      */
     @Override
     public ProductCategoryVO edit(Long id) {
-        ProductCategory productCategory = productCategoryMapper.selectByPrimaryKey(id);
-        return  ProductCategoryConverter.converterToProductCategoryVO(productCategory);
+        ProductCategory productCategory = productCategoryMapper.selectById(id);
+        return ProductCategoryConverter.converterToProductCategoryVO(productCategory);
     }
 
     /**
      * 更新商品类别
+     *
      * @param id
      * @param ProductCategoryVO
      */
     @Override
     public void update(Long id, ProductCategoryVO ProductCategoryVO) {
         ProductCategory productCategory = new ProductCategory();
-        BeanUtils.copyProperties(ProductCategoryVO,productCategory);
+        BeanUtils.copyProperties(ProductCategoryVO, productCategory);
         productCategory.setModifiedTime(new Date());
-        productCategoryMapper.updateByPrimaryKeySelective(productCategory);
+        productCategoryMapper.updateById(productCategory);
     }
 
     /**
      * 删除商品类别
+     *
      * @param id
      */
     @Override
     public void delete(Long id) throws BusinessException {
-        ProductCategory category = productCategoryMapper.selectByPrimaryKey(id);
-        if(null==category){
-            throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"该分类不存在");
-        }else {
+        ProductCategory category = productCategoryMapper.selectById(id);
+        if (null == category) {
+            throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR, "该分类不存在");
+        } else {
             //检查是否存在子分类
-            Example o = new Example(ProductCategory.class);
-            o.createCriteria().andEqualTo("pid",id);
-            int childCount=productCategoryMapper.selectCountByExample(o);
-            if(childCount!=0){
-                throw  new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"存在子节点,无法直接删除");
+            QueryWrapper<ProductCategory> productCategoryQueryWrapper = new QueryWrapper<>();
+            productCategoryQueryWrapper.eq("pid", id);
+
+            int childCount = productCategoryMapper.selectCount(productCategoryQueryWrapper);
+            if (childCount != 0) {
+                throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR, "存在子节点,无法直接删除");
             }
             //检查该分类是否有物资引用
-            Example o1 = new Example(Product.class);
-            o1.createCriteria().andEqualTo("oneCategoryId",id)
-                    .orEqualTo("twoCategoryId",id)
-                    .orEqualTo("threeCategoryId",id);
-           if(productMapper.selectCountByExample(o1)!=0){
-               throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR,"该分类存在物资引用,无法直接删除");
-           }
-            productCategoryMapper.deleteByPrimaryKey(id);
+            QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
+            productQueryWrapper.eq("oneCategoryId", id)
+                    .or().eq("twoCategoryId", id)
+                    .or().eq("threeCategoryId", id);
+
+            if (productMapper.selectCount(productQueryWrapper) != 0) {
+                throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR, "该分类存在物资引用,无法直接删除");
+            }
+            productCategoryMapper.deleteById(id);
         }
     }
 
     /**
      * 所有商品类别
+     *
      * @return
      */
     @Override
     public List<ProductCategoryVO> findAll() {
-        List<ProductCategory> productCategories = productCategoryMapper.selectAll();
+        List<ProductCategory> productCategories = productCategoryMapper.selectList(null);
         return ProductCategoryConverter.converterToVOList(productCategories);
     }
 
     /**
      * 分类树形结构
+     *
      * @return
      */
     @Override
     public PageVO<ProductCategoryTreeNodeVO> categoryTree(Integer pageNum, Integer pageSize) {
         List<ProductCategoryVO> productCategoryVOList = findAll();
-        List<ProductCategoryTreeNodeVO> nodeVOS=ProductCategoryConverter.converterToTreeNodeVO(productCategoryVOList);
+        List<ProductCategoryTreeNodeVO> nodeVOS = ProductCategoryConverter.converterToTreeNodeVO(productCategoryVOList);
         List<ProductCategoryTreeNodeVO> tree = CategoryTreeBuilder.build(nodeVOS);
         List<ProductCategoryTreeNodeVO> page;
-        if(pageSize!=null&&pageNum!=null){
-            page= ListPageUtils.page(tree, pageSize, pageNum);
-            return new PageVO<>(tree.size(),page);
-        }else {
+        if (pageSize != null && pageNum != null) {
+            page = ListPageUtils.page(tree, pageSize, pageNum);
+            return new PageVO<>(tree.size(), page);
+        } else {
             return new PageVO<>(tree.size(), tree);
         }
     }
 
     /**
      * 获取父级分类（2级树）
+     *
      * @return
      */
     @Override
     public List<ProductCategoryTreeNodeVO> getParentCategoryTree() {
         List<ProductCategoryVO> productCategoryVOList = findAll();
-        List<ProductCategoryTreeNodeVO> nodeVOS=ProductCategoryConverter.converterToTreeNodeVO(productCategoryVOList);
-        return  CategoryTreeBuilder.buildParent(nodeVOS);
+        List<ProductCategoryTreeNodeVO> nodeVOS = ProductCategoryConverter.converterToTreeNodeVO(productCategoryVOList);
+        return CategoryTreeBuilder.buildParent(nodeVOS);
     }
 
 }

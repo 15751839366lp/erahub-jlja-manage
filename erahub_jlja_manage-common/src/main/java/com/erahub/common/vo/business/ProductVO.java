@@ -53,4 +53,8 @@ public class ProductVO {
 
     private Integer status;//是否已经进入回收站:1:逻辑删除,0:正常数据,2:添加待审核
 
+    private Integer pageNum;
+
+    private Integer pageSize;
+
 }

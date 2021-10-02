@@ -1,18 +1,18 @@
 package com.erahub.business.service.imp;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.business.mapper.SupplierMapper;
 import com.erahub.business.service.SupplierService;
 import com.erahub.business.converter.SupplierConverter;
+import com.erahub.common.model.business.InStock;
 import com.erahub.common.model.business.Supplier;
 import com.erahub.common.vo.business.SupplierVO;
 import com.erahub.common.vo.system.PageVO;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
-
 import java.util.Date;
 import java.util.List;
 
@@ -37,23 +37,24 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public PageVO<SupplierVO> findSupplierList(Integer pageNum, Integer pageSize, SupplierVO supplierVO) {
-        PageHelper.startPage(pageNum, pageSize);
-        Example o = new Example(Supplier.class);
-        Example.Criteria criteria = o.createCriteria();
-        o.setOrderByClause("sort asc");
+        IPage<Supplier> supplierIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<Supplier> supplierQueryWrapper = new QueryWrapper<>();
+        supplierQueryWrapper.orderByAsc("sort");
+
         if (supplierVO.getName() != null && !"".equals(supplierVO.getName())) {
-            criteria.andLike("name", "%" + supplierVO.getName() + "%");
+            supplierQueryWrapper.like("name", supplierVO.getName());
         }
         if (supplierVO.getContact() != null && !"".equals(supplierVO.getContact())) {
-            criteria.andLike("contact", "%" + supplierVO.getContact() + "%");
+            supplierQueryWrapper.like("contact", supplierVO.getContact());
         }
         if (supplierVO.getAddress() != null && !"".equals(supplierVO.getAddress())) {
-            criteria.andLike("address", "%" + supplierVO.getAddress() + "%");
+            supplierQueryWrapper.like("address", supplierVO.getAddress());
         }
-        List<Supplier> suppliers = supplierMapper.selectByExample(o);
+        supplierIPage = supplierMapper.selectPage(supplierIPage, supplierQueryWrapper);
+        List<Supplier> suppliers = supplierIPage.getRecords();
         List<SupplierVO> categoryVOS= SupplierConverter.converterToVOList(suppliers);
-        PageInfo<Supplier> info = new PageInfo<>(suppliers);
-        return new PageVO<>(info.getTotal(), categoryVOS);
+
+        return new PageVO<>(supplierIPage.getTotal(), categoryVOS);
     }
 
 
@@ -79,7 +80,7 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public SupplierVO edit(Long id) {
-        Supplier supplier = supplierMapper.selectByPrimaryKey(id);
+        Supplier supplier = supplierMapper.selectById(id);
         return SupplierConverter.converterToSupplierVO(supplier);
     }
 
@@ -93,7 +94,7 @@ public class SupplierServiceImpl implements SupplierService {
         Supplier supplier = new Supplier();
         BeanUtils.copyProperties(SupplierVO,supplier);
         supplier.setModifiedTime(new Date());
-        supplierMapper.updateByPrimaryKeySelective(supplier);
+        supplierMapper.updateById(supplier);
     }
 
     /**
@@ -102,7 +103,7 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public void delete(Long id) {
-        supplierMapper.deleteByPrimaryKey(id);
+        supplierMapper.deleteById(id);
     }
 
     /**
@@ -111,7 +112,7 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public List<SupplierVO> findAll() {
-        List<Supplier> suppliers = supplierMapper.selectAll();
+        List<Supplier> suppliers = supplierMapper.selectList(null);
         return SupplierConverter.converterToVOList(suppliers);
     }
 

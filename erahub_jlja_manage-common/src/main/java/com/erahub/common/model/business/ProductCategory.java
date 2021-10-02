@@ -1,15 +1,15 @@
 package com.erahub.common.model.business;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Data
-@Table(name = "biz_product_category")
+@TableName("biz_product_category")
 public class ProductCategory {
-    @Id
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String name;

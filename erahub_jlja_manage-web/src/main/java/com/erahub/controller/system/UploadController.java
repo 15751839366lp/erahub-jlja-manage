@@ -1,13 +1,14 @@
 package com.erahub.controller.system;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.erahub.common.error.SystemException;
 import com.erahub.common.model.system.ImageAttachment;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.system.ImageAttachmentVO;
 import com.erahub.system.service.UploadService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+
+import com.sun.org.apache.xpath.internal.objects.XObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文件上传
@@ -57,13 +60,11 @@ public class UploadController {
      */
     @ApiOperation(value = "附件列表", notes = "模糊查询附件列表")
     @GetMapping("/findImageList")
-    public ResponseBean<PageInfo<ImageAttachment>> findImageList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+    public ResponseBean<IPage<ImageAttachment>> findImageList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize,
                                       ImageAttachmentVO imageAttachmentVO) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<ImageAttachment> imageAttachmentVOList=uploadService.findImageList(imageAttachmentVO);
-        PageInfo<ImageAttachment> pageInfo = new PageInfo<>(imageAttachmentVOList);
-        return ResponseBean.success(pageInfo);
+        IPage<ImageAttachment> imageAttachmentIPage=uploadService.findImageList(pageNum,pageSize,imageAttachmentVO);
+        return ResponseBean.success(imageAttachmentIPage);
     }
 
     /**

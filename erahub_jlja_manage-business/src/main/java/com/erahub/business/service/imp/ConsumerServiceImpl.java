@@ -1,18 +1,17 @@
 package com.erahub.business.service.imp;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.business.mapper.ConsumerMapper;
 import com.erahub.business.service.ConsumerService;
 import com.erahub.business.converter.ConsumerConverter;
 import com.erahub.common.model.business.Consumer;
 import com.erahub.common.vo.business.ConsumerVO;
 import com.erahub.common.vo.system.PageVO;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
-
 import java.util.Date;
 import java.util.List;
 
@@ -37,23 +36,24 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     @Override
     public PageVO<ConsumerVO> findConsumerList(Integer pageNum, Integer pageSize, ConsumerVO consumerVO) {
-        PageHelper.startPage(pageNum, pageSize);
-        Example o = new Example(Consumer.class);
-        Example.Criteria criteria = o.createCriteria();
-        o.setOrderByClause("sort asc");
+        IPage<Consumer> consumerIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<Consumer> consumerQueryWrapper = new QueryWrapper<>();
+        consumerQueryWrapper.orderByAsc("sort");
+
         if (consumerVO.getName() != null && !"".equals(consumerVO.getName())) {
-            criteria.andLike("name", "%" + consumerVO.getName() + "%");
+            consumerQueryWrapper.like("name", consumerVO.getName());
         }
         if (consumerVO.getAddress() != null && !"".equals(consumerVO.getAddress())) {
-            criteria.andLike("address", "%" + consumerVO.getAddress() + "%");
+            consumerQueryWrapper.like("address", consumerVO.getAddress());
         }
         if (consumerVO.getContact() != null && !"".equals(consumerVO.getContact())) {
-            criteria.andLike("contact", "%" + consumerVO.getContact() + "%");
+            consumerQueryWrapper.like("contact", consumerVO.getContact());
         }
-        List<Consumer> consumers = consumerMapper.selectByExample(o);
+        consumerIPage = consumerMapper.selectPage(consumerIPage, consumerQueryWrapper);
+        List<Consumer> consumers = consumerIPage.getRecords();
         List<ConsumerVO> categoryVOS= ConsumerConverter.converterToVOList(consumers);
-        PageInfo<Consumer> info = new PageInfo<>(consumers);
-        return new PageVO<>(info.getTotal(), categoryVOS);
+
+        return new PageVO<>(consumerIPage.getTotal(), categoryVOS);
     }
 
 
@@ -79,7 +79,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     @Override
     public ConsumerVO edit(Long id) {
-        Consumer consumer = consumerMapper.selectByPrimaryKey(id);
+        Consumer consumer = consumerMapper.selectById(id);
         return  ConsumerConverter.converterToConsumerVO(consumer);
     }
 
@@ -93,7 +93,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         Consumer consumer = new Consumer();
         BeanUtils.copyProperties(ConsumerVO,consumer);
         consumer.setModifiedTime(new Date());
-        consumerMapper.updateByPrimaryKeySelective(consumer);
+        consumerMapper.updateById(consumer);
     }
 
     /**
@@ -102,7 +102,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     @Override
     public void delete(Long id) {
-        consumerMapper.deleteByPrimaryKey(id);
+        consumerMapper.deleteById(id);
     }
 
     /**
@@ -111,7 +111,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     @Override
     public List<ConsumerVO> findAll() {
-        List<Consumer> consumers = consumerMapper.selectAll();
+        List<Consumer> consumers = consumerMapper.selectList(null);
         return ConsumerConverter.converterToVOList(consumers);
     }
 

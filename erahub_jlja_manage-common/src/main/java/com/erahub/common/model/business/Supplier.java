@@ -1,18 +1,16 @@
 package com.erahub.common.model.business;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Data
-@Table(name = "biz_supplier")
+@TableName("biz_supplier")
 public class Supplier {
 
-    @Id
-    @GeneratedValue(generator = "JDBC")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String name;

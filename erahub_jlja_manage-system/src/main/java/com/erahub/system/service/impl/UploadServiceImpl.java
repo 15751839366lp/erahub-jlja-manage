@@ -1,8 +1,13 @@
 package com.erahub.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.erahub.common.error.SystemCodeEnum;
 import com.erahub.common.error.SystemException;
+import com.erahub.common.model.system.Department;
 import com.erahub.common.model.system.ImageAttachment;
+import com.erahub.common.model.system.RoleMenu;
 import com.erahub.common.utils.FdfsUtil;
 import com.erahub.common.vo.system.ImageAttachmentVO;
 import com.erahub.system.mapper.ImageAttachmentMapper;
@@ -11,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import tk.mybatis.mapper.entity.Example;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -65,31 +68,32 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
-    public List<ImageAttachment> findImageList(ImageAttachmentVO imageAttachmentVO) {
-        Example o = new Example(ImageAttachment.class);
-        Example.Criteria criteria = o.createCriteria();
-        o.setOrderByClause("create_time desc");
+    public IPage<ImageAttachment> findImageList(Integer pageNum, Integer pageSize,ImageAttachmentVO imageAttachmentVO) {
+        IPage<ImageAttachment> imageAttachmentIPage = new Page<>(pageNum, pageSize);
+        QueryWrapper<ImageAttachment> imageAttachmentQueryWrapper = new QueryWrapper<>();
+        imageAttachmentQueryWrapper.orderByDesc("create_time");
+
         if (imageAttachmentVO.getMediaType() != null && !"".equals(imageAttachmentVO.getMediaType())) {
-            criteria.andEqualTo("mediaType", imageAttachmentVO.getMediaType());
+            imageAttachmentQueryWrapper.eq("media_type", imageAttachmentVO.getMediaType());
         }
         if (imageAttachmentVO.getPath() != null && !"".equals(imageAttachmentVO.getPath())) {
-            criteria.andLike("path", "%" + imageAttachmentVO.getPath() + "%");
+            imageAttachmentQueryWrapper.like("path", imageAttachmentVO.getPath());
         }
         //拼装图片真实路径
         //        for (ImageAttachment attachment : attachments) {
 //            attachment.setPath(config.getResHost()+attachment.getPath());
 //        }
-        return attachmentMapper.selectByExample(o);
+        return attachmentMapper.selectPage(imageAttachmentIPage,imageAttachmentQueryWrapper);
     }
 
     @Override
     @Transactional
     public void delete(Long id) throws SystemException {
-        ImageAttachment image = attachmentMapper.selectByPrimaryKey(id);
+        ImageAttachment image = attachmentMapper.selectById(id);
         if(image==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"图片不存在");
         }else {
-            attachmentMapper.deleteByPrimaryKey(id);
+            attachmentMapper.deleteById(id);
 //            fdfsUtil.deleteFile(image.getPath());
         }
     }

@@ -1,9 +1,10 @@
 package com.erahub.system.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.erahub.common.model.system.LoginLog;
 import com.erahub.common.vo.system.UserVO;
-import tk.mybatis.mapper.common.Mapper;
+
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ import java.util.Map;
  * @Date 2020/3/20 19:09
  * @Version 1.0
  **/
-public interface LoginLogMapper extends Mapper<LoginLog> {
+public interface LoginLogMapper extends BaseMapper<LoginLog> {
 
     /**
      * 用户登入报表

@@ -1,10 +1,10 @@
 package com.erahub.business.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.erahub.common.model.business.ProductStock;
 import com.erahub.common.vo.business.ProductStockVO;
 import com.erahub.common.vo.business.ProductVO;
-import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @Date 2020/3/21 19:38
  * @Version 1.0
  **/
-public interface ProductStockMapper extends Mapper<ProductStock> {
+public interface ProductStockMapper extends BaseMapper<ProductStock> {
 
     /**
      * 库存列表
@@ -21,6 +21,13 @@ public interface ProductStockMapper extends Mapper<ProductStock> {
      * @return
      */
     List<ProductStockVO> findProductStocks(ProductVO productVO);
+
+    /**
+     * 库存列表
+     * @param productVO
+     * @return
+     */
+    Integer findProductStocksCount(ProductVO productVO);
 
     /**
      * 库存信息(饼图使用)

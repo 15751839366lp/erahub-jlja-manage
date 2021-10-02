@@ -37,7 +37,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<MenuNodeVO> findMenuTree() {
-        List<Menu> menus = menuMapper.selectAll();
+        List<Menu> menus = menuMapper.selectList(null);
         List<MenuNodeVO> menuNodeVOS = MenuConverter.converterToALLMenuNodeVO(menus);
         return MenuTreeBuilder.build(menuNodeVOS);
     }
@@ -64,11 +64,11 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public void delete(Long id) throws SystemException {
-        Menu menu = menuMapper.selectByPrimaryKey(id);
+        Menu menu = menuMapper.selectById(id);
         if(menu==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要删除的菜单不存在");
         }
-        menuMapper.deleteByPrimaryKey(id);
+        menuMapper.deleteById(id);
     }
 
     /**
@@ -78,7 +78,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public MenuVO edit(Long id) throws SystemException {
-        Menu menu = menuMapper.selectByPrimaryKey(id);
+        Menu menu = menuMapper.selectById(id);
         if(menu==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"该编辑的菜单不存在");
         }
@@ -92,7 +92,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public void update(Long id, MenuVO menuVO) throws SystemException {
-        Menu dbMenu = menuMapper.selectByPrimaryKey(id);
+        Menu dbMenu = menuMapper.selectById(id);
         if(dbMenu==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要更新的菜单不存在");
         }
@@ -101,7 +101,7 @@ public class MenuServiceImpl implements MenuService {
         menu.setId(id);
         menu.setAvailable(menuVO.isDisabled()?0:1);
         menu.setModifiedTime(new Date());
-        menuMapper.updateByPrimaryKeySelective(menu);
+        menuMapper.updateById(menu);
     }
 
     /**
@@ -112,7 +112,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<Long> findOpenIds() {
         List<Long> ids=new ArrayList<>();
-        List<Menu> menus = menuMapper.selectAll();
+        List<Menu> menus = menuMapper.selectList(null);
         if(!CollectionUtils.isEmpty(menus)){
             for (Menu menu : menus) {
                 if(menu.getOpen()==1){
@@ -131,7 +131,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<Menu> findAll() {
-        return menuMapper.selectAll();
+        return menuMapper.selectList(null);
     }
 
 

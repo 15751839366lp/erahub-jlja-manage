@@ -1,15 +1,12 @@
 package com.erahub.common.model.system;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Data
-@Table(name = "tb_user_role")
+@TableName("tb_user_role")
 public class UserRole {
 
-    @Id
     private Long userId;
 
     private Long roleId;

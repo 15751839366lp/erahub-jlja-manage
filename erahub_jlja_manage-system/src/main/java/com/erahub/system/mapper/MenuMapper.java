@@ -1,8 +1,9 @@
 package com.erahub.system.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.erahub.common.model.system.Menu;
-import tk.mybatis.mapper.common.BaseMapper;
+
 
 /**
  * @Author lipeng

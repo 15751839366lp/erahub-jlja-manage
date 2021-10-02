@@ -1,17 +1,17 @@
 package com.erahub.common.model.business;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Data
-@Table(name = "biz_health")
+@TableName("biz_health")
 public class Health {
 
-    @Id
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String address;
