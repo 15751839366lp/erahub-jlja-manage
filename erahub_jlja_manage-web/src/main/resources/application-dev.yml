@@ -17,10 +17,10 @@ spring:
       max-wait: 60000
       stat-view-servlet:
         enabled: true
-        login-username: root
-        login-password: 123456
-        allow:
-        deny:
+#        login-username: root
+#        login-password: 123456
+#        allow:
+#        deny:
         url-pattern: /druid/*
   servlet:
       multipart:

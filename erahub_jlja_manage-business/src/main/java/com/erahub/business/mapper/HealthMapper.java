@@ -18,7 +18,5 @@ public interface HealthMapper extends BaseMapper<Health> {
      * @param id
      * @return
      */
-    @Select("select * from biz_health where create_time < (CURDATE()+1) " +
-            " and create_time>CURDATE() and user_id=#{id}")
     List<Health> isReport(@Param("id") Long id);
 }
