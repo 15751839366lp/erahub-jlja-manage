@@ -125,9 +125,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             }
             //检查该分类是否有物资引用
             QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
-            productQueryWrapper.eq("oneCategoryId", id)
-                    .or().eq("twoCategoryId", id)
-                    .or().eq("threeCategoryId", id);
+            productQueryWrapper.eq("one_category_id", id)
+                    .or().eq("two_category_id", id)
+                    .or().eq("three_category_id", id);
 
             if (productMapper.selectCount(productQueryWrapper) != 0) {
                 throw new BusinessException(BusinessCodeEnum.PARAMETER_ERROR, "该分类存在物资引用,无法直接删除");
