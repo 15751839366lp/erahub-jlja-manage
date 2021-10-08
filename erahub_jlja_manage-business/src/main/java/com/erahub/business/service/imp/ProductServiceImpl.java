@@ -60,9 +60,9 @@ public class ProductServiceImpl implements ProductService {
             productQueryWrapper.eq("status", productVO.getStatus());
         }
         if(productVO.getThreeCategoryId()!=null){
-            productQueryWrapper.eq("oneCategoryId", productVO.getOneCategoryId());
-            productQueryWrapper.eq("twoCategoryId", productVO.getTwoCategoryId());
-            productQueryWrapper.eq("threeCategoryId", productVO.getThreeCategoryId());
+            productQueryWrapper.eq("one_category_id", productVO.getOneCategoryId());
+            productQueryWrapper.eq("two_category_id", productVO.getTwoCategoryId());
+            productQueryWrapper.eq("three_category_id", productVO.getThreeCategoryId());
 
             productIPage = productMapper.selectPage(productIPage, productQueryWrapper);
             products = productIPage.getRecords();
@@ -71,8 +71,8 @@ public class ProductServiceImpl implements ProductService {
             return new PageVO<>(productIPage.getTotal(), categoryVOS);
         }
         if(productVO.getTwoCategoryId()!=null){
-            productQueryWrapper.eq("oneCategoryId", productVO.getOneCategoryId());
-            productQueryWrapper.eq("twoCategoryId", productVO.getTwoCategoryId());
+            productQueryWrapper.eq("one_category_id", productVO.getOneCategoryId());
+            productQueryWrapper.eq("two_category_id", productVO.getTwoCategoryId());
 
             productIPage = productMapper.selectPage(productIPage, productQueryWrapper);
             products = productIPage.getRecords();
@@ -80,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
             return new PageVO<>(productIPage.getTotal(), categoryVOS);
         }
         if(productVO.getOneCategoryId()!=null) {
-            productQueryWrapper.eq("oneCategoryId", productVO.getOneCategoryId());
+            productQueryWrapper.eq("one_category_id", productVO.getOneCategoryId());
 
             productIPage = productMapper.selectPage(productIPage, productQueryWrapper);
             products = productIPage.getRecords();
