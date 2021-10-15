@@ -1,7 +1,7 @@
 package com.erahub.business.service;
 
 
-import com.erahub.common.error.BusinessException;
+import com.erahub.common.error.business.BusinessException;
 import com.erahub.common.vo.business.ProductStockVO;
 import com.erahub.common.vo.business.ProductVO;
 import com.erahub.common.vo.system.PageVO;

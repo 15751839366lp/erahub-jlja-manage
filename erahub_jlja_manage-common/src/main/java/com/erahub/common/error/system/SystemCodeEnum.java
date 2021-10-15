@@ -1,4 +1,6 @@
-package com.erahub.common.error;
+package com.erahub.common.error.system;
+
+import com.erahub.common.error.BaseError;
 
 /**
  * @Author lipeng

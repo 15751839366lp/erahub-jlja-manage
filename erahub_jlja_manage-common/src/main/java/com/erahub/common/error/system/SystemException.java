@@ -1,11 +1,13 @@
-package com.erahub.common.error;
+package com.erahub.common.error.system;
+
+import com.erahub.common.error.BaseError;
 
 /**
  * @Author lipeng
  * @Date 2020/12/16 12:59
  * @Version 1.0
  **/
-public class SystemException extends Exception implements BaseError{
+public class SystemException extends Exception implements BaseError {
     //所有实现了BaseError的ErrorEnum.
     private BaseError baseError;
 

@@ -2,7 +2,7 @@ package com.erahub.controller.business;
 
 import com.erahub.business.service.ProductCategoryService;
 import com.erahub.common.annotation.ControllerEndpoint;
-import com.erahub.common.error.BusinessException;
+import com.erahub.common.error.business.BusinessException;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.business.ProductCategoryTreeNodeVO;
 import com.erahub.common.vo.business.ProductCategoryVO;

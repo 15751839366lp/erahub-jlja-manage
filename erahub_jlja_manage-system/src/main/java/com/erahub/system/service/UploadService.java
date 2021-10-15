@@ -1,13 +1,12 @@
 package com.erahub.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.erahub.common.error.SystemException;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.ImageAttachment;
 import com.erahub.common.vo.system.ImageAttachmentVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @Author lipeng

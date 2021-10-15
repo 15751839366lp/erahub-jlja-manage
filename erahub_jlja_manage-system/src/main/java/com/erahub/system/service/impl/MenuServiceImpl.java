@@ -1,7 +1,7 @@
 package com.erahub.system.service.impl;
 
-import com.erahub.common.error.SystemCodeEnum;
-import com.erahub.common.error.SystemException;
+import com.erahub.common.error.system.SystemCodeEnum;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Menu;
 import com.erahub.common.utils.MenuTreeBuilder;
 import com.erahub.common.vo.system.MenuNodeVO;

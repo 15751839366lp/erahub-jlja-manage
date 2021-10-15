@@ -2,13 +2,12 @@ package com.erahub.controller.system;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.erahub.common.error.SystemException;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.ImageAttachment;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.system.ImageAttachmentVO;
 import com.erahub.system.service.UploadService;
 
-import com.sun.org.apache.xpath.internal.objects.XObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 文件上传

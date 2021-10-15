@@ -3,11 +3,9 @@ package com.erahub.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.erahub.common.error.SystemCodeEnum;
-import com.erahub.common.error.SystemException;
-import com.erahub.common.model.system.Department;
+import com.erahub.common.error.system.SystemCodeEnum;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.ImageAttachment;
-import com.erahub.common.model.system.RoleMenu;
 import com.erahub.common.utils.FdfsUtil;
 import com.erahub.common.vo.system.ImageAttachmentVO;
 import com.erahub.system.mapper.ImageAttachmentMapper;
@@ -21,7 +19,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Author lipeng

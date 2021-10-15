@@ -1,6 +1,6 @@
 package com.erahub.system.service;
 
-import com.erahub.common.error.SystemException;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Log;
 import com.erahub.common.vo.system.LogVO;
 import com.erahub.common.vo.system.PageVO;

@@ -1,6 +1,6 @@
 package com.erahub.system.shiro;
 
-import com.erahub.common.error.SystemCodeEnum;
+import com.erahub.common.error.system.SystemCodeEnum;
 import com.erahub.common.response.ResponseBean;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;

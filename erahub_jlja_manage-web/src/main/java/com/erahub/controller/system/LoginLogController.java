@@ -1,7 +1,7 @@
 package com.erahub.controller.system;
 
 import com.erahub.common.annotation.ControllerEndpoint;
-import com.erahub.common.error.SystemException;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.system.LoginLogVO;
 import com.erahub.common.vo.system.PageVO;

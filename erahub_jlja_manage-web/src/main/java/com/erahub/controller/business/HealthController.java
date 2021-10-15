@@ -2,7 +2,7 @@ package com.erahub.controller.business;
 
 import com.erahub.business.service.HealthService;
 import com.erahub.common.annotation.ControllerEndpoint;
-import com.erahub.common.error.BusinessException;
+import com.erahub.common.error.business.BusinessException;
 import com.erahub.common.model.business.Health;
 import com.erahub.common.response.ActiveUser;
 import com.erahub.common.response.ResponseBean;

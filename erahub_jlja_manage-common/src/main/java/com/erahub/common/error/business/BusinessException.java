@@ -1,5 +1,6 @@
-package com.erahub.common.error;
+package com.erahub.common.error.business;
 
+import com.erahub.common.error.BaseError;
 import lombok.Data;
 
 /**
@@ -9,7 +10,7 @@ import lombok.Data;
  * @Version 1.0
  **/
 @Data
-public class BusinessException  extends Exception implements BaseError{
+public class BusinessException  extends Exception implements BaseError {
 
     //所有实现了BaseError的ErrorEnum.
     private BaseError baseError;

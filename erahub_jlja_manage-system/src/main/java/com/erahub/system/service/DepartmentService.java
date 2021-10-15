@@ -1,7 +1,7 @@
 package com.erahub.system.service;
 
 
-import com.erahub.common.error.SystemException;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Department;
 import com.erahub.common.vo.system.DeanVO;
 import com.erahub.common.vo.system.DepartmentVO;

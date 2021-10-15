@@ -1,6 +1,6 @@
 package com.erahub.controller.system;
 
-import com.erahub.common.error.SystemException;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.system.LogVO;
 import com.erahub.common.vo.system.PageVO;

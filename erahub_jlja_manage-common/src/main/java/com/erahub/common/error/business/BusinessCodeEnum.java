@@ -1,5 +1,6 @@
-package com.erahub.common.error;
+package com.erahub.common.error.business;
 
+import com.erahub.common.error.BaseError;
 import lombok.Getter;
 
 /**

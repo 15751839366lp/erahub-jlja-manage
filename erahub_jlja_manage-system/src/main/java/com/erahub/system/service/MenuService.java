@@ -1,7 +1,7 @@
 package com.erahub.system.service;
 
 
-import com.erahub.common.error.SystemException;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Menu;
 import com.erahub.common.vo.system.MenuNodeVO;
 import com.erahub.common.vo.system.MenuVO;

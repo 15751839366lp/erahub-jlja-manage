@@ -1,7 +1,7 @@
 package com.erahub.config;
 
-import com.erahub.common.error.BusinessException;
-import com.erahub.common.error.SystemException;
+import com.erahub.common.error.business.BusinessException;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.response.ResponseBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.shiro.authz.UnauthorizedException;

@@ -2,8 +2,8 @@ package com.erahub.controller.business;
 
 import com.erahub.business.service.ProductService;
 import com.erahub.common.annotation.ControllerEndpoint;
-import com.erahub.common.error.BusinessCodeEnum;
-import com.erahub.common.error.BusinessException;
+import com.erahub.common.error.business.BusinessCodeEnum;
+import com.erahub.common.error.business.BusinessException;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.business.ProductStockVO;
 import com.erahub.common.vo.business.ProductVO;
