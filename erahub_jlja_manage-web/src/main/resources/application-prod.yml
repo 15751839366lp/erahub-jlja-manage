@@ -1,14 +1,10 @@
 server:
   port: 8989
-  ssl:
-    key-store: classpath:3828034_www.zykhome.club.pfx
-    key-store-type: PKCS12
-    key-store-password: stpnsPTW
 spring:
   datasource:
     username: root
-    password: zhangyukang
-    url: jdbc:mysql://127.0.0.1:3306/xinguan?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=CTT
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/erahub_jlja_manage?useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -21,28 +17,28 @@ spring:
       max-wait: 60000
       stat-view-servlet:
         enabled: true
-        login-username: root
-        login-password: 123456
-        allow:
-        deny:
+        #        login-username: root
+        #        login-password: 123456
+        #        allow:
+        #        deny:
         url-pattern: /druid/*
   servlet:
-      multipart:
-        enabled: true #是否启用http上传处理
-        max-request-size: 100MB #最大请求文件的大小
-        max-file-size: 20MB #设置单个文件最大长度
-        file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
+    multipart:
+      enabled: true #是否启用http上传处理
+      max-request-size: 100MB #最大请求文件的大小
+      max-file-size: 20MB #设置单个文件最大长度
+      file-size-threshold: 20MB #当文件达到多少时进行磁盘写入
 mybatis:
   mapper-locations: classpath:mapper/*/*Mapper.xml
   type-aliases-package: com.erahub.common.model
   configuration:
     map-underscore-to-camel-case: true
 fdfs:
-  resHost: https://www.zykhome.club/
+  resHost: http://127.0.0.1:8989
   storagePort: 80
   connect-timeout: 1000
   so-timeout: 1500
-  trackerList: 39.99.182.103:22122
+  trackerList: 127.0.0.1:22122
   thumbImage:
     width: 100
     height: 100
