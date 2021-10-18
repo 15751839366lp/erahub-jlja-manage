@@ -1,4 +1,4 @@
-package com.erahub.common.utils;
+package com.erahub.business.utils;
 
 
 import com.erahub.common.vo.business.ProductCategoryTreeNodeVO;

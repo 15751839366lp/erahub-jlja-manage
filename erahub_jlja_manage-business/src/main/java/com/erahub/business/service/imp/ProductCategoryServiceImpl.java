@@ -11,7 +11,7 @@ import com.erahub.common.error.business.BusinessCodeEnum;
 import com.erahub.common.error.business.BusinessException;
 import com.erahub.common.model.business.Product;
 import com.erahub.common.model.business.ProductCategory;
-import com.erahub.common.utils.CategoryTreeBuilder;
+import com.erahub.business.utils.CategoryTreeBuilder;
 import com.erahub.common.utils.ListPageUtils;
 import com.erahub.common.vo.business.ProductCategoryTreeNodeVO;
 import com.erahub.common.vo.business.ProductCategoryVO;

@@ -10,7 +10,7 @@ import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.*;
 import com.erahub.common.response.ActiveUser;
 import com.erahub.common.utils.JWTUtils;
-import com.erahub.common.utils.MenuTreeBuilder;
+import com.erahub.system.util.MenuTreeBuilder;
 import com.erahub.system.converter.MenuConverter;
 import com.erahub.system.converter.UserConverter;
 import com.erahub.system.mapper.*;

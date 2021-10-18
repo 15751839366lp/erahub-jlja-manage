@@ -1,4 +1,4 @@
-package com.erahub.common.utils;
+package com.erahub.system.util;
 
 
 import com.erahub.common.vo.system.MenuNodeVO;

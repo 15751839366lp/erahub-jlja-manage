@@ -3,7 +3,7 @@ package com.erahub.system.service.impl;
 import com.erahub.common.error.system.SystemCodeEnum;
 import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Menu;
-import com.erahub.common.utils.MenuTreeBuilder;
+import com.erahub.system.util.MenuTreeBuilder;
 import com.erahub.common.vo.system.MenuNodeVO;
 import com.erahub.common.vo.system.MenuVO;
 import com.erahub.system.converter.MenuConverter;
