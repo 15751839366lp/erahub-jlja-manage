@@ -1,8 +1,8 @@
 package com.erahub.business.material.service;
 
 
-import com.erahub.common.model.business.Supplier;
-import com.erahub.common.vo.business.SupplierVO;
+import com.erahub.common.model.business.material.Supplier;
+import com.erahub.common.vo.business.material.SupplierVO;
 import com.erahub.common.vo.system.PageVO;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.erahub.common.vo.business;
+package com.erahub.common.vo.business.material;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.erahub.business.material.converter;
 
-import com.erahub.common.model.business.Product;
-import com.erahub.common.vo.business.ProductVO;
+import com.erahub.common.model.business.material.Product;
+import com.erahub.common.vo.business.material.ProductVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 

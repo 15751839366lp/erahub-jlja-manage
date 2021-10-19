@@ -4,7 +4,7 @@ package com.erahub.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.erahub.common.enums.buisiness.BizUserTypeEnum;
+import com.erahub.common.enums.business.material.BizUserTypeEnum;
 import com.erahub.common.enums.system.UserStatusEnum;
 import com.erahub.common.enums.system.UserTypeEnum;
 import com.erahub.common.error.system.SystemCodeEnum;

@@ -1,9 +1,8 @@
 package com.erahub.business.material.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.erahub.common.model.business.Health;
+import com.erahub.common.model.business.material.Health;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 

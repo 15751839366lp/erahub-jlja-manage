@@ -1,4 +1,4 @@
-package com.erahub.common.enums.buisiness;
+package com.erahub.common.enums.business.material;
 
 /**
  * 业务用户类型

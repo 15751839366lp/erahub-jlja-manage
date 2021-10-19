@@ -1,9 +1,9 @@
 package com.erahub.business.material.service;
 
 
-import com.erahub.common.error.business.BusinessException;
-import com.erahub.common.vo.business.OutStockDetailVO;
-import com.erahub.common.vo.business.OutStockVO;
+import com.erahub.common.error.business.material.BusinessException;
+import com.erahub.common.vo.business.material.OutStockDetailVO;
+import com.erahub.common.vo.business.material.OutStockVO;
 import com.erahub.common.vo.system.PageVO;
 
 /**

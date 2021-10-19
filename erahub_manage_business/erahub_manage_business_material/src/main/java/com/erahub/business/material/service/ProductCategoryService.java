@@ -1,9 +1,9 @@
 package com.erahub.business.material.service;
 
 
-import com.erahub.common.error.business.BusinessException;
-import com.erahub.common.vo.business.ProductCategoryTreeNodeVO;
-import com.erahub.common.vo.business.ProductCategoryVO;
+import com.erahub.common.error.business.material.BusinessException;
+import com.erahub.common.vo.business.material.ProductCategoryTreeNodeVO;
+import com.erahub.common.vo.business.material.ProductCategoryVO;
 import com.erahub.common.vo.system.PageVO;
 
 import java.util.List;

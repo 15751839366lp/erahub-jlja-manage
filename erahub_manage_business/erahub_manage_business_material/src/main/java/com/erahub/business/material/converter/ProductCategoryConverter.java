@@ -1,8 +1,8 @@
 package com.erahub.business.material.converter;
 
-import com.erahub.common.model.business.ProductCategory;
-import com.erahub.common.vo.business.ProductCategoryTreeNodeVO;
-import com.erahub.common.vo.business.ProductCategoryVO;
+import com.erahub.common.model.business.material.ProductCategory;
+import com.erahub.common.vo.business.material.ProductCategoryTreeNodeVO;
+import com.erahub.common.vo.business.material.ProductCategoryVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 

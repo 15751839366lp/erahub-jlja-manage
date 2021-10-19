@@ -1,4 +1,4 @@
-package com.erahub.common.error.business;
+package com.erahub.common.error.business.material;
 
 import com.erahub.common.error.BaseError;
 import lombok.Getter;

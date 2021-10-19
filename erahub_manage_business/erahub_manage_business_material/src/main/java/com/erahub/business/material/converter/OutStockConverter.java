@@ -1,9 +1,9 @@
 package com.erahub.business.material.converter;
 
 import com.erahub.business.material.mapper.ConsumerMapper;
-import com.erahub.common.model.business.Consumer;
-import com.erahub.common.model.business.OutStock;
-import com.erahub.common.vo.business.OutStockVO;
+import com.erahub.common.model.business.material.Consumer;
+import com.erahub.common.model.business.material.OutStock;
+import com.erahub.common.vo.business.material.OutStockVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

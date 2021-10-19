@@ -1,7 +1,7 @@
 package com.erahub.business.material.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.erahub.common.model.business.InStockInfo;
+import com.erahub.common.model.business.material.InStockInfo;
 
 /**
  * @Author lipeng

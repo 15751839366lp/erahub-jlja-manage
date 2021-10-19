@@ -2,10 +2,10 @@ package com.erahub.controller.business.material;
 
 import com.erahub.business.material.service.ProductCategoryService;
 import com.erahub.common.annotation.ControllerEndpoint;
-import com.erahub.common.error.business.BusinessException;
+import com.erahub.common.error.business.material.BusinessException;
 import com.erahub.common.response.ResponseBean;
-import com.erahub.common.vo.business.ProductCategoryTreeNodeVO;
-import com.erahub.common.vo.business.ProductCategoryVO;
+import com.erahub.common.vo.business.material.ProductCategoryTreeNodeVO;
+import com.erahub.common.vo.business.material.ProductCategoryVO;
 import com.erahub.common.vo.system.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

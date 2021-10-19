@@ -2,11 +2,11 @@ package com.erahub.controller.business.material;
 
 import com.erahub.business.material.service.ProductService;
 import com.erahub.common.annotation.ControllerEndpoint;
-import com.erahub.common.error.business.BusinessCodeEnum;
-import com.erahub.common.error.business.BusinessException;
+import com.erahub.common.error.business.material.BusinessCodeEnum;
+import com.erahub.common.error.business.material.BusinessException;
 import com.erahub.common.response.ResponseBean;
-import com.erahub.common.vo.business.ProductStockVO;
-import com.erahub.common.vo.business.ProductVO;
+import com.erahub.common.vo.business.material.ProductStockVO;
+import com.erahub.common.vo.business.material.ProductVO;
 import com.erahub.common.vo.system.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

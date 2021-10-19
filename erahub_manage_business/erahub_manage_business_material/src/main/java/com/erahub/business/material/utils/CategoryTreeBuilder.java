@@ -1,7 +1,7 @@
 package com.erahub.business.material.utils;
 
 
-import com.erahub.common.vo.business.ProductCategoryTreeNodeVO;
+import com.erahub.common.vo.business.material.ProductCategoryTreeNodeVO;
 
 import java.util.ArrayList;
 import java.util.Collections;

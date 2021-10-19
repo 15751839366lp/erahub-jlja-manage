@@ -1,4 +1,4 @@
-package com.erahub.common.vo.business;
+package com.erahub.common.vo.business.material;
 
 import lombok.Data;
 
@@ -7,13 +7,13 @@ import java.util.List;
 
 /**
  * @Author lipeng
- * @Date 2020/3/20 16:51
+ * @Date 2020/5/25 16:25
  * @Version 1.0
  **/
 @Data
-public class InStockDetailVO {
+public class OutStockDetailVO {
 
-    private String inNum;
+    private String outNum;
 
     private Integer status;
 
@@ -21,12 +21,10 @@ public class InStockDetailVO {
 
     private String operator;
 
-    private SupplierVO supplierVO;
+    private ConsumerVO consumerVO;
 
     private long total;/** 总数**/
 
-    private List<InStockItemVO> itemVOS=new ArrayList<>();
+    private List<OutStockItemVO> itemVOS=new ArrayList<>();
 
 }
-
-

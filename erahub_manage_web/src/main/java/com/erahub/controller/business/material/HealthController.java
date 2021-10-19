@@ -2,11 +2,11 @@ package com.erahub.controller.business.material;
 
 import com.erahub.business.material.service.HealthService;
 import com.erahub.common.annotation.ControllerEndpoint;
-import com.erahub.common.error.business.BusinessException;
-import com.erahub.common.model.business.Health;
+import com.erahub.common.error.business.material.BusinessException;
+import com.erahub.common.model.business.material.Health;
 import com.erahub.common.response.ActiveUser;
 import com.erahub.common.response.ResponseBean;
-import com.erahub.common.vo.business.HealthVO;
+import com.erahub.common.vo.business.material.HealthVO;
 import com.erahub.common.vo.system.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

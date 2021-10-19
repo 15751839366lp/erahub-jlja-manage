@@ -1,4 +1,4 @@
-package com.erahub.common.model.business;
+package com.erahub.common.model.business.material;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

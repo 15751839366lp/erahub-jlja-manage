@@ -1,4 +1,4 @@
-package com.erahub.common.model.business;
+package com.erahub.common.model.business.material;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -7,28 +7,20 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@TableName("biz_out_stock")
-public class OutStock {
+@TableName("biz_out_stock_info")
+public class OutStockInfo {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String outNum;
 
-    private Integer type;
-
-    private String operator;
-
-    private Date createTime;
+    private String pNum;
 
     private Integer productNumber;
 
-    private Long consumerId;
+    private Date createTime;
 
-    private String remark;
-
-    private Integer status;
-
-    private Integer priority;
+    private Date modifiedTime;
 
 }
