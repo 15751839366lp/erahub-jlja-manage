@@ -24,7 +24,7 @@ import java.util.List;
  **/
 @Api(tags = "业务模块-物资资料相关接口")
 @RestController
-@RequestMapping("/business/product")
+@RequestMapping("/business/material/product")
 public class ProductController {
 
 

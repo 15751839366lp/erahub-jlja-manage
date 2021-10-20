@@ -7,18 +7,15 @@
     <facet type="web" name="Web">
       <configuration>
         <webroots />
-        <sourceRoots>
-          <root url="file://$MODULE_DIR$/src/main/java" />
-        </sourceRoots>
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
-    <output url="file://$MODULE_DIR$/../erahub_manage_business/target/classes" />
-    <output-test url="file://$MODULE_DIR$/../erahub_manage_business/target/test-classes" />
-    <content url="file://$MODULE_DIR$/../erahub_manage_business">
-      <sourceFolder url="file://$MODULE_DIR$/../erahub_manage_business/src/main/java" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/../erahub_manage_business/target" />
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />

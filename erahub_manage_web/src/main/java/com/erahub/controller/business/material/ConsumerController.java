@@ -23,7 +23,7 @@ import java.util.List;
  **/
 @Api(tags = "业务模块-物资去向相关接口")
 @RestController
-@RequestMapping("/business/consumer")
+@RequestMapping("/business/material/consumer")
 public class ConsumerController {
 
 

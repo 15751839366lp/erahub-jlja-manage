@@ -26,7 +26,7 @@ import java.util.List;
  **/
 @Api(tags = "业务模块-物资类别相关接口")
 @RestController
-@RequestMapping("/business/productCategory")
+@RequestMapping("/business/material/productCategory")
 public class ProductCategoryController {
 
     @Autowired

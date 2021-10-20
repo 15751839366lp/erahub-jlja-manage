@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @Api(tags = "业务模块-物资出库相关接口")
 @RestController
-@RequestMapping("/business/outStock")
+@RequestMapping("/business/material/outStock")
 public class OutStockController {
 
     @Autowired

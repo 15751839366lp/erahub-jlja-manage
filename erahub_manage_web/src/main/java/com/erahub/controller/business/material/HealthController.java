@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @Api(tags = "业务模块-健康上报相关接口")
 @RestController
-@RequestMapping("/business/health")
+@RequestMapping("/business/material/health")
 public class HealthController {
 
     @Autowired

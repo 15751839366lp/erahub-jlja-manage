@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @Api(tags = "业务模块-物资入库相关接口")
 @RestController
-@RequestMapping("/business/inStock")
+@RequestMapping("/business/material/inStock")
 public class InStockController {
 
     @Autowired
