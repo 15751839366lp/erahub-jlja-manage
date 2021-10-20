@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 20/10/2021 15:12:56
+ Date: 20/10/2021 17:52:37
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `tb_menu`  (
   `available` int(0) NULL DEFAULT 1 COMMENT '0：不可用，1：可用',
   `open` int(0) NULL DEFAULT 1 COMMENT '0:不展开，1：展开',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 350 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 352 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_menu
@@ -90,7 +90,7 @@ INSERT INTO `tb_menu` VALUES (298, 5, 'SQL监控', '/monitor/druid', NULL, 'el-i
 INSERT INTO `tb_menu` VALUES (299, 271, '删除日志', '', 'loginLog:delete', 'el-icon-delete', '1', 1, '2020-03-22 21:55:44', '2020-03-22 21:55:44', 1, 0);
 INSERT INTO `tb_menu` VALUES (300, 271, '批量删除', '', 'loginLog:batchDelete', 'el-icon-delete-solid', '1', 1, '2020-03-22 22:19:26', '2020-03-22 22:19:26', 1, 0);
 INSERT INTO `tb_menu` VALUES (301, 4, '编辑菜单', '', 'menu:edit', 'el-icon-edit', '1', 1, '2020-03-22 23:12:25', '2020-03-22 23:12:25', 1, 0);
-INSERT INTO `tb_menu` VALUES (303, 0, '健康报备', '', '', 'el-icon-platform-eleme', '0', 3, '2020-03-24 10:11:53', '2020-12-15 20:15:30', 1, 1);
+INSERT INTO `tb_menu` VALUES (303, 312, '健康报备', '', '', 'el-icon-platform-eleme', '0', 3, '2020-03-24 10:11:53', '2020-12-15 20:15:30', 1, 1);
 INSERT INTO `tb_menu` VALUES (304, 303, '健康打卡', '/business/material/covid19/health', '', 'el-icon-s-cooperation', '0', 1, '2020-03-24 10:12:57', '2021-10-20 14:29:52', 1, 0);
 INSERT INTO `tb_menu` VALUES (307, 5, '操作日志', '/monitor/logs', '', 'el-icon-edit', '0', 2, '2020-04-04 19:04:53', '2021-10-20 15:11:11', 1, 0);
 INSERT INTO `tb_menu` VALUES (308, 307, '删除日志', '', 'log:delete', 'el-icon-circle-close', '1', 1, '2020-04-04 19:59:20', '2020-04-04 19:59:20', 1, 1);
@@ -119,6 +119,6 @@ INSERT INTO `tb_menu` VALUES (340, 230, '入库还原', '', 'inStock:back', 'el-
 INSERT INTO `tb_menu` VALUES (341, 295, '个人博客', '/blog', '', 'el-icon-view', '0', 1, '2020-05-07 19:34:31', '2020-05-07 19:34:31', 1, 0);
 INSERT INTO `tb_menu` VALUES (343, 304, '健康上报', '', 'health:report', 'el-icon-edit', '1', 1, '2020-05-14 20:21:09', '2020-05-14 20:21:09', 1, 0);
 INSERT INTO `tb_menu` VALUES (344, 5, '项目接口', '/monitor/swagger-ui', '', 'el-icon-edit', '0', 4, '2020-12-15 18:35:18', '2021-10-20 15:11:21', 1, 1);
-INSERT INTO `tb_menu` VALUES (351, 312, '物资管理', NULL, NULL, 'el-icon-star-off', '0', 2, '2021-10-20 14:37:29', '2021-10-20 14:37:41', 1, 1);
+INSERT INTO `tb_menu` VALUES (351, 312, '物资管理', NULL, NULL, 'el-icon-star-off', '0', 2, '2021-10-20 14:37:29', '2021-10-20 17:51:23', 1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
