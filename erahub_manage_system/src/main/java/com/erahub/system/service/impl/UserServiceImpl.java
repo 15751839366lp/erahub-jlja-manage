@@ -26,6 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -300,6 +303,29 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 修改用户密码
+     *
+     * @param paramMap
+     */
+    @Transactional
+    @Override
+    public void changeUserPassword(Map<String, Object> paramMap) throws SystemException {
+        User user = userMapper.selectById((int)paramMap.get("id"));
+
+        if(user == null){
+            throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "要修改的用户不存在");
+        }
+
+        String salt = UUID.randomUUID().toString().substring(0, 32);
+        user.setSalt(salt);
+        user.setPassword(MD5Utils.md5Encryption((String)paramMap.get("password"), salt));
+
+        user.setModifiedTime(new Date());
+
+        userMapper.updateById(user);
+    }
+
+    /**
      * 更新
      *
      * @param id
@@ -312,7 +338,7 @@ public class UserServiceImpl implements UserService {
         @NotBlank(message = "用户名不能为空") String username = userVO.getUsername();
         @NotNull(message = "部门不能为空") Long departmentId = userVO.getDepartmentId();
         if (dbUser == null) {
-            throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "要删除的用户不存在");
+            throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "要修改的用户不存在");
         }
         Department department = departmentMapper.selectById(departmentId);
         if (department == null) {

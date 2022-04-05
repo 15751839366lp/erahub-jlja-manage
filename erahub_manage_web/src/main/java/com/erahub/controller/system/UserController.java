@@ -192,6 +192,20 @@ public class UserController {
     }
 
     /**
+     * 修改用户密码
+     * @param paramMap
+     * @return
+     */
+    @ControllerEndpoint(exceptionMessage = "修改用户密码失败", operation = "修改用户密码")
+    @ApiOperation(value = "修改用户密码", notes = "修改用户密码")
+    @RequiresPermissions({"user:edit"})
+    @PostMapping("/changeUserPassword")
+    public ResponseBean changeUserPassword(@RequestBody Map<String, Object> paramMap) throws SystemException {
+        userService.changeUserPassword(paramMap);
+        return ResponseBean.success();
+    }
+
+    /**
      * 用户角色信息
      * @param id
      * @return

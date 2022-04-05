@@ -7,6 +7,7 @@ import com.erahub.common.model.system.User;
 import com.erahub.common.vo.system.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author lipeng
@@ -74,6 +75,12 @@ public interface UserService {
      * @param userVO
      */
     void add(UserVO userVO) throws SystemException;
+
+    /**
+     * 修改用户密码
+     * @param paramMap
+     */
+    void changeUserPassword(Map<String, Object> paramMap) throws SystemException;
 
     /**
      * 更新用户
