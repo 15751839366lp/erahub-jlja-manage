@@ -7,9 +7,11 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.erahub.common.annotation.ControllerEndpoint;
 import com.erahub.common.dto.system.UserLoginDTO;
 import com.erahub.common.error.system.SystemException;
+import com.erahub.common.excel.model.system.UserExcel;
 import com.erahub.common.model.system.Role;
 import com.erahub.common.model.system.User;
 import com.erahub.common.response.ResponseBean;
+import com.erahub.common.utils.ListMapUtils;
 import com.erahub.system.converter.RoleConverter;
 import com.erahub.system.service.LoginLogService;
 import com.erahub.system.service.RoleService;
@@ -19,6 +21,7 @@ import com.wuwenze.poi.ExcelKit;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -237,13 +241,16 @@ public class UserController {
     @ControllerEndpoint(exceptionMessage = "导出Excel失败",operation = "导出用户excel")
     public void export(HttpServletResponse response) throws IOException {
         List<User> users = this.userService.findAll();
+        List<UserExcel> userExcels = new ArrayList<>();
+        ListMapUtils.copyList(users,userExcels,UserExcel.class);
+
         // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
         // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
 //        String fileName = URLEncoder.encode("测试", "UTF-8").replaceAll("\\+", "%20");
         response.setHeader("Content-disposition", "attachment;filename*=utf-8''用户列表.xlsx");
-        EasyExcel.write(response.getOutputStream(), User.class).sheet("用户列表").doWrite(users);
+        EasyExcel.write(response.getOutputStream(), UserExcel.class).sheet("用户列表").doWrite(userExcels);
     }
 
 }
