@@ -130,7 +130,14 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param departmentVO
      */
     @Override
-    public void add(DepartmentVO departmentVO) {
+    public void add(DepartmentVO departmentVO) throws SystemException {
+        QueryWrapper<Department> wrapper = new QueryWrapper<>();
+        wrapper.eq("name", departmentVO.getName());
+        int i = departmentMapper.selectCount(wrapper);
+        if (i != 0) {
+            throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "该部门名已被占用");
+        }
+
         Department department = new Department();
         BeanUtils.copyProperties(departmentVO,department);
         department.setCreateTime(new Date());
@@ -163,6 +170,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         if(dbDepartment==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要更新的部门不存在");
         }
+
+        QueryWrapper<Department> wrapper = new QueryWrapper<>();
+        wrapper.eq("name", departmentVO.getName());
+        int i = departmentMapper.selectCount(wrapper);
+        if (i != 0) {
+            throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "该部门名已被占用");
+        }
+
         Department department = new Department();
         BeanUtils.copyProperties(departmentVO,department);
         department.setId(id);

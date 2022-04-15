@@ -82,7 +82,7 @@ public class DepartmentController {
     @RequiresPermissions({"department:add"})
     @ApiOperation(value = "添加部门")
     @PostMapping("/add")
-    public ResponseBean add(@RequestBody @Validated DepartmentVO departmentVO) {
+    public ResponseBean add(@RequestBody @Validated DepartmentVO departmentVO) throws SystemException {
         departmentService.add(departmentVO);
         return ResponseBean.success();
     }

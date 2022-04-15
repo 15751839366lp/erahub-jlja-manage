@@ -117,6 +117,7 @@ public class RoleServiceImpl implements RoleService {
         if(role==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"编辑的角色不存在");
         }
+
         RoleVO roleVO = new RoleVO();
         BeanUtils.copyProperties(role,roleVO);
         return roleVO;

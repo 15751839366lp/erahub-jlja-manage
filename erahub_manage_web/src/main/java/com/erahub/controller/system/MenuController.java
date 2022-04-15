@@ -59,7 +59,7 @@ public class MenuController {
     @ApiOperation(value = "新增菜单")
     @RequiresPermissions({"menu:add"})
     @PostMapping("/add")
-    public ResponseBean<Map<String, Object>> add(@RequestBody @Validated MenuVO menuVO) {
+    public ResponseBean<Map<String, Object>> add(@RequestBody @Validated MenuVO menuVO) throws SystemException {
         Menu node = menuService.add(menuVO);
         Map<String, Object> map = new HashMap<>();
         map.put("id", node.getId());

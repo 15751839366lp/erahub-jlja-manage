@@ -34,7 +34,7 @@ public interface DepartmentService {
      * 添加院部门
      * @param departmentVO
      */
-    void add(DepartmentVO departmentVO);
+    void add(DepartmentVO departmentVO) throws SystemException;
 
     /**
      * 编辑院部门

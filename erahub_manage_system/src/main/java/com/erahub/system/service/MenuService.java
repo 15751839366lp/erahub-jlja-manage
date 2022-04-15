@@ -24,7 +24,7 @@ public interface MenuService {
      * 添加菜单
      * @param menuVO
      */
-    Menu add(MenuVO menuVO);
+    Menu add(MenuVO menuVO) throws SystemException;
 
     /**
      * 删除节点

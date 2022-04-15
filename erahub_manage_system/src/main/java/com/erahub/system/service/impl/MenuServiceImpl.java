@@ -1,8 +1,10 @@
 package com.erahub.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.erahub.common.error.system.SystemCodeEnum;
 import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Menu;
+import com.erahub.common.model.system.User;
 import com.erahub.system.util.MenuTreeBuilder;
 import com.erahub.common.vo.system.MenuNodeVO;
 import com.erahub.common.vo.system.MenuVO;
@@ -48,7 +50,16 @@ public class MenuServiceImpl implements MenuService {
      * @param menuVO
      */
     @Override
-    public Menu add(MenuVO menuVO) {
+    public Menu add(MenuVO menuVO) throws SystemException{
+        QueryWrapper<Menu> wrapper = new QueryWrapper<>();
+        wrapper.eq("menu_name", menuVO.getMenuName());
+        wrapper.eq("type", menuVO.getType());
+
+        int i = menuMapper.selectCount(wrapper);
+        if (i != 0) {
+            throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "该菜单名已被占用");
+        }
+
         Menu menu = new Menu();
         BeanUtils.copyProperties(menuVO,menu);
         menu.setCreateTime(new Date());
@@ -96,6 +107,16 @@ public class MenuServiceImpl implements MenuService {
         if(dbMenu==null){
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要更新的菜单不存在");
         }
+
+        QueryWrapper<Menu> wrapper = new QueryWrapper<>();
+        wrapper.eq("menu_name", menuVO.getMenuName());
+        wrapper.eq("type", menuVO.getType());
+
+        int i = menuMapper.selectCount(wrapper);
+        if (i != 0) {
+            throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "该菜单名已被占用");
+        }
+
         Menu menu = new Menu();
         BeanUtils.copyProperties(menuVO,menu);
         menu.setId(id);

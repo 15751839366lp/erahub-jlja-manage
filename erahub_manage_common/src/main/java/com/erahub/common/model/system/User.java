@@ -1,5 +1,8 @@
 package com.erahub.common.model.system;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,58 +15,64 @@ import java.util.Date;
 @Excel("user")
 @TableName("tb_user")
 public class User {
+    @ColumnWidth(20)
     @TableId(value = "id", type = IdType.AUTO)
-    @ExcelField(value = "编号", width = 50)
+    @ExcelProperty(value = "编号")
     private Long id;
 
-    @ExcelField(value = "用户名", width = 100)
+    @ColumnWidth(40)
+    @ExcelProperty(value = "用户名")
     private String username;
 
-    @ExcelField(value = "昵称", width = 100)
+    @ColumnWidth(40)
+    @ExcelProperty(value = "昵称")
     private String nickname;
 
-    @ExcelField(value = "邮箱", width = 150)
+    @ColumnWidth(40)
+    @ExcelProperty(value = "邮箱")
     private String email;
 
-    @ExcelField(value = "电话号码", width = 100)
+    @ColumnWidth(40)
+    @ExcelProperty(value = "电话号码")
     private String phoneNumber;
 
     private Integer status;
 
-    @ExcelField(value = "创建时间", dateFormat = "yyyy年MM月dd日 HH:mm:ss", width = 180)
+    @ColumnWidth(60)
+    @DateTimeFormat("yyyy年MM月dd日 HH:mm:ss")
+    @ExcelProperty(value = "创建时间")
     private Date createTime;
 
-    @ExcelField(value = "修改时间", dateFormat = "yyyy年MM月dd日 HH:mm:ss",width = 180)
+    @ColumnWidth(60)
+    @DateTimeFormat("yyyy年MM月dd日 HH:mm:ss")
+    @ExcelProperty(value = "修改时间")
     private Date modifiedTime;
 
-    @ExcelField(//
-            value = "性别",
-            readConverterExp = "男=1,女=0",
-            writeConverterExp = "1=男,0=女"
-            ,width = 50
-    )
+    @ColumnWidth(20)
+    @ExcelProperty(value = "性别")
     private Integer sex;
 
-    @ExcelField(value = "密码盐值", width = 100)
+    @ColumnWidth(40)
+    @ExcelProperty(value = "密码盐值")
     private String salt;
 
-    @ExcelField(//
-            value = "用户类型",
-            readConverterExp = "超级管理员=0,普通用户=1",
-            writeConverterExp = "0=超级管理员,1=普通用户"
-            ,width = 80
-    )
+    @ColumnWidth(20)
+    @ExcelProperty(value = "用户类型")
     private Integer type;
 
-    @ExcelField(value = "用户密码", width = 100)
+    @ColumnWidth(40)
+    @ExcelProperty(value = "用户密码")
     private String password;
 
-    @ExcelField(value = "出生日期", dateFormat = "yyyy/MM/dd",width = 100)
+    @ColumnWidth(40)
+    @DateTimeFormat("yyyy/MM/dd")
+    @ExcelProperty(value = "出生日期")
     private Date birth;
 
     private Long departmentId;
 
-    @ExcelField(value = "头像url", width = 200)
+    @ColumnWidth(60)
+    @ExcelProperty(value = "头像url")
     private String avatar;
 
 }

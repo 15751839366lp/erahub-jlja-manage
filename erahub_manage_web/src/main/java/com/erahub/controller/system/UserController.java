@@ -1,6 +1,9 @@
 package com.erahub.controller.system;
 
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import com.erahub.common.annotation.ControllerEndpoint;
 import com.erahub.common.dto.system.UserLoginDTO;
 import com.erahub.common.error.system.SystemException;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -231,9 +235,15 @@ public class UserController {
     @PostMapping("/excel")
     @RequiresPermissions("user:export")
     @ControllerEndpoint(exceptionMessage = "导出Excel失败",operation = "导出用户excel")
-    public void export(HttpServletResponse response) {
+    public void export(HttpServletResponse response) throws IOException {
         List<User> users = this.userService.findAll();
-        ExcelKit.$Export(User.class, response).downXlsx(users, false);
+        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setCharacterEncoding("utf-8");
+        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+//        String fileName = URLEncoder.encode("测试", "UTF-8").replaceAll("\\+", "%20");
+        response.setHeader("Content-disposition", "attachment;filename*=utf-8''用户列表.xlsx");
+        EasyExcel.write(response.getOutputStream(), User.class).sheet("用户列表").doWrite(users);
     }
 
 }
