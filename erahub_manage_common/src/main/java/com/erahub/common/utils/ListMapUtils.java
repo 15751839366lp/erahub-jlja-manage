@@ -1,5 +1,6 @@
 package com.erahub.common.utils;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.BeanUtils;
 
@@ -26,4 +27,8 @@ public class ListMapUtils {
         }
     }
 
+    //将对象转为map
+    public Map<String, Object> objectToMap(Object obj) {
+        return JSON.parseObject(JSON.toJSONString(obj), Map.class);
+    }
 }
