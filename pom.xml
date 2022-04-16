@@ -8,6 +8,7 @@
         <module>erahub_manage_common</module>
         <module>erahub_manage_system</module>
         <module>erahub_manage_business</module>
+        <module>erahub_manage_fixedasset</module>
         <module>erahub_manage_web</module>
         <module>erahub_manage_generator</module>
     </modules>
