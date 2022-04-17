@@ -9,6 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 资产类别
+ * @Author lipeng
+ * @Date 2020/3/15 18:40
+ * @Version 1.0
+ **/
 @Data
 @TableName("fixed_asset_category")
 public class FixedAssetCategory implements Serializable {

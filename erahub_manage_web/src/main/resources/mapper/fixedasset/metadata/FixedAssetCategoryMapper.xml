@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper">
+
+    <select id="selectPageList" resultType="com.erahub.common.model.fixedasset.metadata.FixedAssetCategory"
+        parameterType="com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO"
+    >
+        select * from fixed_asset_category where 1 = 1
+        <if test="fixedAssetCategoryDTO.isAccurate != null and fixedAssetCategoryDTO.isAccurate == 0">
+            <if test="fixedAssetCategoryDTO.categoryId != null">
+                and category_id = #{fixedAssetCategoryDTO.categoryId}
+            </if>
+            <if test="fixedAssetCategoryDTO.capacityUnit != null and fixedAssetCategoryDTO.capacityUnit != ''">
+                and capacity_unit = #{fixedAssetCategoryDTO.capacityUnit}
+            </if>
+            <if test="fixedAssetCategoryDTO.measureUnit != null and fixedAssetCategoryDTO.measureUnit != ''">
+                and measure_unit = #{fixedAssetCategoryDTO.measureUnit}
+            </if>
+            <if test="fixedAssetCategoryDTO.categoryName != null and fixedAssetCategoryDTO.categoryName != ''">
+                and category_name = #{fixedAssetCategoryDTO.categoryName}
+            </if>
+        </if>
+
+        <if test="fixedAssetCategoryDTO.isAccurate != null and fixedAssetCategoryDTO.isAccurate == 1">
+            <if test="fixedAssetCategoryDTO.categoryId != null">
+                and category_id like '${fixedAssetCategoryDTO.categoryId}%'
+            </if>
+            <if test="fixedAssetCategoryDTO.capacityUnit != null and fixedAssetCategoryDTO.capacityUnit != ''">
+                and capacity_unit like '%${fixedAssetCategoryDTO.capacityUnit}%'
+            </if>
+            <if test="fixedAssetCategoryDTO.measureUnit != null and fixedAssetCategoryDTO.measureUnit != ''">
+                and measure_unit like '%${fixedAssetCategoryDTO.measureUnit}%'
+            </if>
+            <if test="fixedAssetCategoryDTO.categoryName != null and fixedAssetCategoryDTO.categoryName != ''">
+                and category_name like '%${fixedAssetCategoryDTO.categoryName}%'
+            </if>
+        </if>
+
+        <if test="fixedAssetCategoryDTO.status != null">
+            and status = #{fixedAssetCategoryDTO.status}
+        </if>
+        <if test="fixedAssetCategoryDTO.depreciationMethodId != null">
+            and depreciation_method_id = #{fixedAssetCategoryDTO.depreciationMethodId}
+        </if>
+        <if test="fixedAssetCategoryDTO.depreciationPeriod != null">
+            and depreciation_period = #{fixedAssetCategoryDTO.depreciationPeriod}
+        </if>
+        <if test="fixedAssetCategoryDTO.netResidualValue != null">
+            and net_residual_value = #{fixedAssetCategoryDTO.netResidualValue}
+        </if>
+        <if test="fixedAssetCategoryDTO.estimatedTotalWorkload != null">
+            and estimated_total_workload = #{fixedAssetCategoryDTO.estimatedTotalWorkload}
+        </if>
+
+        order by category_id
+    </select>
+
+
+</mapper>

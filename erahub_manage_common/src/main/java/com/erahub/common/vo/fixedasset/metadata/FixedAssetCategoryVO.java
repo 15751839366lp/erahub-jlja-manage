@@ -1,6 +1,8 @@
 package com.erahub.common.vo.fixedasset.metadata;
 
 import lombok.Data;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * @Version 1.0
  **/
 @Data
-public class FixedAssetCategoryVo {
+public class FixedAssetCategoryVO {
 
     private Long categoryId;
 
@@ -29,11 +31,11 @@ public class FixedAssetCategoryVo {
 
     private String capacityUnit;
 
-    private Long depreciationPeriod;
+    private BigDecimal depreciationPeriod;
 
-    private Long estimatedTotalWorkload;
+    private BigDecimal estimatedTotalWorkload;
 
-    private Long netResidualValue;
+    private BigDecimal netResidualValue;
 
     private Date createTime;
 
@@ -41,5 +43,5 @@ public class FixedAssetCategoryVo {
 
     private String remark;
 
-    private List<FixedAssetCategoryVo> children;
+    private List<FixedAssetCategoryVO> children;
 }

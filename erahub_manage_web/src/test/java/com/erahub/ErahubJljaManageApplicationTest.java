@@ -2,11 +2,9 @@ package com.erahub;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
-import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVo;
+import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
 import com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
-import com.erahub.fixedasset.metadata.service.imp.FixedAssetCategoryServiceImpl;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -15,14 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.stream.Stream;
 
 @SpringBootTest
 public class ErahubJljaManageApplicationTest {
@@ -83,18 +79,18 @@ public class ErahubJljaManageApplicationTest {
         List<FixedAssetCategory> list = fixedAssetCategoryMapper.selectList(new QueryWrapper<FixedAssetCategory>()
                 .orderByAsc("category_id"));
 
-        LinkedHashMap<Long, LinkedHashMap<Long, FixedAssetCategoryVo>> tmpMap = new LinkedHashMap<>();
+        LinkedHashMap<Long, LinkedHashMap<Long, FixedAssetCategoryVO>> tmpMap = new LinkedHashMap<>();
 
         list.forEach(item -> {
             long length = item.getCategoryId().toString().length();
 
             if (tmpMap.containsKey(length)) {
-                FixedAssetCategoryVo fixedAssetCategoryVo = new FixedAssetCategoryVo();
+                FixedAssetCategoryVO fixedAssetCategoryVo = new FixedAssetCategoryVO();
                 BeanUtils.copyProperties(item, fixedAssetCategoryVo);
                 tmpMap.get(length).put(item.getCategoryId(), fixedAssetCategoryVo);
             } else {
-                LinkedHashMap<Long, FixedAssetCategoryVo> tmpList = new LinkedHashMap<>();
-                FixedAssetCategoryVo fixedAssetCategoryVo = new FixedAssetCategoryVo();
+                LinkedHashMap<Long, FixedAssetCategoryVO> tmpList = new LinkedHashMap<>();
+                FixedAssetCategoryVO fixedAssetCategoryVo = new FixedAssetCategoryVO();
                 BeanUtils.copyProperties(item, fixedAssetCategoryVo);
                 tmpList.put(item.getCategoryId(), fixedAssetCategoryVo);
                 tmpMap.put(length, tmpList);
@@ -103,19 +99,19 @@ public class ErahubJljaManageApplicationTest {
 
 
         ListIterator<Map.Entry> listIterator = new ArrayList<Map.Entry>(tmpMap.entrySet()).listIterator(tmpMap.size());
-        LinkedHashMap<Long, FixedAssetCategoryVo> nextMap = new LinkedHashMap<>();
-        LinkedHashMap<Long, FixedAssetCategoryVo> previousMap = new LinkedHashMap<>();
+        LinkedHashMap<Long, FixedAssetCategoryVO> nextMap = new LinkedHashMap<>();
+        LinkedHashMap<Long, FixedAssetCategoryVO> previousMap = new LinkedHashMap<>();
         while (listIterator.hasPrevious()) {
             Map.Entry tmpEntry = listIterator.previous();
-            previousMap = (LinkedHashMap<Long, FixedAssetCategoryVo>) tmpEntry.getValue();
+            previousMap = (LinkedHashMap<Long, FixedAssetCategoryVO>) tmpEntry.getValue();
             if (nextMap.size() != 0) {
-                for(Map.Entry<Long, FixedAssetCategoryVo> entrySet : nextMap.entrySet()) {
+                for(Map.Entry<Long, FixedAssetCategoryVO> entrySet : nextMap.entrySet()) {
                     Long prevNode = Long.valueOf(entrySet.getKey().toString().substring(0, entrySet.getKey().toString().length() - 2));
-                    List<FixedAssetCategoryVo> children = previousMap.get(prevNode).getChildren();
+                    List<FixedAssetCategoryVO> children = previousMap.get(prevNode).getChildren();
                     if(children != null){
                         children.add(entrySet.getValue());
                     }else {
-                        List<FixedAssetCategoryVo> child = new ArrayList<>();
+                        List<FixedAssetCategoryVO> child = new ArrayList<>();
                         child.add(entrySet.getValue());
                         previousMap.get(prevNode).setChildren(child);
                     }
@@ -123,7 +119,7 @@ public class ErahubJljaManageApplicationTest {
             }
             nextMap = previousMap;
         }
-        LinkedHashMap<Long, FixedAssetCategoryVo> rs = (LinkedHashMap<Long, FixedAssetCategoryVo>) tmpMap.values().toArray()[0];
+        LinkedHashMap<Long, FixedAssetCategoryVO> rs = (LinkedHashMap<Long, FixedAssetCategoryVO>) tmpMap.values().toArray()[0];
         List result = new ArrayList(rs.values());
 
     }
