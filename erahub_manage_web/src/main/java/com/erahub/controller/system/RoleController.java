@@ -5,7 +5,7 @@ import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Role;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.system.MenuNodeVO;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 import com.erahub.common.vo.system.RoleVO;
 import com.erahub.system.service.MenuService;
 import com.erahub.system.service.RoleService;

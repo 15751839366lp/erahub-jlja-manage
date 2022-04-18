@@ -7,7 +7,7 @@ import com.erahub.common.error.system.SystemCodeEnum;
 import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Log;
 import com.erahub.common.vo.system.LogVO;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 import com.erahub.system.mapper.LogMapper;
 import com.erahub.system.service.LogService;
 import org.springframework.beans.BeanUtils;

@@ -7,7 +7,7 @@ import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.utils.ArithmeticUtils;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 import com.erahub.fixedasset.metadata.converter.FixedAssetCategoryConverter;
 import com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;

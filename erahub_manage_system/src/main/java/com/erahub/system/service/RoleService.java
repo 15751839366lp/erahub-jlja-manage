@@ -3,7 +3,7 @@ package com.erahub.system.service;
 
 import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Role;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 import com.erahub.common.vo.system.RoleVO;
 
 import java.util.List;

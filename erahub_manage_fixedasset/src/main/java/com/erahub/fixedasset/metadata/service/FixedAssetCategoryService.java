@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 
 /**
  * @Author lipeng

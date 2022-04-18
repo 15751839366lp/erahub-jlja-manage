@@ -9,7 +9,7 @@ import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Menu;
 import com.erahub.common.model.system.Role;
 import com.erahub.common.model.system.RoleMenu;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 import com.erahub.common.vo.system.RoleVO;
 import com.erahub.system.converter.RoleConverter;
 import com.erahub.system.mapper.MenuMapper;

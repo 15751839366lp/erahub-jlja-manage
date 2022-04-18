@@ -1,4 +1,4 @@
-package com.erahub.common.vo;
+package com.erahub.common.vo.common;
 
 import lombok.Data;
 

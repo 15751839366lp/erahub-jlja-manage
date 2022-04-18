@@ -5,7 +5,7 @@ import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Department;
 import com.erahub.common.vo.system.DeanVO;
 import com.erahub.common.vo.system.DepartmentVO;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 
 import java.util.List;
 

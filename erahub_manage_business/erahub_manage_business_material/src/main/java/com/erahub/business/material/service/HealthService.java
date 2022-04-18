@@ -4,7 +4,7 @@ package com.erahub.business.material.service;
 import com.erahub.common.error.business.material.BusinessException;
 import com.erahub.common.model.business.material.Health;
 import com.erahub.common.vo.business.material.HealthVO;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 
 /**
  * @Author lipeng

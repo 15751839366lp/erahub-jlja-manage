@@ -12,7 +12,7 @@ import com.erahub.common.error.business.material.BusinessException;
 import com.erahub.common.model.business.material.Product;
 import com.erahub.common.vo.business.material.ProductStockVO;
 import com.erahub.common.vo.business.material.ProductVO;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

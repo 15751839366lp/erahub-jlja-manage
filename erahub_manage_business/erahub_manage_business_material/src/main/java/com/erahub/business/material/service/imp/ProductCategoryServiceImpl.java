@@ -15,7 +15,7 @@ import com.erahub.business.material.utils.CategoryTreeBuilder;
 import com.erahub.common.utils.ListPageUtils;
 import com.erahub.common.vo.business.material.ProductCategoryTreeNodeVO;
 import com.erahub.common.vo.business.material.ProductCategoryVO;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

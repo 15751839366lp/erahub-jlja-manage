@@ -4,7 +4,7 @@ package com.erahub.controller.fixedasset.metadata;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

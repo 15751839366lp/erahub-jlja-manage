@@ -10,7 +10,7 @@ import com.erahub.common.model.system.Role;
 import com.erahub.common.model.system.User;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.utils.ListMapUtils;
-import com.erahub.common.vo.PageVO;
+import com.erahub.common.vo.common.PageVO;
 import com.erahub.system.converter.RoleConverter;
 import com.erahub.system.service.LoginLogService;
 import com.erahub.system.service.RoleService;
