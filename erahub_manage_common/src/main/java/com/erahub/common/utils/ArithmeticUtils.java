@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 
 /**
  * 用于高精确处理常用的数学运算
- */
+ * @Author lipeng
+ * @Date 2020/5/10 14:32
+ * @Version 1.0
+ **/
 
 public class ArithmeticUtils {
 
@@ -18,7 +21,6 @@ public class ArithmeticUtils {
      * @param v2 加数
      * @return 两个参数的和
      */
-
     public static double add(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
