@@ -7,7 +7,7 @@ import com.erahub.common.error.business.material.BusinessException;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.business.material.ProductStockVO;
 import com.erahub.common.vo.business.material.ProductVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

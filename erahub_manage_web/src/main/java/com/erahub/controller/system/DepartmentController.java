@@ -6,7 +6,7 @@ import com.erahub.common.model.system.Department;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.system.DeanVO;
 import com.erahub.common.vo.system.DepartmentVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 import com.erahub.system.service.DepartmentService;
 import com.wuwenze.poi.ExcelKit;
 import io.swagger.annotations.Api;

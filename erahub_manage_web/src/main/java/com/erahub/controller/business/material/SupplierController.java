@@ -4,7 +4,7 @@ import com.erahub.business.material.service.SupplierService;
 import com.erahub.common.annotation.ControllerEndpoint;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.business.material.SupplierVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

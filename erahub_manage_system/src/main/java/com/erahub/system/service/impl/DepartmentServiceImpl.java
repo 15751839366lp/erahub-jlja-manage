@@ -15,7 +15,7 @@ import com.erahub.common.model.system.User;
 import com.erahub.common.model.system.UserRole;
 import com.erahub.common.vo.system.DeanVO;
 import com.erahub.common.vo.system.DepartmentVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 import com.erahub.system.converter.DepartmentConverter;
 import com.erahub.system.mapper.DepartmentMapper;
 import com.erahub.system.mapper.RoleMapper;

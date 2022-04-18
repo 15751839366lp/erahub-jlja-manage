@@ -10,6 +10,7 @@ import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.*;
 import com.erahub.common.response.ActiveUser;
 import com.erahub.common.utils.JWTUtils;
+import com.erahub.common.vo.PageVO;
 import com.erahub.system.util.MenuTreeBuilder;
 import com.erahub.system.converter.MenuConverter;
 import com.erahub.system.converter.UserConverter;
@@ -26,8 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

@@ -4,7 +4,7 @@ import com.erahub.common.annotation.ControllerEndpoint;
 import com.erahub.common.error.system.SystemException;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.system.LoginLogVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 import com.erahub.common.vo.system.UserVO;
 import com.erahub.system.service.LoginLogService;
 import io.swagger.annotations.Api;

@@ -4,15 +4,13 @@ package com.erahub.controller.fixedasset.metadata;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 /**
  * @Author lipeng

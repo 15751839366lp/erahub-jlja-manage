@@ -11,7 +11,7 @@ import com.erahub.common.response.ActiveUser;
 import com.erahub.common.utils.AddressUtil;
 import com.erahub.common.utils.IPUtil;
 import com.erahub.common.vo.system.LoginLogVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 import com.erahub.common.vo.system.UserVO;
 import com.erahub.system.mapper.LoginLogMapper;
 import com.erahub.system.service.LoginLogService;

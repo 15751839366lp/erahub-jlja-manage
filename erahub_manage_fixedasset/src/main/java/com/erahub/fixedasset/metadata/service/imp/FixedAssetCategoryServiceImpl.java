@@ -1,30 +1,22 @@
 package com.erahub.fixedasset.metadata.service.imp;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
-import com.erahub.common.model.system.User;
 import com.erahub.common.utils.ArithmeticUtils;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
-import com.erahub.common.vo.system.PageVO;
-import com.erahub.common.vo.system.UserVO;
+import com.erahub.common.vo.PageVO;
 import com.erahub.fixedasset.metadata.converter.FixedAssetCategoryConverter;
 import com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
-import com.erahub.fixedasset.metadata.utils.FixedAssetCategoryTreeBuilder;
-import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author lipeng

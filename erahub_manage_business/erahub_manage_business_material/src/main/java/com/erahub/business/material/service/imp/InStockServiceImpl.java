@@ -14,7 +14,7 @@ import com.erahub.common.vo.business.material.InStockDetailVO;
 import com.erahub.common.vo.business.material.InStockItemVO;
 import com.erahub.common.vo.business.material.InStockVO;
 import com.erahub.common.vo.business.material.SupplierVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

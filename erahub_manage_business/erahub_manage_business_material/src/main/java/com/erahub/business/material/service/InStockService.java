@@ -4,7 +4,7 @@ package com.erahub.business.material.service;
 import com.erahub.common.error.business.material.BusinessException;
 import com.erahub.common.vo.business.material.InStockDetailVO;
 import com.erahub.common.vo.business.material.InStockVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 
 /**
  * @Author lipeng

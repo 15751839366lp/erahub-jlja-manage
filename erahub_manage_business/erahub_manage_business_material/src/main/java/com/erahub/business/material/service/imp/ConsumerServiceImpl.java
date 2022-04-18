@@ -8,7 +8,7 @@ import com.erahub.business.material.service.ConsumerService;
 import com.erahub.business.material.converter.ConsumerConverter;
 import com.erahub.common.model.business.material.Consumer;
 import com.erahub.common.vo.business.material.ConsumerVO;
-import com.erahub.common.vo.system.PageVO;
+import com.erahub.common.vo.PageVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
