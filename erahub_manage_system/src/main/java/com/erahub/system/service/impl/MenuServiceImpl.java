@@ -113,7 +113,7 @@ public class MenuServiceImpl implements MenuService {
         wrapper.eq("type", menuVO.getType());
 
         int i = menuMapper.selectCount(wrapper);
-        if (i != 0) {
+        if (!dbMenu.getMenuName().equals(menuVO.getMenuName()) && i != 0) {
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "该菜单名已被占用");
         }
 

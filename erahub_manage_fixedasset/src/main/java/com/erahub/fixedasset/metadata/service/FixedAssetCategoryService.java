@@ -15,6 +15,12 @@ import com.erahub.common.vo.common.PageVO;
 public interface FixedAssetCategoryService extends IService<FixedAssetCategory> {
 
     /**
+     * 更新资产类别状态
+     * @param fixedAssetCategoryDTO
+     */
+    void changeFixedAssetCategoryStatus(FixedAssetCategoryDTO fixedAssetCategoryDTO);
+
+    /**
      * 查询资产类别列表
      * @return
      */

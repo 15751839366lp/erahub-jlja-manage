@@ -1,13 +1,16 @@
 package com.erahub.controller.fixedasset.metadata;
 
 
+import com.erahub.common.annotation.ControllerEndpoint;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
+import com.erahub.common.error.system.SystemException;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
 import com.erahub.common.vo.common.PageVO;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +39,19 @@ public class FixedAssetCategoryController {
     public ResponseBean<PageVO<FixedAssetCategoryVO>> findFixedAssetCateguryList(@RequestBody FixedAssetCategoryDTO fixedAssetCategoryDTO) {
         PageVO<FixedAssetCategoryVO> resultData = fixedAssetCategoryService.findFixedAssetCategoryList(fixedAssetCategoryDTO);
         return ResponseBean.success(resultData);
+    }
+
+    /**
+     * 更新资产类别状态
+     * @param fixedAssetCategoryDTO
+     * @return
+     */
+    @ControllerEndpoint(exceptionMessage = "更新资产类别状态失败", operation = "资产类别|禁用/启用")
+    @ApiOperation(value = "固定资产类别", notes = "禁用和启用这两种状态")
+    @RequiresPermissions({"fixedAsset:metadata:fixedAssetCategory:edit"})
+    @PostMapping("/changeFixedAssetCategoryStatus")
+    public ResponseBean changeFixedAssetCategoryStatus(@RequestBody FixedAssetCategoryDTO fixedAssetCategoryDTO){
+        fixedAssetCategoryService.changeFixedAssetCategoryStatus(fixedAssetCategoryDTO);
+        return ResponseBean.success();
     }
 }
