@@ -23,7 +23,7 @@ public class FixedAssetCategoryDTO {
 
     private Long categoryDetailed;
 
-    private Long status;
+    private Boolean status;
 
     private Long depreciationMethodId;
 

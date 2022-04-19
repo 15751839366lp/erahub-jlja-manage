@@ -43,15 +43,16 @@ public class FixedAssetCategoryController {
 
     /**
      * 更新资产类别状态
-     * @param fixedAssetCategoryDTO
+     * @param categoryId
+     * @param status
      * @return
      */
     @ControllerEndpoint(exceptionMessage = "更新资产类别状态失败", operation = "资产类别|禁用/启用")
     @ApiOperation(value = "固定资产类别", notes = "禁用和启用这两种状态")
     @RequiresPermissions({"fixedAsset:metadata:fixedAssetCategory:edit"})
-    @PostMapping("/changeFixedAssetCategoryStatus")
-    public ResponseBean changeFixedAssetCategoryStatus(@RequestBody FixedAssetCategoryDTO fixedAssetCategoryDTO){
-        fixedAssetCategoryService.changeFixedAssetCategoryStatus(fixedAssetCategoryDTO);
+    @PutMapping("/changeFixedAssetCategoryStatus/{categoryId}/{status}")
+    public ResponseBean changeFixedAssetCategoryStatus(@PathVariable Long categoryId, @PathVariable Boolean status){
+        fixedAssetCategoryService.changeFixedAssetCategoryStatus(categoryId,status);
         return ResponseBean.success();
     }
 }

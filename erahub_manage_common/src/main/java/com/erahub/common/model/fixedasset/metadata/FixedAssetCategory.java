@@ -19,6 +19,7 @@ import java.util.Date;
 @TableName("fixed_asset_category")
 public class FixedAssetCategory implements Serializable {
 
+    @TableId
     private Long categoryId;
 
     private String categoryName;

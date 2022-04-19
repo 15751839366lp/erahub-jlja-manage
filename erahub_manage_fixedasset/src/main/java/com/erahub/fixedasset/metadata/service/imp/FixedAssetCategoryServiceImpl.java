@@ -73,21 +73,19 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
 
     /**
      * 更新资产类别状态
-     *
-     * @param fixedAssetCategoryDTO
+     * @param categoryId
+     * @param status
      */
     @Override
-    public void changeFixedAssetCategoryStatus(FixedAssetCategoryDTO fixedAssetCategoryDTO) {
-        FixedAssetCategory dbFixedAssetCategory = fixedAssetCategoryMapper.selectById(fixedAssetCategoryDTO.getCategoryId());
+    public void changeFixedAssetCategoryStatus(Long categoryId, Boolean status) {
+        FixedAssetCategory dbFixedAssetCategory = fixedAssetCategoryMapper.selectById(categoryId);
         if (dbFixedAssetCategory == null) {
 //            throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "要更新状态的资产类别不存在");
         }
 
-        FixedAssetCategory fixedAssetCategory = new FixedAssetCategory();
-        fixedAssetCategory.setCategoryId(fixedAssetCategoryDTO.getCategoryId());
-        fixedAssetCategory.setStatus(fixedAssetCategoryDTO.getStatus() > 0l ? FixedAssetCategoryStatusEnum.DISABLE.getStatusCode() :
-                FixedAssetCategoryStatusEnum.AVAILABLE.getStatusCode());
-        fixedAssetCategoryMapper.updateById(fixedAssetCategory);
+        dbFixedAssetCategory.setStatus(status ? FixedAssetCategoryStatusEnum.AVAILABLE.getStatusCode() :
+                FixedAssetCategoryStatusEnum.DISABLE.getStatusCode());
+        fixedAssetCategoryMapper.updateById(dbFixedAssetCategory);
 
     }
 }
