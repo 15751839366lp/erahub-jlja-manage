@@ -65,7 +65,8 @@ public class RoleController {
     @ApiOperation(value = "角色菜单")
     @GetMapping("/findRoleMenu/{id}")
     public ResponseBean<Map<String, Object>> findRoleMenu(@PathVariable Long id) throws SystemException {
-        List<MenuNodeVO> tree = menuService.findMenuTree();
+        List<MenuNodeVO> tree = menuService.findMenuTree(true);
+
         //角色拥有的菜单id
         List<Long> mids = roleService.findMenuIdsByRoleId(id);
         List<Long> ids = menuService.findOpenIds();

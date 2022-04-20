@@ -18,7 +18,7 @@ public interface MenuService {
      * 获取菜单树
      * @return
      */
-    List<MenuNodeVO> findMenuTree();
+    List<MenuNodeVO> findMenuTree(Boolean isAuthority);
 
     /**
      * 添加菜单

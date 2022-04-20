@@ -20,8 +20,8 @@ public class UserEditVO {
     @NotBlank(message = "用户名不能为空")
     private String username;
 
-//    @NotBlank(message = "昵称不能为空")
-    private String nickname;
+//    @NotBlank(message = "真实姓名不能为空")
+    private String realname;
 
 //    @Email(message = "请输入正确的邮箱格式")
     private String email;

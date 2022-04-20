@@ -1,11 +1,7 @@
 package com.erahub.system.util;
 
-
 import com.erahub.common.vo.system.MenuNodeVO;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 该类用于递归构建树形菜单

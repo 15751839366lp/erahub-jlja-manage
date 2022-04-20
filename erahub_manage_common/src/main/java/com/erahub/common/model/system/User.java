@@ -23,8 +23,8 @@ public class User {
     private String username;
 
     @ColumnWidth(40)
-    @ExcelProperty(value = "昵称",index = 3)
-    private String nickname;
+    @ExcelProperty(value = "真实姓名",index = 3)
+    private String realname;
 
     @ColumnWidth(40)
     @ExcelProperty(value = "邮箱",index = 4)

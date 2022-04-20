@@ -42,7 +42,7 @@ public class MenuController {
     @ApiOperation(value = "加载菜单树", notes = "获取所有菜单树，以及展开项")
     @GetMapping("/tree")
     public ResponseBean<Map<String, Object>> tree() {
-        List<MenuNodeVO> menuTree = menuService.findMenuTree();
+        List<MenuNodeVO> menuTree = menuService.findMenuTree(false);
         List<Long> ids = menuService.findOpenIds();
         Map<String, Object> map = new HashMap<>();
         map.put("tree", menuTree);

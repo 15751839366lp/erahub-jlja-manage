@@ -21,7 +21,7 @@ public class UserVO{
     @NotBlank(message = "用户名不能为空")
     private String username;
 
-    private String nickname;
+    private String realname;
 
     private String email;
 

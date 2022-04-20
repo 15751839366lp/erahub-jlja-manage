@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
 
         String username = userVO.getUsername();
-        String nickname = userVO.getNickname();
+        String realname = userVO.getRealname();
         Long departmentId = userVO.getDepartmentId();
         Integer sex = userVO.getSex();
         String email = userVO.getEmail();
@@ -194,8 +194,8 @@ public class UserServiceImpl implements UserService {
         if (username != null && !"".equals(username)) {
             userQueryWrapper.like("username", username);
         }
-        if (nickname != null && !"".equals(nickname)) {
-            userQueryWrapper.like("nickname", nickname);
+        if (realname != null && !"".equals(realname)) {
+            userQueryWrapper.like("realname", realname);
         }
         if (email != null && !"".equals(email)) {
             userQueryWrapper.like("email", email);
@@ -495,7 +495,7 @@ public class UserServiceImpl implements UserService {
         userInfoVO.setAvatar(activeUser.getUser().getAvatar());
         userInfoVO.setUsername(activeUser.getUser().getUsername());
         userInfoVO.setUrl(activeUser.getUrls());
-        userInfoVO.setNickname(activeUser.getUser().getNickname());
+        userInfoVO.setRealname(activeUser.getUser().getRealname());
         List<String> roleNames = activeUser.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList());
         userInfoVO.setRoles(roleNames);
         userInfoVO.setPerms(activeUser.getPermissions());

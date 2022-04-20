@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.erahub.common.error.system.SystemCodeEnum;
 import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Menu;
+import com.erahub.common.model.system.RoleMenu;
 import com.erahub.common.model.system.User;
+import com.erahub.system.mapper.RoleMenuMapper;
 import com.erahub.system.util.MenuTreeBuilder;
 import com.erahub.common.vo.system.MenuNodeVO;
 import com.erahub.common.vo.system.MenuVO;
@@ -16,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author lipeng
@@ -31,6 +31,8 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     private MenuMapper menuMapper;
 
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
     /**
      * 加载菜单树（按钮和菜单）
@@ -38,10 +40,42 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     @Override
-    public List<MenuNodeVO> findMenuTree() {
+    public List<MenuNodeVO> findMenuTree(Boolean isAuthority) {
         List<Menu> menus = menuMapper.selectList(null);
         List<MenuNodeVO> menuNodeVOS = MenuConverter.converterToALLMenuNodeVO(menus);
-        return MenuTreeBuilder.build(menuNodeVOS);
+
+        List<MenuNodeVO> tree = MenuTreeBuilder.build(menuNodeVOS);
+
+        if(!isAuthority){
+
+            //无父节点的菜单按钮
+            MenuNodeVO noParentMenu = new MenuNodeVO();
+            List<MenuNodeVO> noParentMenuList = new ArrayList<>();
+            //父节点的id
+            Set<Long> parentIdSet = new HashSet<>();
+            parentIdSet.add(0l);
+
+            for (MenuNodeVO nav : menuNodeVOS) {
+                parentIdSet.add(nav.getId());
+            }
+
+            for (MenuNodeVO nav : menuNodeVOS) {
+                if(!parentIdSet.contains(nav.getParentId())){
+                    noParentMenuList.add(nav);
+                }
+            }
+
+            if(noParentMenuList.size() > 0){
+                noParentMenu.setChildren(noParentMenuList);
+                noParentMenu.setMenuName("其他");
+                noParentMenu.setIcon("el-icon-s-grid");
+                noParentMenu.setType(0);
+                noParentMenu.setOpen(1);
+                tree.add(noParentMenu);
+            }
+        }
+
+        return tree;
     }
 
     /**
@@ -80,6 +114,10 @@ public class MenuServiceImpl implements MenuService {
             throw new SystemException(SystemCodeEnum.PARAMETER_ERROR,"要删除的菜单不存在");
         }
         menuMapper.deleteById(id);
+
+        QueryWrapper<RoleMenu> roleMenuQueryWrapper = new QueryWrapper<>();
+        roleMenuQueryWrapper.eq("menu_id",id);
+        roleMenuMapper.delete(roleMenuQueryWrapper);
     }
 
     /**
