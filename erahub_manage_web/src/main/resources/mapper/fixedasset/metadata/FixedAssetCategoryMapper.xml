@@ -5,7 +5,7 @@
     <select id="selectPageList" resultType="com.erahub.common.model.fixedasset.metadata.FixedAssetCategory"
         parameterType="com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO"
     >
-        select * from fixed_asset_category where 1 = 1
+        select * from fa_fixed_asset_category where 1 = 1
         <if test="fixedAssetCategoryDTO.isAccurate != null and fixedAssetCategoryDTO.isAccurate == 0">
             <if test="fixedAssetCategoryDTO.categoryId != null">
                 and category_id = #{fixedAssetCategoryDTO.categoryId}

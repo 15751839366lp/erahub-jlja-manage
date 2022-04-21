@@ -1,9 +1,12 @@
 package com.erahub;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.erahub.common.model.fixedasset.metadata.DepreciationMethod;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
+import com.erahub.fixedasset.metadata.mapper.DepreciationMethodMapper;
 import com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper;
+import com.erahub.fixedasset.metadata.service.DepreciationMethodService;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -28,6 +31,12 @@ public class ErahubJljaManageApplicationTest {
 
     @Autowired
     private FixedAssetCategoryMapper fixedAssetCategoryMapper;
+
+    @Autowired
+    private DepreciationMethodService depreciationMethodService;
+
+    @Autowired
+    private DepreciationMethodMapper depreciationMethodMapper;
 
     @Test
     void fixedAssetCategoryImport() throws IOException {
@@ -122,5 +131,11 @@ public class ErahubJljaManageApplicationTest {
         LinkedHashMap<Long, FixedAssetCategoryVO> rs = (LinkedHashMap<Long, FixedAssetCategoryVO>) tmpMap.values().toArray()[0];
         List result = new ArrayList(rs.values());
 
+    }
+
+    @Test
+    void getDepreciationMethodList() {
+        List<DepreciationMethod> depreciationMethods = depreciationMethodMapper.selectList(null);
+        System.out.println(depreciationMethods);
     }
 }
