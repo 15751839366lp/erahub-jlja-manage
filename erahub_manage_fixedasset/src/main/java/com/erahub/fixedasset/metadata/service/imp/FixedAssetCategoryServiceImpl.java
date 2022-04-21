@@ -45,7 +45,7 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
      * @return
      */
     @Override
-    public PageVO<FixedAssetCategoryVO> findFixedAssetCategoryList(FixedAssetCategoryDTO fixedAssetCategoryDTO) {
+    public PageVO<FixedAssetCategoryVO> getFixedAssetCategoryList(FixedAssetCategoryDTO fixedAssetCategoryDTO) {
 
         IPage<FixedAssetCategory> fixedAssetCategoryIPage = new Page<>(fixedAssetCategoryDTO.getPageNum(), fixedAssetCategoryDTO.getPageSize());
 

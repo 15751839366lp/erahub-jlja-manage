@@ -23,7 +23,7 @@ public interface FixedAssetCategoryService extends IService<FixedAssetCategory> 
      * 查询资产类别列表
      * @return
      */
-    PageVO<FixedAssetCategoryVO> findFixedAssetCategoryList(FixedAssetCategoryDTO fixedAssetCategoryDTO);
+    PageVO<FixedAssetCategoryVO> getFixedAssetCategoryList(FixedAssetCategoryDTO fixedAssetCategoryDTO);
 
     /**
      * 更新资产类别状态
