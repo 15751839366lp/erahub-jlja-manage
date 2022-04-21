@@ -8,21 +8,25 @@ import com.erahub.common.enums.fixedasset.metadata.FixedAssetCategoryStatusEnum;
 import com.erahub.common.enums.system.UserStatusEnum;
 import com.erahub.common.error.system.SystemCodeEnum;
 import com.erahub.common.error.system.SystemException;
+import com.erahub.common.excel.model.system.FixedAssetCategoryExcel;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.model.system.User;
 import com.erahub.common.response.ActiveUser;
 import com.erahub.common.utils.ArithmeticUtils;
+import com.erahub.common.utils.ListMapUtils;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
 import com.erahub.common.vo.common.PageVO;
 import com.erahub.fixedasset.metadata.converter.FixedAssetCategoryConverter;
 import com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,5 +91,25 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
                 FixedAssetCategoryStatusEnum.DISABLE.getStatusCode());
         fixedAssetCategoryMapper.updateById(dbFixedAssetCategory);
 
+    }
+
+    /**
+     * 导出excel
+     * @return
+     */
+    @Override
+    public List<FixedAssetCategoryExcel> exportFixedAssetCategoryExcel() {
+        List<FixedAssetCategoryExcel> fixedAssetCategoryExcels = new ArrayList<>();
+
+        IPage<FixedAssetCategory> fixedAssetCategoryIPage = new Page<>();
+        //临时不分页
+        fixedAssetCategoryIPage.setSize(-1l);
+
+        fixedAssetCategoryIPage = fixedAssetCategoryMapper.selectPageList(fixedAssetCategoryIPage, new FixedAssetCategoryDTO());
+        List<FixedAssetCategory> fixedAssetCategoryList = fixedAssetCategoryIPage.getRecords();
+        List<FixedAssetCategoryVO> fixedAssetCategoryVOS = fixedAssetCategoryConverter.converterToFixedAssetCategoryVOList(fixedAssetCategoryList);
+        ListMapUtils.copyList(fixedAssetCategoryVOS,fixedAssetCategoryExcels,FixedAssetCategoryExcel.class);
+
+        return fixedAssetCategoryExcels;
     }
 }

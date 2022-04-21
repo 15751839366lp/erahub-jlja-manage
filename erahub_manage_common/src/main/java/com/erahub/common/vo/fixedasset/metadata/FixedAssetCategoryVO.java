@@ -27,6 +27,8 @@ public class FixedAssetCategoryVO {
 
     private Long depreciationMethodId;
 
+    private String depreciationMethodName;
+
     private String measureUnit;
 
     private String capacityUnit;

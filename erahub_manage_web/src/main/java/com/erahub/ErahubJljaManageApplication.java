@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  **/
 @SpringBootApplication
 @EnableTransactionManagement  //开启事务管理
-@MapperScan("com.erahub.**.mapper") //扫描mapper
 @Import(FdfsClientConfig.class)
 public class ErahubJljaManageApplication {
     public static void main(String[] args) {

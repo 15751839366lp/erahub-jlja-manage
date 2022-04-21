@@ -2,9 +2,12 @@ package com.erahub.fixedasset.metadata.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
+import com.erahub.common.excel.model.system.FixedAssetCategoryExcel;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
 import com.erahub.common.vo.common.PageVO;
+
+import java.util.List;
 
 
 /**
@@ -27,4 +30,10 @@ public interface FixedAssetCategoryService extends IService<FixedAssetCategory> 
      * @param status
      */
     void changeFixedAssetCategoryStatus(Long categoryId, Boolean status);
+
+    /**
+     * 导出excel
+     * @return
+     */
+    List<FixedAssetCategoryExcel> exportFixedAssetCategoryExcel();
 }

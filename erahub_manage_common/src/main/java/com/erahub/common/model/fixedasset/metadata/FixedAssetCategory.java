@@ -32,6 +32,9 @@ public class FixedAssetCategory implements Serializable {
 
     private Long depreciationMethodId;
 
+    @TableField(exist = false)
+    private String depreciationMethodName;
+
     private String measureUnit;
 
     private String capacityUnit;
