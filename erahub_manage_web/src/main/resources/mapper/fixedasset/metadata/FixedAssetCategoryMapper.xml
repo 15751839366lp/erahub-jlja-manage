@@ -5,57 +5,59 @@
     <select id="selectPageList" resultType="com.erahub.common.model.fixedasset.metadata.FixedAssetCategory"
         parameterType="com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO"
     >
-        select * from fa_fixed_asset_category where 1 = 1
+        select f.*,d.depreciation_method_name from fa_fixed_asset_category as f left join fa_depreciation_method as d
+        on f.depreciation_method_id = d.depreciation_method_id
+        where 1 = 1
         <if test="fixedAssetCategoryDTO.isAccurate != null and fixedAssetCategoryDTO.isAccurate == 0">
             <if test="fixedAssetCategoryDTO.categoryId != null">
-                and category_id = #{fixedAssetCategoryDTO.categoryId}
+                and f.category_id = #{fixedAssetCategoryDTO.categoryId}
             </if>
             <if test="fixedAssetCategoryDTO.capacityUnit != null and fixedAssetCategoryDTO.capacityUnit != ''">
-                and capacity_unit = #{fixedAssetCategoryDTO.capacityUnit}
+                and f.capacity_unit = #{fixedAssetCategoryDTO.capacityUnit}
             </if>
             <if test="fixedAssetCategoryDTO.measureUnit != null and fixedAssetCategoryDTO.measureUnit != ''">
-                and measure_unit = #{fixedAssetCategoryDTO.measureUnit}
+                and f.measure_unit = #{fixedAssetCategoryDTO.measureUnit}
             </if>
             <if test="fixedAssetCategoryDTO.categoryName != null and fixedAssetCategoryDTO.categoryName != ''">
-                and category_name = #{fixedAssetCategoryDTO.categoryName}
+                and f.category_name = #{fixedAssetCategoryDTO.categoryName}
             </if>
         </if>
 
         <if test="fixedAssetCategoryDTO.isAccurate != null and fixedAssetCategoryDTO.isAccurate == 1">
             <if test="fixedAssetCategoryDTO.categoryId != null">
-                and category_id like '${fixedAssetCategoryDTO.categoryId}%'
+                and f.category_id like '${fixedAssetCategoryDTO.categoryId}%'
             </if>
             <if test="fixedAssetCategoryDTO.capacityUnit != null and fixedAssetCategoryDTO.capacityUnit != ''">
-                and capacity_unit like '%${fixedAssetCategoryDTO.capacityUnit}%'
+                and f.capacity_unit like '%${fixedAssetCategoryDTO.capacityUnit}%'
             </if>
             <if test="fixedAssetCategoryDTO.measureUnit != null and fixedAssetCategoryDTO.measureUnit != ''">
-                and measure_unit like '%${fixedAssetCategoryDTO.measureUnit}%'
+                and f.measure_unit like '%${fixedAssetCategoryDTO.measureUnit}%'
             </if>
             <if test="fixedAssetCategoryDTO.categoryName != null and fixedAssetCategoryDTO.categoryName != ''">
-                and category_name like '%${fixedAssetCategoryDTO.categoryName}%'
+                and f.category_name like '%${fixedAssetCategoryDTO.categoryName}%'
             </if>
         </if>
 
         <if test="fixedAssetCategoryDTO.status != null and fixedAssetCategoryDTO.status">
-            and status = 1
+            and f.status = 1
         </if>
         <if test="fixedAssetCategoryDTO.status != null and !fixedAssetCategoryDTO.status">
-            and status = 0
+            and f.status = 0
         </if>
         <if test="fixedAssetCategoryDTO.depreciationMethodId != null">
-            and depreciation_method_id = #{fixedAssetCategoryDTO.depreciationMethodId}
+            and f.depreciation_method_id = #{fixedAssetCategoryDTO.depreciationMethodId}
         </if>
         <if test="fixedAssetCategoryDTO.depreciationPeriod != null">
-            and depreciation_period = #{fixedAssetCategoryDTO.depreciationPeriod}
+            and f.depreciation_period = #{fixedAssetCategoryDTO.depreciationPeriod}
         </if>
         <if test="fixedAssetCategoryDTO.netResidualValue != null">
-            and net_residual_value = #{fixedAssetCategoryDTO.netResidualValue}
+            and f.net_residual_value = #{fixedAssetCategoryDTO.netResidualValue}
         </if>
         <if test="fixedAssetCategoryDTO.estimatedTotalWorkload != null">
-            and estimated_total_workload = #{fixedAssetCategoryDTO.estimatedTotalWorkload}
+            and f.estimated_total_workload = #{fixedAssetCategoryDTO.estimatedTotalWorkload}
         </if>
 
-        order by category_id
+        order by f.category_id
     </select>
 
 

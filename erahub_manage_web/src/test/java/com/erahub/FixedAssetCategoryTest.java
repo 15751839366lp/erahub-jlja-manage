@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 @SpringBootTest
-public class ErahubJljaManageApplicationTest {
+public class FixedAssetCategoryTest {
 
     @Autowired
     private FixedAssetCategoryService fixedAssetCategoryService;
@@ -32,11 +32,6 @@ public class ErahubJljaManageApplicationTest {
     @Autowired
     private FixedAssetCategoryMapper fixedAssetCategoryMapper;
 
-    @Autowired
-    private DepreciationMethodService depreciationMethodService;
-
-    @Autowired
-    private DepreciationMethodMapper depreciationMethodMapper;
 
     @Test
     void fixedAssetCategoryImport() throws IOException {
@@ -133,9 +128,4 @@ public class ErahubJljaManageApplicationTest {
 
     }
 
-    @Test
-    void getDepreciationMethodList() {
-        List<DepreciationMethod> depreciationMethods = depreciationMethodMapper.selectList(null);
-        System.out.println(depreciationMethods);
-    }
 }

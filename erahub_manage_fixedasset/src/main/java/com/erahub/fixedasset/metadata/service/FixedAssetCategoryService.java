@@ -2,6 +2,7 @@ package com.erahub.fixedasset.metadata.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
+import com.erahub.common.error.fixedasset.FixedAssetException;
 import com.erahub.common.excel.model.fixedasset.metadata.FixedAssetCategoryExcel;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
@@ -29,7 +30,7 @@ public interface FixedAssetCategoryService extends IService<FixedAssetCategory> 
      * @param categoryId
      * @param status
      */
-    void changeFixedAssetCategoryStatus(Long categoryId, Boolean status);
+    void changeFixedAssetCategoryStatus(Long categoryId, Boolean status) throws FixedAssetException;
 
     /**
      * 导出excel

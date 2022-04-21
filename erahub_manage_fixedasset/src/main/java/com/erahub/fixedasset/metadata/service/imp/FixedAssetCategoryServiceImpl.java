@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.enums.fixedasset.metadata.FixedAssetCategoryStatusEnum;
+import com.erahub.common.error.fixedasset.FixedAssetCodeEnum;
+import com.erahub.common.error.fixedasset.FixedAssetException;
 import com.erahub.common.excel.model.fixedasset.metadata.FixedAssetCategoryExcel;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.utils.ArithmeticUtils;
@@ -74,10 +76,10 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
      * @param status
      */
     @Override
-    public void changeFixedAssetCategoryStatus(Long categoryId, Boolean status) {
+    public void changeFixedAssetCategoryStatus(Long categoryId, Boolean status) throws FixedAssetException {
         FixedAssetCategory dbFixedAssetCategory = fixedAssetCategoryMapper.selectById(categoryId);
         if (dbFixedAssetCategory == null) {
-//            throw new SystemException(SystemCodeEnum.PARAMETER_ERROR, "要更新状态的资产类别不存在");
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "要更新状态的资产类别不存在");
         }
 
         dbFixedAssetCategory.setStatus(status ? FixedAssetCategoryStatusEnum.AVAILABLE.getStatusCode() :

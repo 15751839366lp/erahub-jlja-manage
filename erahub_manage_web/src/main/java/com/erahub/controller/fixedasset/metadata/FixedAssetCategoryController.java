@@ -4,6 +4,7 @@ package com.erahub.controller.fixedasset.metadata;
 import com.alibaba.excel.EasyExcel;
 import com.erahub.common.annotation.ControllerEndpoint;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
+import com.erahub.common.error.fixedasset.FixedAssetException;
 import com.erahub.common.excel.model.fixedasset.metadata.FixedAssetCategoryExcel;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
@@ -56,7 +57,7 @@ public class FixedAssetCategoryController {
     @ApiOperation(value = "固定资产类别", notes = "禁用和启用这两种状态")
     @RequiresPermissions({"fixedAsset:metadata:fixedAssetCategory:edit"})
     @PutMapping("/changeFixedAssetCategoryStatus/{categoryId}/{status}")
-    public ResponseBean changeFixedAssetCategoryStatus(@PathVariable Long categoryId, @PathVariable Boolean status){
+    public ResponseBean changeFixedAssetCategoryStatus(@PathVariable Long categoryId, @PathVariable Boolean status) throws FixedAssetException {
         fixedAssetCategoryService.changeFixedAssetCategoryStatus(categoryId,status);
         return ResponseBean.success();
     }
