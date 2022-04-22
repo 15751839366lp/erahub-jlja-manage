@@ -1,6 +1,7 @@
 package com.erahub.common.dto.fixedasset.metadata;
 
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -37,8 +38,16 @@ public class FixedAssetCategoryDTO {
 
     private BigDecimal netResidualValue;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date startCreateTime;
+
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date endCreateTime;
+
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifiedTime;
 
     private String remark;
@@ -48,5 +57,9 @@ public class FixedAssetCategoryDTO {
     private Integer pageSize;
 
     private Integer isAccurate;
+
+    private String sortColumn;
+
+    private Boolean isAsc;
 
 }

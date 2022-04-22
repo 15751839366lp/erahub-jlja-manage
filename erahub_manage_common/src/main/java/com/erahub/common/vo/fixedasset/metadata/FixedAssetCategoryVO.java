@@ -1,5 +1,6 @@
 package com.erahub.common.vo.fixedasset.metadata;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -39,8 +40,10 @@ public class FixedAssetCategoryVO {
 
     private BigDecimal netResidualValue;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifiedTime;
 
     private String remark;

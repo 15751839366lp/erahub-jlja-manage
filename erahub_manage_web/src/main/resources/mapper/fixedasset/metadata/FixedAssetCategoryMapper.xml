@@ -57,7 +57,24 @@
             and f.estimated_total_workload = #{fixedAssetCategoryDTO.estimatedTotalWorkload}
         </if>
 
-        order by f.category_id
+        <if test="fixedAssetCategoryDTO.startCreateTime != null">
+            and f.create_time &gt;= #{fixedAssetCategoryDTO.startCreateTime}
+        </if>
+
+        <if test="fixedAssetCategoryDTO.endCreateTime != null">
+            and f.create_time &lt;= #{fixedAssetCategoryDTO.endCreateTime}
+        </if>
+
+        <if test="fixedAssetCategoryDTO.sortColumn != null and fixedAssetCategoryDTO.sortColumn != ''">
+            <if test="fixedAssetCategoryDTO.isAsc != null and fixedAssetCategoryDTO.isAsc">
+                order by f.${fixedAssetCategoryDTO.sortColumn}
+            </if>
+            <if test="fixedAssetCategoryDTO.isAsc != null and !fixedAssetCategoryDTO.isAsc">
+                order by f.${fixedAssetCategoryDTO.sortColumn} desc
+            </if>
+        </if>
+
+
     </select>
 
 
