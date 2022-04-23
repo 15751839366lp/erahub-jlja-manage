@@ -8,7 +8,6 @@ import lombok.Data;
  * @Date 2022/4/21 15:08
  * @Version 1.0
  **/
-@Data
 public class FixedAssetException extends Exception implements BaseError {
 
     //所有实现了BaseError的ErrorEnum.

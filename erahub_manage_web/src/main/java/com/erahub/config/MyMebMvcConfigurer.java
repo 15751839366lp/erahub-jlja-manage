@@ -1,6 +1,7 @@
 package com.erahub.config;
 
 import com.erahub.common.error.business.material.BusinessException;
+import com.erahub.common.error.fixedasset.FixedAssetException;
 import com.erahub.common.error.system.SystemException;
 import com.erahub.common.response.ResponseBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +48,12 @@ public class MyMebMvcConfigurer implements WebMvcConfigurer {
             ResponseBean result;
             HashMap<String, Object> errorData = new HashMap<>();
             logger.info("请求错误，url:{}", httpServletRequest.getRequestURL());
-            if (e instanceof BusinessException) {
+            if (e instanceof FixedAssetException) {
+                FixedAssetException fixedAssetException = (FixedAssetException) e;
+                logger.info("业务模块-错误码：{},错误信息:{}", fixedAssetException.getErrorCode(), fixedAssetException.getErrorMsg());
+                errorData.put("errorCode", fixedAssetException.getErrorCode());
+                errorData.put("errorMsg", fixedAssetException.getErrorMsg());
+            }else if(e instanceof BusinessException) {
                 BusinessException businessException = (BusinessException) e;
                 logger.info("业务模块-错误码：{},错误信息:{}", businessException.getErrorCode(), businessException.getErrorMsg());
                 errorData.put("errorCode", businessException.getErrorCode());
@@ -100,5 +106,19 @@ public class MyMebMvcConfigurer implements WebMvcConfigurer {
         }
     }
 
-
+//    /**
+//     * 这里是处理Multipart http的方法。如果这个返回值为true,那么Multipart http body就会MyMultipartResolver 消耗掉.如果这里返回false
+//     * 那么就会交给后面的自己写的处理函数处理例如刚才ServletFileUpload 所在的函数
+//     * @see org.springframework.web.multipart.commons.CommonsMultipartResolver#isMultipart(javax.servlet.http.HttpServletRequest)
+//     */
+//    @Override
+//    public boolean isMultipart(HttpServletRequest request) {
+//        for (String url: excludeUrlArray) {
+//            // 这里可以自己换判断
+//            if (request.getRequestURI().contains(url)) {
+//                return false;
+//            }
+//        }
+//        return super.isMultipart(request);
+//    }
 }

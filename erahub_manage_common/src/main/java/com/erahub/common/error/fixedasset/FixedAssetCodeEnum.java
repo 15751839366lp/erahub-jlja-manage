@@ -22,10 +22,14 @@ public enum FixedAssetCodeEnum implements BaseError {
     SERVER_BUSY(503,"服务器正忙，请稍后再试!"),
     //用户相关：10000**
     USER_ACCOUNT_NOT_FOUND(10001, "账号不存在!"),
-    DoNotAllowToDisableTheCurrentUser(10002,"不允许禁用当前用户");
+    DoNotAllowToDisableTheCurrentUser(10002,"不允许禁用当前用户"),
 
     //业务异常
+    //资产类别模块
+    FIXED_ASSET_CATEGORY_NOT_FOUND(40101, "资产类别不存在!"),
 
+    //折旧方法模块
+    DEPRECIATION_METHOD_NOT_FOUND(40201, "折旧方法不存在!");
 
     /** 错误码 */
     private int errorCode;

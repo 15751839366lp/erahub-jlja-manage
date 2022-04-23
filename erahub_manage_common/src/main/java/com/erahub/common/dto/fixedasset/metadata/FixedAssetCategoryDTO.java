@@ -22,7 +22,7 @@ public class FixedAssetCategoryDTO {
 
     private Long categoryLevel;
 
-    private Long categoryDetailed;
+    private Boolean categoryDetailed;
 
     private Boolean status;
 
