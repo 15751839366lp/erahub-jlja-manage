@@ -141,7 +141,7 @@ public class FixedAssetCategoryController {
         return ResponseBean.success();
     }
 
-    /**
+    /** todo 修改categoryId为varchar
      * 上传导入资产类别
      * @param request
      * @return
