@@ -6,6 +6,8 @@ import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.ArrayList;
+
 /**
  * @Author lipeng
  * @Date 2022/4/16 15:15
@@ -15,4 +17,6 @@ public interface FixedAssetCategoryMapper extends BaseMapper<FixedAssetCategory>
 
     IPage<FixedAssetCategory> selectPageList(IPage<FixedAssetCategory> fixedAssetCategoryIPage,
                                              @Param("fixedAssetCategoryDTO") FixedAssetCategoryDTO fixedAssetCategoryDTO);
+
+    int insertBatchFixedAssetCategory(@Param("fixedAssetCategoryList")ArrayList<FixedAssetCategory> fixedAssetCategoryList);
 }

@@ -9,6 +9,7 @@ import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
 import com.erahub.common.vo.common.PageVO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -69,5 +70,5 @@ public interface FixedAssetCategoryService extends IService<FixedAssetCategory> 
      * @param fileMap
      * @return
      */
-    void importFixedAssetCategory(Map<String, MultipartFile> fileMap) throws FixedAssetException;
+    void importFixedAssetCategory(Map<String, MultipartFile> fileMap) throws FixedAssetException, IOException;
 }

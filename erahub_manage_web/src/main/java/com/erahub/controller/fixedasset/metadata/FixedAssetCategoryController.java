@@ -154,7 +154,7 @@ public class FixedAssetCategoryController {
     @RequiresPermissions({"fixedAsset:metadata:fixedAssetCategory:import"})
     @ApiOperation(value = "上传导入资产类别", notes = "上传导入资产类别")
     @PostMapping("/importFixedAssetCategory")
-    public ResponseBean importFixedAssetCategory(HttpServletRequest request) throws FixedAssetException {
+    public ResponseBean importFixedAssetCategory(HttpServletRequest request) throws FixedAssetException, IOException {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
         fixedAssetCategoryService.importFixedAssetCategory(fileMap);
