@@ -7,7 +7,6 @@ import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

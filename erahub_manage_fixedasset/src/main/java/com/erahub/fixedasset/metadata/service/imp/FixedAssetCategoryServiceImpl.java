@@ -2,49 +2,36 @@ package com.erahub.fixedasset.metadata.service.imp;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
-import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.enums.fixedasset.metadata.FixedAssetCategoryStatusEnum;
-import com.erahub.common.enums.system.UserStatusEnum;
-import com.erahub.common.enums.system.UserTypeEnum;
 import com.erahub.common.error.fixedasset.FixedAssetCodeEnum;
 import com.erahub.common.error.fixedasset.FixedAssetException;
-import com.erahub.common.error.system.SystemCodeEnum;
-import com.erahub.common.error.system.SystemException;
 import com.erahub.common.excel.model.fixedasset.metadata.FixedAssetCategoryExcel;
 import com.erahub.common.model.fixedasset.metadata.DepreciationMethod;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
-import com.erahub.common.model.system.Department;
-import com.erahub.common.model.system.User;
-import com.erahub.common.model.system.UserRole;
-import com.erahub.common.response.ActiveUser;
 import com.erahub.common.utils.ArithmeticUtils;
 import com.erahub.common.utils.ListMapUtils;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
 import com.erahub.common.vo.common.PageVO;
-import com.erahub.common.vo.system.UserVO;
 import com.erahub.fixedasset.metadata.converter.FixedAssetCategoryConverter;
 import com.erahub.fixedasset.metadata.mapper.DepreciationMethodMapper;
 import com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
@@ -250,10 +237,11 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
      *
      * @param fileMap
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void importFixedAssetCategory(Map<String, MultipartFile> fileMap) throws FixedAssetException, IOException {
         Workbook workbook = null;
+        Sheet sheet = null;
         ArrayList<FixedAssetCategory> fixedAssetCategoryList = new ArrayList<>();
 
         for (MultipartFile file : fileMap.values()) {
@@ -262,16 +250,19 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
             }
             String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 
+            try {
+                if (".xls".equals(fileType)) {
+                    workbook = new HSSFWorkbook(file.getInputStream());
+                    sheet = workbook.getSheetAt(0);
+                } else if (".xlsx".equals(fileType)) {
+                    workbook = new XSSFWorkbook(file.getInputStream());
+                    sheet = workbook.getSheetAt(0);
+                } else {
+                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
+                }
 
-            if (".xls".equals(fileType)) {
-
-            } else if (".xlsx".equals(fileType)) {
-                workbook = new XSSFWorkbook(file.getInputStream());
-                Sheet sheet = workbook.getSheetAt(0);
                 int lastRowNum = sheet.getLastRowNum();
-
                 DecimalFormat decimalFormat = new DecimalFormat("0");
-
 
                 for (int i = 1; i <= lastRowNum; i++) {
                     FixedAssetCategory fixedAssetCategory = new FixedAssetCategory();
@@ -281,7 +272,7 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
                     fixedAssetCategory.setCategoryName(row.getCell(1).getStringCellValue());
                     fixedAssetCategory.setCategoryLevel(Long.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
                     fixedAssetCategory.setCategoryDetailed(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
-                    fixedAssetCategory.setStatus("TRUE".equals(row.getCell(4)) ? 1l : 0l);
+                    fixedAssetCategory.setStatus(row.getCell(4).getBooleanCellValue() ? 1l : 0l);
                     fixedAssetCategory.setDepreciationMethodId(Long.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
                     if (!StringUtils.isEmpty(row.getCell(7))) {
                         fixedAssetCategory.setMeasureUnit(row.getCell(7).getStringCellValue());
@@ -298,14 +289,14 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
 
                     fixedAssetCategoryList.add(fixedAssetCategory);
                 }
-            } else {
-                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
+            } catch (Exception e) {
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "表格数据错误");
             }
         }
 
         //批量插入方法
         if (CollectionUtils.isEmpty(fixedAssetCategoryList)) {
-            throw new IllegalArgumentException("Error: entityList must not be empty");
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "表格内容为空");
         }
         try (SqlSession batchSqlSession = sqlSessionBatch()) {
             int size = fixedAssetCategoryList.size();
@@ -318,7 +309,7 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
             }
             batchSqlSession.flushStatements();
         } catch (Throwable e) {
-            throw new MybatisPlusException("Error: Cannot execute insertBatch Method. Cause", e);
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "表格内容有误，添加失败");
         }
     }
 }

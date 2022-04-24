@@ -2,7 +2,6 @@ package com.erahub.controller.fixedasset.metadata;
 
 import com.erahub.common.model.fixedasset.metadata.DepreciationMethod;
 import com.erahub.common.response.ResponseBean;
-import com.erahub.common.vo.system.DepartmentVO;
 import com.erahub.fixedasset.metadata.service.DepreciationMethodService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

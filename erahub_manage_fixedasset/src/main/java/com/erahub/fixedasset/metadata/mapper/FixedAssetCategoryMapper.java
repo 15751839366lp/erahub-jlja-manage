@@ -17,6 +17,4 @@ public interface FixedAssetCategoryMapper extends BaseMapper<FixedAssetCategory>
 
     IPage<FixedAssetCategory> selectPageList(IPage<FixedAssetCategory> fixedAssetCategoryIPage,
                                              @Param("fixedAssetCategoryDTO") FixedAssetCategoryDTO fixedAssetCategoryDTO);
-
-    int insertBatchFixedAssetCategory(@Param("fixedAssetCategoryList")ArrayList<FixedAssetCategory> fixedAssetCategoryList);
 }
