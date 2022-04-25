@@ -38,11 +38,8 @@
             </if>
         </if>
 
-        <if test="fixedAssetCategoryDTO.status != null and fixedAssetCategoryDTO.status">
-            and f.status = 1
-        </if>
-        <if test="fixedAssetCategoryDTO.status != null and !fixedAssetCategoryDTO.status">
-            and f.status = 0
+        <if test="fixedAssetCategoryDTO.status != null">
+            and f.status = #{fixedAssetCategoryDTO.status}
         </if>
         <if test="fixedAssetCategoryDTO.depreciationMethodId != null">
             and f.depreciation_method_id = #{fixedAssetCategoryDTO.depreciationMethodId}

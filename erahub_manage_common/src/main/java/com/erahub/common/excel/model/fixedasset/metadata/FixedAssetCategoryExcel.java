@@ -34,7 +34,7 @@ public class FixedAssetCategoryExcel {
 
     @ColumnWidth(10)
     @ExcelProperty(value = "状态")
-    private Boolean status;
+    private Long status;
 
     @ColumnWidth(10)
     @ExcelProperty(value = "折旧方法id")

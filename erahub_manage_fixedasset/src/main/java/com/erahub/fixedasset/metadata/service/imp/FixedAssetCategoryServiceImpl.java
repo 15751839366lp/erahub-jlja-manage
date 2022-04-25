@@ -22,9 +22,7 @@ import com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,7 +72,7 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
         BigDecimal depreciationPeriod = fixedAssetCategoryDTO.getDepreciationPeriod();
         BigDecimal estimatedTotalWorkload = fixedAssetCategoryDTO.getEstimatedTotalWorkload();
         BigDecimal netResidualValue = fixedAssetCategoryDTO.getNetResidualValue();
-        if(!StringUtils.isEmpty(categoryId) && !"0".equals(categoryId.substring(0,1))){
+        if (!StringUtils.isEmpty(categoryId) && categoryId.length() % 2 != 0) {
             fixedAssetCategoryDTO.setCategoryId("0" + fixedAssetCategoryDTO.getCategoryId());
         }
         if (depreciationPeriod != null) {
@@ -123,14 +121,13 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
      * @param status
      */
     @Override
-    public void changeFixedAssetCategoryStatus(String categoryId, Boolean status) throws FixedAssetException {
+    public void changeFixedAssetCategoryStatus(String categoryId, Long status) throws FixedAssetException {
         FixedAssetCategory dbFixedAssetCategory = fixedAssetCategoryMapper.selectById(categoryId);
         if (dbFixedAssetCategory == null) {
             throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "要更新状态的资产类别不存在");
         }
 
-        dbFixedAssetCategory.setStatus(status ? FixedAssetCategoryStatusEnum.AVAILABLE.getStatusCode() :
-                FixedAssetCategoryStatusEnum.DISABLE.getStatusCode());
+        dbFixedAssetCategory.setStatus(status);
         fixedAssetCategoryMapper.updateById(dbFixedAssetCategory);
 
     }
@@ -148,7 +145,7 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
         @NotBlank(message = "资产类别名称不能为空") String categoryName = fixedAssetCategoryDTO.getCategoryName();
         @NotNull(message = "折旧方法id不能为空") Long depreciationMethodId = fixedAssetCategoryDTO.getDepreciationMethodId();
 
-        if(!StringUtils.isEmpty(categoryId) && !"0".equals(categoryId.substring(0,1))){
+        if (!StringUtils.isEmpty(categoryId) && categoryId.length() % 2 != 0) {
             categoryId = "0" + categoryId;
             fixedAssetCategoryDTO.setCategoryId("0" + fixedAssetCategoryDTO.getCategoryId());
         }
@@ -160,16 +157,22 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
 
         List<FixedAssetCategory> fixedAssetCategoryList = fixedAssetCategoryMapper.selectList(fixedAssetCategoryQueryWrapper);
 
-        if (categoryId.length() > 2 && fixedAssetCategoryMapper.selectById(categoryId.substring(0, categoryId.length() - 2)) == null) {
-            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该资产类别没有父节点");
-        }
-
         if (!fixedAssetCategoryList.isEmpty() && fixedAssetCategoryList.get(0).getCategoryId().equals(categoryId)) {
             throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该资产类别id已被占用");
         }
         if (!fixedAssetCategoryList.isEmpty() && fixedAssetCategoryList.get(0).getCategoryName().equals(categoryName)) {
             throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该资产类别名称已被占用");
         }
+
+        if (categoryId.length() > 2) {
+            FixedAssetCategory parentFixedAssetCategory = fixedAssetCategoryMapper.selectById(categoryId.substring(0, categoryId.length() - 2));
+            if (parentFixedAssetCategory == null) {
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该资产类别没有父节点");
+            } else if (parentFixedAssetCategory.getCategoryDetailed() == 1) {
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该资产类别父节点为明细节点");
+            }
+        }
+
         DepreciationMethod depreciationMethod = depreciationMethodMapper.selectById(depreciationMethodId);
         if (depreciationMethod == null) {
             throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该折旧方法不存在");
@@ -192,7 +195,7 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
         @NotNull(message = "资产类别id不能为空") String categoryId = fixedAssetCategoryDTO.getCategoryId();
         @NotNull(message = "折旧方法id不能为空") Long depreciationMethodId = fixedAssetCategoryDTO.getDepreciationMethodId();
 
-        if(!StringUtils.isEmpty(categoryId) && !"0".equals(categoryId.substring(0,1))){
+        if (!StringUtils.isEmpty(categoryId) && categoryId.length() % 2 != 0) {
             categoryId = "0" + categoryId;
             fixedAssetCategoryDTO.setCategoryId("0" + fixedAssetCategoryDTO.getCategoryId());
         }
@@ -257,6 +260,9 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
         Workbook workbook = null;
         Sheet sheet = null;
         ArrayList<FixedAssetCategory> fixedAssetCategoryList = new ArrayList<>();
+        HashMap<String, Long> idList = new HashMap<>();
+        DataFormatter dataFormatter = new DataFormatter();
+        DecimalFormat decimalFormat = new DecimalFormat("0");
 
         for (MultipartFile file : fileMap.values()) {
             if (file == null || file.getName() == null) {
@@ -264,51 +270,62 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
             }
             String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 
-            try {
-                if (".xls".equals(fileType)) {
-                    workbook = new HSSFWorkbook(file.getInputStream());
-                    sheet = workbook.getSheetAt(0);
-                } else if (".xlsx".equals(fileType)) {
-                    workbook = new XSSFWorkbook(file.getInputStream());
-                    sheet = workbook.getSheetAt(0);
+            if (".xls".equals(fileType)) {
+                workbook = new HSSFWorkbook(file.getInputStream());
+                sheet = workbook.getSheetAt(0);
+            } else if (".xlsx".equals(fileType)) {
+                workbook = new XSSFWorkbook(file.getInputStream());
+                sheet = workbook.getSheetAt(0);
+            } else {
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
+            }
+
+            int lastRowNum = sheet.getLastRowNum();
+
+            for (int i = 1; i <= lastRowNum; i++) {
+                FixedAssetCategory fixedAssetCategory = new FixedAssetCategory();
+                Row row = sheet.getRow(i);
+
+                String categoryId = dataFormatter.formatCellValue(row.getCell(0));
+                if (!StringUtils.isEmpty(categoryId) && categoryId.length() % 2 != 0) {
+                    categoryId = "0" + categoryId;
+                }
+                if (idList.containsKey(categoryId)) {
+                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "ID重复");
                 } else {
-                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
+                    idList.put(categoryId, Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
                 }
 
-                int lastRowNum = sheet.getLastRowNum();
-                DecimalFormat decimalFormat = new DecimalFormat("0");
-
-                for (int i = 1; i <= lastRowNum; i++) {
-                    FixedAssetCategory fixedAssetCategory = new FixedAssetCategory();
-                    Row row = sheet.getRow(i);
-
-                    String categoryId = row.getCell(0).getStringCellValue();
-                    if(!StringUtils.isEmpty(categoryId) && !"0".equals(categoryId.substring(0,1))){
-                        categoryId = "0" + categoryId;
-                    }
-                    fixedAssetCategory.setCategoryId(categoryId);
-                    fixedAssetCategory.setCategoryName(row.getCell(1).getStringCellValue());
-                    fixedAssetCategory.setCategoryLevel(Long.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
-                    fixedAssetCategory.setCategoryDetailed(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
-                    fixedAssetCategory.setStatus(row.getCell(4).getBooleanCellValue() ? 1l : 0l);
-                    fixedAssetCategory.setDepreciationMethodId(Long.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
-                    if (!StringUtils.isEmpty(row.getCell(7))) {
-                        fixedAssetCategory.setMeasureUnit(row.getCell(7).getStringCellValue());
-                    }
-
-                    if (!StringUtils.isEmpty(row.getCell(8))) {
-                        fixedAssetCategory.setCapacityUnit(row.getCell(8).getStringCellValue());
-                    }
-
-                    fixedAssetCategory.setDepreciationPeriod(Long.valueOf(decimalFormat.format(row.getCell(9).getNumericCellValue() * 100)));
-                    fixedAssetCategory.setEstimatedTotalWorkload(Long.valueOf(decimalFormat.format(row.getCell(10).getNumericCellValue() * 100)));
-                    fixedAssetCategory.setNetResidualValue(Long.valueOf(decimalFormat.format(row.getCell(11).getNumericCellValue() * 100)));
-                    fixedAssetCategory.setRemark(row.getCell(14).getStringCellValue());
-
-                    fixedAssetCategoryList.add(fixedAssetCategory);
+                fixedAssetCategory.setCategoryId(categoryId);
+                fixedAssetCategory.setCategoryName(row.getCell(1).getStringCellValue());
+                fixedAssetCategory.setCategoryLevel(Long.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
+                fixedAssetCategory.setCategoryDetailed(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
+                fixedAssetCategory.setStatus(Long.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
+                fixedAssetCategory.setDepreciationMethodId(Long.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
+                if (!StringUtils.isEmpty(row.getCell(7))) {
+                    fixedAssetCategory.setMeasureUnit(row.getCell(7).getStringCellValue());
                 }
-            } catch (Exception e) {
-                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "表格数据错误");
+
+                if (!StringUtils.isEmpty(row.getCell(8))) {
+                    fixedAssetCategory.setCapacityUnit(row.getCell(8).getStringCellValue());
+                }
+
+                fixedAssetCategory.setDepreciationPeriod(Long.valueOf(decimalFormat.format(row.getCell(9).getNumericCellValue() * 100)));
+                fixedAssetCategory.setEstimatedTotalWorkload(Long.valueOf(decimalFormat.format(row.getCell(10).getNumericCellValue() * 100)));
+                fixedAssetCategory.setNetResidualValue(Long.valueOf(decimalFormat.format(row.getCell(11).getNumericCellValue() * 100)));
+                fixedAssetCategory.setRemark(row.getCell(14).getStringCellValue());
+
+                fixedAssetCategoryList.add(fixedAssetCategory);
+            }
+
+        }
+
+        for (FixedAssetCategory item : fixedAssetCategoryList) {
+            String pCategoryId = item.getCategoryId().substring(0, item.getCategoryId().length() - 2);
+            if (!StringUtils.isEmpty(pCategoryId) && !idList.containsKey(pCategoryId)) {
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在数据没有父节点");
+            } else if (!StringUtils.isEmpty(pCategoryId) && idList.get(pCategoryId) == 1) {
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在数据父节点为明细节点");
             }
         }
 

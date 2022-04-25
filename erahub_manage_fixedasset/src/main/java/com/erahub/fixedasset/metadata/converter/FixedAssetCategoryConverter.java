@@ -35,7 +35,6 @@ public class FixedAssetCategoryConverter {
                 fixedAssetCategoryVO.setDepreciationPeriod(new BigDecimal(ArithmeticUtils.div(fixedAssetCategory.getDepreciationPeriod(), 100, 2)));
                 fixedAssetCategoryVO.setEstimatedTotalWorkload(new BigDecimal(ArithmeticUtils.div(fixedAssetCategory.getEstimatedTotalWorkload(), 100, 2)));
                 fixedAssetCategoryVO.setNetResidualValue(new BigDecimal(ArithmeticUtils.div(fixedAssetCategory.getNetResidualValue(), 100, 2)));
-                fixedAssetCategoryVO.setStatus(fixedAssetCategory.getStatus() == 1 ? true : false);
 
                 fixedAssetCategoryVOS.add(fixedAssetCategoryVO);
             }
@@ -57,9 +56,7 @@ public class FixedAssetCategoryConverter {
         fixedAssetCategory.setDepreciationPeriod(ArithmeticUtils.mul(fixedAssetCategoryDTO.getDepreciationPeriod().toString(), "100").longValue());
         fixedAssetCategory.setEstimatedTotalWorkload(ArithmeticUtils.mul(fixedAssetCategoryDTO.getEstimatedTotalWorkload().toString(), "100").longValue());
         fixedAssetCategory.setNetResidualValue(ArithmeticUtils.mul(fixedAssetCategoryDTO.getNetResidualValue().toString(), "100").longValue());
-        fixedAssetCategory.setStatus(fixedAssetCategoryDTO.getStatus() ? 1l : 0l);
-        fixedAssetCategory.setCategoryDetailed(fixedAssetCategoryDTO.getCategoryDetailed() ? 1l : 0l);
-        fixedAssetCategory.setCategoryLevel(Long.valueOf(fixedAssetCategoryDTO.getCategoryId().toString().length() / 2 + 1));
+        fixedAssetCategory.setCategoryLevel(Long.valueOf(fixedAssetCategoryDTO.getCategoryId().length() / 2));
 
         return fixedAssetCategory;
     }
@@ -80,9 +77,7 @@ public class FixedAssetCategoryConverter {
                 fixedAssetCategory.setDepreciationPeriod(Long.valueOf(ArithmeticUtils.mul(fixedAssetCategoryDTO.getDepreciationPeriod().toString(), "100", 2)));
                 fixedAssetCategory.setEstimatedTotalWorkload(Long.valueOf(ArithmeticUtils.mul(fixedAssetCategoryDTO.getEstimatedTotalWorkload().toString(), "100", 2)));
                 fixedAssetCategory.setNetResidualValue(Long.valueOf(ArithmeticUtils.mul(fixedAssetCategoryDTO.getNetResidualValue().toString(), "100", 2)));
-                fixedAssetCategory.setStatus(fixedAssetCategoryDTO.getStatus() ? 1l : 0l);
-                fixedAssetCategory.setCategoryDetailed(fixedAssetCategoryDTO.getCategoryDetailed() ? 1l : 0l);
-                fixedAssetCategory.setCategoryLevel(Long.valueOf(fixedAssetCategoryDTO.getCategoryId().toString().length() / 2));
+                fixedAssetCategory.setCategoryLevel(Long.valueOf(fixedAssetCategoryDTO.getCategoryId().length() / 2));
 
                 fixedAssetCategorys.add(fixedAssetCategory);
             }

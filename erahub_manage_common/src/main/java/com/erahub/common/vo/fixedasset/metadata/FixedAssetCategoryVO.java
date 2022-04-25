@@ -24,7 +24,7 @@ public class FixedAssetCategoryVO {
 
     private Long categoryDetailed;
 
-    private Boolean status;
+    private Long status;
 
     private Long depreciationMethodId;
 

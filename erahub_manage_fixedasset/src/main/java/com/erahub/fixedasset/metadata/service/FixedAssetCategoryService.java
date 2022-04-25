@@ -32,7 +32,7 @@ public interface FixedAssetCategoryService extends IService<FixedAssetCategory> 
      * @param categoryId
      * @param status
      */
-    void changeFixedAssetCategoryStatus(String categoryId, Boolean status) throws FixedAssetException;
+    void changeFixedAssetCategoryStatus(String categoryId, Long status) throws FixedAssetException;
 
     /**
      * 导出excel

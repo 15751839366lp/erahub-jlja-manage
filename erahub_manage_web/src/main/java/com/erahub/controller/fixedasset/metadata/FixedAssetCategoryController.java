@@ -80,7 +80,7 @@ public class FixedAssetCategoryController {
     @ApiOperation(value = "固定资产类别", notes = "禁用和启用这两种状态")
     @RequiresPermissions({"fixedAsset:metadata:fixedAssetCategory:edit"})
     @PutMapping("/changeFixedAssetCategoryStatus/{categoryId}/{status}")
-    public ResponseBean changeFixedAssetCategoryStatus(@PathVariable String categoryId, @PathVariable Boolean status) throws FixedAssetException {
+    public ResponseBean changeFixedAssetCategoryStatus(@PathVariable String categoryId, @PathVariable Long status) throws FixedAssetException {
         fixedAssetCategoryService.changeFixedAssetCategoryStatus(categoryId,status);
         return ResponseBean.success();
     }
