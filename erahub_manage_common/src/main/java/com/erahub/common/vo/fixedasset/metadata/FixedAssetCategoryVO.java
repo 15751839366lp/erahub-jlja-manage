@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class FixedAssetCategoryVO {
 
-    private Long categoryId;
+    private String categoryId;
 
     private String categoryName;
 

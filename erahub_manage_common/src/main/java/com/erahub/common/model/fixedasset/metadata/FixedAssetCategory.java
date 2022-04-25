@@ -20,7 +20,7 @@ import java.util.Date;
 public class FixedAssetCategory implements Serializable {
 
     @TableId
-    private Long categoryId;
+    private String categoryId;
 
     private String categoryName;
 

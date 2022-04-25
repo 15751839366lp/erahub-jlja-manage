@@ -32,7 +32,7 @@ public interface FixedAssetCategoryService extends IService<FixedAssetCategory> 
      * @param categoryId
      * @param status
      */
-    void changeFixedAssetCategoryStatus(Long categoryId, Boolean status) throws FixedAssetException;
+    void changeFixedAssetCategoryStatus(String categoryId, Boolean status) throws FixedAssetException;
 
     /**
      * 导出excel
@@ -56,13 +56,13 @@ public interface FixedAssetCategoryService extends IService<FixedAssetCategory> 
      * 删除资产类别
      * @param id
      */
-    void deleteFixedAssetCategoryById(Long id) throws FixedAssetException ;
+    void deleteFixedAssetCategoryById(String id) throws FixedAssetException ;
 
     /**
      * 批量删除资产类别
      * @param categoryIds
      */
-    void deleteFixedAssetCategoryByBatchId(List<Long> categoryIds) throws FixedAssetException;
+    void deleteFixedAssetCategoryByBatchId(List<String> categoryIds) throws FixedAssetException;
 
     /**
      * 上传导入资产类别

@@ -82,7 +82,7 @@ public class FixedAssetCategoryConverter {
                 fixedAssetCategory.setNetResidualValue(Long.valueOf(ArithmeticUtils.mul(fixedAssetCategoryDTO.getNetResidualValue().toString(), "100", 2)));
                 fixedAssetCategory.setStatus(fixedAssetCategoryDTO.getStatus() ? 1l : 0l);
                 fixedAssetCategory.setCategoryDetailed(fixedAssetCategoryDTO.getCategoryDetailed() ? 1l : 0l);
-                fixedAssetCategory.setCategoryLevel(Long.valueOf(fixedAssetCategoryDTO.getCategoryId().toString().length() / 2 + 1));
+                fixedAssetCategory.setCategoryLevel(Long.valueOf(fixedAssetCategoryDTO.getCategoryId().toString().length() / 2));
 
                 fixedAssetCategorys.add(fixedAssetCategory);
             }

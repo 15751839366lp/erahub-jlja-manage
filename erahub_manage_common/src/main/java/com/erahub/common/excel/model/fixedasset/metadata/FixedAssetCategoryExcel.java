@@ -18,7 +18,7 @@ public class FixedAssetCategoryExcel {
 
     @ColumnWidth(20)
     @ExcelProperty(value = "类别编号")
-    private Long categoryId;
+    private String categoryId;
 
     @ColumnWidth(40)
     @ExcelProperty(value = "类别名称")

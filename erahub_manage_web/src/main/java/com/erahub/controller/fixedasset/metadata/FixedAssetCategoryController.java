@@ -80,7 +80,7 @@ public class FixedAssetCategoryController {
     @ApiOperation(value = "固定资产类别", notes = "禁用和启用这两种状态")
     @RequiresPermissions({"fixedAsset:metadata:fixedAssetCategory:edit"})
     @PutMapping("/changeFixedAssetCategoryStatus/{categoryId}/{status}")
-    public ResponseBean changeFixedAssetCategoryStatus(@PathVariable Long categoryId, @PathVariable Boolean status) throws FixedAssetException {
+    public ResponseBean changeFixedAssetCategoryStatus(@PathVariable String categoryId, @PathVariable Boolean status) throws FixedAssetException {
         fixedAssetCategoryService.changeFixedAssetCategoryStatus(categoryId,status);
         return ResponseBean.success();
     }
@@ -122,7 +122,7 @@ public class FixedAssetCategoryController {
     @RequiresPermissions({"fixedAsset:metadata:fixedAssetCategory:delete"})
     @ApiOperation(value = "删除资产类别", notes = "删除资产类别信息，根据资产类别ID")
     @DeleteMapping("/deleteFixedAssetCategory/{id}")
-    public ResponseBean deleteFixedAssetCategory(@PathVariable Long id) throws FixedAssetException {
+    public ResponseBean deleteFixedAssetCategory(@PathVariable String id) throws FixedAssetException {
         fixedAssetCategoryService.deleteFixedAssetCategoryById(id);
         return ResponseBean.success();
     }
@@ -136,7 +136,7 @@ public class FixedAssetCategoryController {
     @RequiresPermissions({"fixedAsset:metadata:fixedAssetCategory:delete"})
     @ApiOperation(value = "批量删除资产类别", notes = "批量删除资产类别信息，根据资产类别ID")
     @DeleteMapping("/deleteFixedAssetCategoryByBatchId")
-    public ResponseBean deleteFixedAssetCategoryByBatchId(@RequestBody List<Long> categoryIds) throws FixedAssetException {
+    public ResponseBean deleteFixedAssetCategoryByBatchId(@RequestBody List<String> categoryIds) throws FixedAssetException {
         fixedAssetCategoryService.deleteFixedAssetCategoryByBatchId(categoryIds);
         return ResponseBean.success();
     }

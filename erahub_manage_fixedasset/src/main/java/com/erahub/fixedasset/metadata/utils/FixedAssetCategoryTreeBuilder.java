@@ -35,10 +35,10 @@ public class FixedAssetCategoryTreeBuilder {
             fixedAssetCategoryVo.setNetResidualValue(new BigDecimal(ArithmeticUtils.div(item.getNetResidualValue(),100,2)));
 
             if (tmpMap.containsKey(length)) {
-                tmpMap.get(length).put(item.getCategoryId(), fixedAssetCategoryVo);
+                tmpMap.get(length).put(Long.valueOf(item.getCategoryId()), fixedAssetCategoryVo);
             } else {
                 LinkedHashMap<Long, FixedAssetCategoryVO> tmpList = new LinkedHashMap<>();
-                tmpList.put(item.getCategoryId(), fixedAssetCategoryVo);
+                tmpList.put(Long.valueOf(item.getCategoryId()), fixedAssetCategoryVo);
                 tmpMap.put(length, tmpList);
             }
         });

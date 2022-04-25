@@ -51,7 +51,11 @@ public class FixedAssetCategoryTest {
             Row row = sheet.getRow(i);
             Date date = new Date();
 
-            fixedAssetCategory.setCategoryId(Long.valueOf(decimalFormat.format(row.getCell(0).getNumericCellValue())));
+            String categoryId = row.getCell(0).getStringCellValue();
+            if(categoryId != null && !"0".equals(categoryId.substring(0,1))){
+                categoryId = "0" + categoryId;
+            }
+            fixedAssetCategory.setCategoryId(categoryId);
             fixedAssetCategory.setCategoryName(row.getCell(1).getStringCellValue());
             fixedAssetCategory.setCategoryLevel(Long.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
             fixedAssetCategory.setCategoryDetailed(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
@@ -91,12 +95,12 @@ public class FixedAssetCategoryTest {
             if (tmpMap.containsKey(length)) {
                 FixedAssetCategoryVO fixedAssetCategoryVo = new FixedAssetCategoryVO();
                 BeanUtils.copyProperties(item, fixedAssetCategoryVo);
-                tmpMap.get(length).put(item.getCategoryId(), fixedAssetCategoryVo);
+                tmpMap.get(length).put(Long.valueOf(item.getCategoryId()), fixedAssetCategoryVo);
             } else {
                 LinkedHashMap<Long, FixedAssetCategoryVO> tmpList = new LinkedHashMap<>();
                 FixedAssetCategoryVO fixedAssetCategoryVo = new FixedAssetCategoryVO();
                 BeanUtils.copyProperties(item, fixedAssetCategoryVo);
-                tmpList.put(item.getCategoryId(), fixedAssetCategoryVo);
+                tmpList.put(Long.valueOf(item.getCategoryId()), fixedAssetCategoryVo);
                 tmpMap.put(length, tmpList);
             }
         });

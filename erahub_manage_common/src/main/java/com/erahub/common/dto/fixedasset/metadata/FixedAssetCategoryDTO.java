@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class FixedAssetCategoryDTO {
 
-    private Long categoryId;
+    private String categoryId;
 
     private String categoryName;
 
