@@ -14,6 +14,7 @@ import com.erahub.common.model.fixedasset.metadata.DepreciationMethod;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.utils.ArithmeticUtils;
 import com.erahub.common.utils.ListMapUtils;
+import com.erahub.common.utils.RegexUtils;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
 import com.erahub.common.vo.common.PageVO;
 import com.erahub.fixedasset.metadata.converter.FixedAssetCategoryConverter;
@@ -260,16 +261,18 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
         Workbook workbook = null;
         Sheet sheet = null;
         ArrayList<FixedAssetCategory> fixedAssetCategoryList = new ArrayList<>();
-        HashMap<String, Long> idList = new HashMap<>();
+        ArrayList<String> pidList = new ArrayList<>();
+        HashMap<String, Long> idMap = new HashMap<>();
         DataFormatter dataFormatter = new DataFormatter();
         DecimalFormat decimalFormat = new DecimalFormat("0");
 
         for (MultipartFile file : fileMap.values()) {
+            //判断文件是否存在
             if (file == null || file.getName() == null) {
                 throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "文件有误");
             }
             String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-
+            //判断文件类型
             if (".xls".equals(fileType)) {
                 workbook = new HSSFWorkbook(file.getInputStream());
                 sheet = workbook.getSheetAt(0);
@@ -287,15 +290,26 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
                 Row row = sheet.getRow(i);
 
                 String categoryId = dataFormatter.formatCellValue(row.getCell(0));
+                //判断ID格式
+                if (!RegexUtils.isStringInteger(categoryId)) {
+                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "ID格式有误");
+                }
+                //判断ID是否省略前缀
                 if (!StringUtils.isEmpty(categoryId) && categoryId.length() % 2 != 0) {
                     categoryId = "0" + categoryId;
                 }
-                if (idList.containsKey(categoryId)) {
-                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "ID重复");
+                //父节点存入list
+                if (categoryId.length() > 2 && !pidList.contains(categoryId.substring(0,categoryId.length() - 2))) {
+                    pidList.add(categoryId.substring(0,categoryId.length() - 2));
+                }
+                //ID和明细存入map
+                if (idMap.containsKey(categoryId)) {
+                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
                 } else {
-                    idList.put(categoryId, Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
+                    idMap.put(categoryId, Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
                 }
 
+                //数据复值
                 fixedAssetCategory.setCategoryId(categoryId);
                 fixedAssetCategory.setCategoryName(row.getCell(1).getStringCellValue());
                 fixedAssetCategory.setCategoryLevel(Long.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
@@ -317,15 +331,29 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
 
                 fixedAssetCategoryList.add(fixedAssetCategory);
             }
-
         }
 
+        //遍历查询是否存在数据父节点为明细节点
         for (FixedAssetCategory item : fixedAssetCategoryList) {
             String pCategoryId = item.getCategoryId().substring(0, item.getCategoryId().length() - 2);
-            if (!StringUtils.isEmpty(pCategoryId) && !idList.containsKey(pCategoryId)) {
-                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在数据没有父节点");
-            } else if (!StringUtils.isEmpty(pCategoryId) && idList.get(pCategoryId) == 1) {
+            if (!StringUtils.isEmpty(pCategoryId) && idMap.containsKey(pCategoryId) && idMap.get(pCategoryId) == 1) {
                 throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在数据父节点为明细节点");
+            }
+        }
+        //查询表中是否存在数据父节点为明细节点
+        if(!pidList.isEmpty() ){
+            QueryWrapper<FixedAssetCategory> fixedAssetCategoryQueryWrapper = new QueryWrapper<>();
+            fixedAssetCategoryQueryWrapper.eq("category_detailed",0).in("category_id",pidList);
+            List<FixedAssetCategory> fixedAssetCategories = fixedAssetCategoryMapper.selectList(fixedAssetCategoryQueryWrapper);
+            if(fixedAssetCategories.size() != pidList.size()){
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在数据没有父节点或父节点为明细节点");
+            }
+        }
+        //查询表中是否存在重复ID
+        if(!idMap.isEmpty() ){
+            List<FixedAssetCategory> fixedAssetCategories = fixedAssetCategoryMapper.selectBatchIds(idMap.keySet());
+            if(fixedAssetCategories.size() != 0){
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
             }
         }
 
