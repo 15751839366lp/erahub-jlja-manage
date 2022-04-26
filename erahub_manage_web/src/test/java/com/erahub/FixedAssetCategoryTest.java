@@ -1,12 +1,9 @@
 package com.erahub;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.erahub.common.model.fixedasset.metadata.DepreciationMethod;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
-import com.erahub.fixedasset.metadata.mapper.DepreciationMethodMapper;
 import com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper;
-import com.erahub.fixedasset.metadata.service.DepreciationMethodService;
 import com.erahub.fixedasset.metadata.service.FixedAssetCategoryService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;

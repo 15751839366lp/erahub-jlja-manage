@@ -6,8 +6,6 @@ import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.ArrayList;
-
 /**
  * @Author lipeng
  * @Date 2022/4/16 15:15

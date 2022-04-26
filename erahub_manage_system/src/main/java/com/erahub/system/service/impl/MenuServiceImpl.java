@@ -5,7 +5,6 @@ import com.erahub.common.error.system.SystemCodeEnum;
 import com.erahub.common.error.system.SystemException;
 import com.erahub.common.model.system.Menu;
 import com.erahub.common.model.system.RoleMenu;
-import com.erahub.common.model.system.User;
 import com.erahub.system.mapper.RoleMenuMapper;
 import com.erahub.system.util.MenuTreeBuilder;
 import com.erahub.common.vo.system.MenuNodeVO;

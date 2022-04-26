@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
-import com.erahub.common.enums.fixedasset.metadata.FixedAssetCategoryStatusEnum;
 import com.erahub.common.error.fixedasset.FixedAssetCodeEnum;
 import com.erahub.common.error.fixedasset.FixedAssetException;
 import com.erahub.common.excel.model.fixedasset.metadata.FixedAssetCategoryExcel;
