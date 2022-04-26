@@ -41,6 +41,9 @@
         <if test="fixedAssetCategoryDTO.status != null">
             and f.status = #{fixedAssetCategoryDTO.status}
         </if>
+        <if test="fixedAssetCategoryDTO.categoryDetailed != null">
+            and f.category_detailed = #{fixedAssetCategoryDTO.categoryDetailed}
+        </if>
         <if test="fixedAssetCategoryDTO.depreciationMethodId != null">
             and f.depreciation_method_id = #{fixedAssetCategoryDTO.depreciationMethodId}
         </if>
