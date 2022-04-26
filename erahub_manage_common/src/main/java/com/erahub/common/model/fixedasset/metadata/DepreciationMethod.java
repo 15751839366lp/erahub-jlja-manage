@@ -30,6 +30,8 @@ public class DepreciationMethod implements Serializable {
 
     private String formulaExplain;
 
+    private Long status;
+
     @TableField(fill = FieldFill.INSERT)
     @DateTimeFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
