@@ -9,7 +9,7 @@
         on f.depreciation_method_id = d.depreciation_method_id
         where 1 = 1
         <if test="fixedAssetCategoryDTO.isAccurate != null and fixedAssetCategoryDTO.isAccurate == 0">
-            <if test="fixedAssetCategoryDTO.categoryId != null">
+            <if test="fixedAssetCategoryDTO.categoryId != null and fixedAssetCategoryDTO.categoryId != ''">
                 and f.category_id = #{fixedAssetCategoryDTO.categoryId}
             </if>
             <if test="fixedAssetCategoryDTO.capacityUnit != null and fixedAssetCategoryDTO.capacityUnit != ''">
@@ -24,7 +24,7 @@
         </if>
 
         <if test="fixedAssetCategoryDTO.isAccurate != null and fixedAssetCategoryDTO.isAccurate == 1">
-            <if test="fixedAssetCategoryDTO.categoryId != null">
+            <if test="fixedAssetCategoryDTO.categoryId != null and fixedAssetCategoryDTO.categoryId != ''">
                 and f.category_id like '${fixedAssetCategoryDTO.categoryId}%'
             </if>
             <if test="fixedAssetCategoryDTO.capacityUnit != null and fixedAssetCategoryDTO.capacityUnit != ''">
