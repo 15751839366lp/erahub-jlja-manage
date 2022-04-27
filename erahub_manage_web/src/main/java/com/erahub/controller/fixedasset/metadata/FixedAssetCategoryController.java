@@ -44,6 +44,7 @@ public class FixedAssetCategoryController {
      * @return
      */
     @ApiOperation(value = "资产类别列表", notes = "查询资产类别列表")
+    @RequiresPermissions({"fixedAsset:metadata:fixedAssetCategory:select"})
     @PostMapping("/getFixedAssetCategoryList")
     public ResponseBean<PageVO<FixedAssetCategoryVO>> getFixedAssetCategoryList(@RequestBody FixedAssetCategoryDTO fixedAssetCategoryDTO) {
         PageVO<FixedAssetCategoryVO> resultData = fixedAssetCategoryService.getFixedAssetCategoryList(fixedAssetCategoryDTO);

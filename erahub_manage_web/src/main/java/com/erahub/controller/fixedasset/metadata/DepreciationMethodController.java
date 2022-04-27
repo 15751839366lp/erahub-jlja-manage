@@ -56,6 +56,7 @@ public class DepreciationMethodController {
      * @return
      */
     @ApiOperation(value = "折旧方法列表", notes = "查询折旧方法列表")
+    @RequiresPermissions({"fixedAsset:metadata:depreciationMethod:select"})
     @PostMapping("/getDepreciationMethodList")
     public ResponseBean<PageVO<DepreciationMethodVO>> getDepreciationMethodList(@RequestBody DepreciationMethodDTO depreciationMethodDTO) {
         PageVO<DepreciationMethodVO> resultData = depreciationMethodService.getDepreciationMethodList(depreciationMethodDTO);
