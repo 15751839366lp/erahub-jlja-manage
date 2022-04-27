@@ -45,7 +45,7 @@ public class FixedAssetCategoryController {
      */
     @ApiOperation(value = "资产类别列表", notes = "查询资产类别列表")
     @PostMapping("/getFixedAssetCategoryList")
-    public ResponseBean<PageVO<FixedAssetCategoryVO>> getFixedAssetCateguryList(@RequestBody FixedAssetCategoryDTO fixedAssetCategoryDTO) {
+    public ResponseBean<PageVO<FixedAssetCategoryVO>> getFixedAssetCategoryList(@RequestBody FixedAssetCategoryDTO fixedAssetCategoryDTO) {
         PageVO<FixedAssetCategoryVO> resultData = fixedAssetCategoryService.getFixedAssetCategoryList(fixedAssetCategoryDTO);
         return ResponseBean.success(resultData);
     }
@@ -141,7 +141,7 @@ public class FixedAssetCategoryController {
         return ResponseBean.success();
     }
 
-    /** todo 修改categoryId为varchar
+    /**
      * 上传导入资产类别
      * @param request
      * @return
