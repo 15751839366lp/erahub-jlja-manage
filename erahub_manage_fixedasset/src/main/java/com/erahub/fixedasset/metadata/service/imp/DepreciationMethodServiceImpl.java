@@ -254,122 +254,96 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void importDepreciationMethod(Map<String, MultipartFile> fileMap) {
-//        Workbook workbook = null;
-//        Sheet sheet = null;
-//        ArrayList<FixedAssetCategory> fixedAssetCategoryList = new ArrayList<>();
-//        ArrayList<String> pidList = new ArrayList<>();
-//        HashMap<String, Long> idMap = new HashMap<>();
+    public void importDepreciationMethod(Map<String, MultipartFile> fileMap) throws FixedAssetException, IOException {
+        Workbook workbook = null;
+        Sheet sheet = null;
+        ArrayList<DepreciationMethod> depreciationMethodList = new ArrayList<>();
+        ArrayList<String> pidList = new ArrayList<>();
+        HashMap<Long, String> idMap = new HashMap<>();
 //        DataFormatter dataFormatter = new DataFormatter();
-//        DecimalFormat decimalFormat = new DecimalFormat("0");
-//
-//        for (MultipartFile file : fileMap.values()) {
-//            //判断文件是否存在
-//            if (file == null || file.getName() == null) {
-//                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "文件有误");
-//            }
-//            String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-//            //判断文件类型
-//            if (".xls".equals(fileType)) {
-//                workbook = new HSSFWorkbook(file.getInputStream());
-//                sheet = workbook.getSheetAt(0);
-//            } else if (".xlsx".equals(fileType)) {
-//                workbook = new XSSFWorkbook(file.getInputStream());
-//                sheet = workbook.getSheetAt(0);
-//            } else {
-//                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
-//            }
-//
-//            int lastRowNum = sheet.getLastRowNum();
-//
-//            for (int i = 1; i <= lastRowNum; i++) {
-//                FixedAssetCategory fixedAssetCategory = new FixedAssetCategory();
-//                Row row = sheet.getRow(i);
-//
-//                String categoryId = dataFormatter.formatCellValue(row.getCell(0));
-//                //判断ID格式
-//                if (!RegexUtils.isStringInteger(categoryId)) {
-//                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "ID格式有误");
-//                }
-//                //判断ID是否省略前缀
-//                if (!StringUtils.isEmpty(categoryId) && categoryId.length() % 2 != 0) {
-//                    categoryId = "0" + categoryId;
-//                }
-//                //父节点存入list
-//                if (categoryId.length() > 2 && !pidList.contains(categoryId.substring(0, categoryId.length() - 2))) {
-//                    pidList.add(categoryId.substring(0, categoryId.length() - 2));
-//                }
-//                //ID和明细存入map
-//                if (idMap.containsKey(categoryId)) {
-//                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
-//                } else {
-//                    idMap.put(categoryId, Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
-//                }
-//
-//                //数据复值
-//                fixedAssetCategory.setCategoryId(categoryId);
-//                fixedAssetCategory.setCategoryName(row.getCell(1).getStringCellValue());
-//                fixedAssetCategory.setCategoryLevel(Long.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
-//                fixedAssetCategory.setCategoryDetailed(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
-//                fixedAssetCategory.setStatus(Long.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
-//                fixedAssetCategory.setDepreciationMethodId(Long.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
-//                if (!StringUtils.isEmpty(row.getCell(7))) {
-//                    fixedAssetCategory.setMeasureUnit(row.getCell(7).getStringCellValue());
-//                }
-//
-//                if (!StringUtils.isEmpty(row.getCell(8))) {
-//                    fixedAssetCategory.setCapacityUnit(row.getCell(8).getStringCellValue());
-//                }
-//
-//                fixedAssetCategory.setDepreciationPeriod(Long.valueOf(decimalFormat.format(row.getCell(9).getNumericCellValue() * 100)));
-//                fixedAssetCategory.setEstimatedTotalWorkload(Long.valueOf(decimalFormat.format(row.getCell(10).getNumericCellValue() * 100)));
-//                fixedAssetCategory.setNetResidualValue(Long.valueOf(decimalFormat.format(row.getCell(11).getNumericCellValue() * 100)));
-//                fixedAssetCategory.setRemark(row.getCell(14).getStringCellValue());
-//
-//                fixedAssetCategoryList.add(fixedAssetCategory);
-//            }
-//        }
-//
-//        //遍历查询是否存在数据父节点为明细节点
-//        for (FixedAssetCategory item : fixedAssetCategoryList) {
-//            String pCategoryId = item.getCategoryId().substring(0, item.getCategoryId().length() - 2);
-//            if (!StringUtils.isEmpty(pCategoryId) && idMap.containsKey(pCategoryId) && idMap.get(pCategoryId) == 1) {
-//                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在数据父节点为明细节点");
-//            }
-//        }
-//        //查询表中是否存在数据父节点为明细节点
-//        if (!pidList.isEmpty()) {
-//            QueryWrapper<FixedAssetCategory> fixedAssetCategoryQueryWrapper = new QueryWrapper<>();
-//            fixedAssetCategoryQueryWrapper.eq("category_detailed", 0).in("category_id", pidList);
-//            List<FixedAssetCategory> fixedAssetCategories = fixedAssetCategoryMapper.selectList(fixedAssetCategoryQueryWrapper);
-//            if (fixedAssetCategories.size() != pidList.size()) {
-//                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在数据没有父节点或父节点为明细节点");
-//            }
-//        }
-//        //查询表中是否存在重复ID
-//        if (!idMap.isEmpty()) {
-//            List<FixedAssetCategory> fixedAssetCategories = fixedAssetCategoryMapper.selectBatchIds(idMap.keySet());
-//            if (fixedAssetCategories.size() != 0) {
-//                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
-//            }
-//        }
-//
-//        //批量插入方法
-//        if (CollectionUtils.isEmpty(fixedAssetCategoryList)) {
-//            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "表格内容为空");
-//        }
-//        try (SqlSession batchSqlSession = sqlSessionBatch()) {
-//            int size = fixedAssetCategoryList.size();
-//            String sqlStatement = sqlStatement(SqlMethod.INSERT_ONE);
-//            for (int i = 0; i < size; i++) {
-//                batchSqlSession.insert(sqlStatement, fixedAssetCategoryList.get(i));
-//                if (i >= 1 && i % batchSize == 0) {
-//                    batchSqlSession.flushStatements();
-//                }
-//            }
-//            batchSqlSession.flushStatements();
-//        } catch (Throwable e) {
-//            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "表格内容有误，添加失败");
-//        }
+        DecimalFormat decimalFormat = new DecimalFormat("0");
+
+        for (MultipartFile file : fileMap.values()) {
+            //判断文件是否存在
+            if (file == null || file.getName() == null) {
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "文件有误");
+            }
+            String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            //判断文件类型
+            if (".xls".equals(fileType)) {
+                workbook = new HSSFWorkbook(file.getInputStream());
+                sheet = workbook.getSheetAt(0);
+            } else if (".xlsx".equals(fileType)) {
+                workbook = new XSSFWorkbook(file.getInputStream());
+                sheet = workbook.getSheetAt(0);
+            } else {
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
+            }
+
+            int lastRowNum = sheet.getLastRowNum();
+
+            for (int i = 1; i <= lastRowNum; i++) {
+                DepreciationMethod depreciationMethod = new DepreciationMethod();
+                Row row = sheet.getRow(i);
+
+                Long depreciationMethodId = new Double(row.getCell(0).getNumericCellValue()).longValue();
+                //判断ID格式
+                if (!RegexUtils.isInteger(depreciationMethodId.toString())) {
+                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "ID格式有误");
+                }
+
+                //ID和明细存入map
+                if (idMap.containsKey(depreciationMethodId) ) {
+                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
+                }else if (idMap.containsValue(row.getCell(1).getStringCellValue()) ) {
+                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复名称");
+                } else {
+                    idMap.put(depreciationMethodId,row.getCell(1).getStringCellValue());
+                }
+
+                //数据复值
+                depreciationMethod.setDepreciationMethodId(depreciationMethodId);
+                depreciationMethod.setDepreciationMethodName(row.getCell(1).getStringCellValue());
+                depreciationMethod.setStatus(Long.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
+
+                if (!StringUtils.isEmpty(row.getCell(3))) {
+                    depreciationMethod.setFormula(row.getCell(3).getStringCellValue());
+                }
+                if (!StringUtils.isEmpty(row.getCell(4))) {
+                    depreciationMethod.setFormulaExplain(row.getCell(4).getStringCellValue());
+                }
+                if (!StringUtils.isEmpty(row.getCell(7))) {
+                    depreciationMethod.setRemark(row.getCell(7).getStringCellValue());
+                }
+
+                depreciationMethodList.add(depreciationMethod);
+            }
+        }
+
+        //查询表中是否存在重复ID
+        if (!idMap.isEmpty()) {
+            List<DepreciationMethod> depreciationMethods = depreciationMethodMapper.selectBatchIds(idMap.keySet());
+            if (depreciationMethods.size() != 0) {
+                throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
+            }
+        }
+
+        //批量插入方法
+        if (CollectionUtils.isEmpty(depreciationMethodList)) {
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "表格内容为空");
+        }
+        try (SqlSession batchSqlSession = sqlSessionBatch()) {
+            int size = depreciationMethodList.size();
+            String sqlStatement = sqlStatement(SqlMethod.INSERT_ONE);
+            for (int i = 0; i < size; i++) {
+                batchSqlSession.insert(sqlStatement, depreciationMethodList.get(i));
+                if (i >= 1 && i % batchSize == 0) {
+                    batchSqlSession.flushStatements();
+                }
+            }
+            batchSqlSession.flushStatements();
+        } catch (Throwable e) {
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "表格内容有误，添加失败");
+        }
     }
 }

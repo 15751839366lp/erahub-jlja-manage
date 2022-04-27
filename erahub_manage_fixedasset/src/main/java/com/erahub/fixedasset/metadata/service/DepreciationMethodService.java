@@ -9,6 +9,7 @@ import com.erahub.common.vo.common.PageVO;
 import com.erahub.common.vo.fixedasset.metadata.DepreciationMethodVO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +68,6 @@ public interface DepreciationMethodService extends IService<DepreciationMethod> 
      * 上传导入折旧方法
      * @param fileMap
      */
-    void importDepreciationMethod(Map<String, MultipartFile> fileMap);
+    void importDepreciationMethod(Map<String, MultipartFile> fileMap) throws FixedAssetException, IOException;
 
 }

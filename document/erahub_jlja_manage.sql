@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 26/04/2022 17:24:36
+ Date: 27/04/2022 18:03:33
 */
 
 SET NAMES utf8mb4;
@@ -474,19 +474,20 @@ CREATE TABLE `fa_depreciation_method`  (
   `depreciation_method_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '折旧方法名称',
   `formula` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '计算公式',
   `formula_explain` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '公式说明',
+  `status` int(0) NOT NULL DEFAULT 1 COMMENT '是否使用    1 是  0 否',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
   PRIMARY KEY (`depreciation_method_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of fa_depreciation_method
 -- ----------------------------
-INSERT INTO `fa_depreciation_method` VALUES (0, '不提折旧', '0', '0', '2022-04-21 18:17:12', NULL, '不提折旧');
-INSERT INTO `fa_depreciation_method` VALUES (1, '平均年限法', '(GDZCMX_QCYZ*(1-GDZCZC_JCZL)-GDZCMX_QCLJZJ-GDZCZC_SZ05)/(abs(GDZCZC_ZJNX*NKJYS-GDZCMX_SYYS)+1)', '(期初原值*(1-净残值率)-期初累计折旧-减值准备)/(取绝对值(折旧年限*年会计月数-已使用月数)+1)', '2022-04-21 18:17:17', NULL, '年会计月数：当前会计年度有多少会计月份，一般为12');
-INSERT INTO `fa_depreciation_method` VALUES (2, '工作量法', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)/GDZCZC_ZGZL*GDZCMX_BYGZL', '期初原值*(1-净残值率)/预计总工作量*本月工作量', '2022-04-21 18:17:20', NULL, NULL);
-INSERT INTO `fa_depreciation_method` VALUES (3, '一次摊销', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)', '期初原值*(1-净残值率)', '2022-04-21 18:17:22', NULL, '用于会计制度规定一次计入费用的资产');
+INSERT INTO `fa_depreciation_method` VALUES (0, '不提折旧', '0', '0', 1, '2022-04-21 18:17:12', '2022-04-27 17:31:11', '不提折旧');
+INSERT INTO `fa_depreciation_method` VALUES (1, '平均年限法', '(GDZCMX_QCYZ*(1-GDZCZC_JCZL)-GDZCMX_QCLJZJ-GDZCZC_SZ05)/(abs(GDZCZC_ZJNX*NKJYS-GDZCMX_SYYS)+1)', '(期初原值*(1-净残值率)-期初累计折旧-减值准备)/(取绝对值(折旧年限*年会计月数-已使用月数)+1)', 1, '2022-04-21 18:17:17', NULL, '年会计月数：当前会计年度有多少会计月份，一般为12');
+INSERT INTO `fa_depreciation_method` VALUES (2, '工作量法', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)/GDZCZC_ZGZL*GDZCMX_BYGZL', '期初原值*(1-净残值率)/预计总工作量*本月工作量', 1, '2022-04-21 18:17:20', NULL, NULL);
+INSERT INTO `fa_depreciation_method` VALUES (3, '一次摊销', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)', '期初原值*(1-净残值率)', 1, '2022-04-21 18:17:22', '2022-04-27 17:43:59', '用于会计制度规定一次计入费用的资产');
 
 -- ----------------------------
 -- Table structure for fa_fixed_asset_category
@@ -7688,7 +7689,7 @@ CREATE TABLE `tb_image`  (
   `width` int(0) NULL DEFAULT NULL COMMENT '图片宽度',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_image
@@ -7709,7 +7710,7 @@ CREATE TABLE `tb_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `location` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作地点',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2890 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2936 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_log
@@ -8902,6 +8903,33 @@ INSERT INTO `tb_log` VALUES (2905, 'LiPeng', '上传导入资产类别', 91, 'co
 INSERT INTO `tb_log` VALUES (2906, 'LiPeng', '删除资产类别', 12, 'com.erahub.controller.fixedasset.metadata.FixedAssetCategoryController.deleteFixedAssetCategory()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id],args:[01010156]', '127.0.0.1', '2022-04-25 19:33:33', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (2907, 'LiPeng', '资产类别|禁用/启用', 16, 'com.erahub.controller.fixedasset.metadata.FixedAssetCategoryController.changeFixedAssetCategoryStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[categoryId, status],args:[0102050599, 0]', '127.0.0.1', '2022-04-25 19:35:10', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (2908, 'LiPeng', '资产类别|禁用/启用', 11, 'com.erahub.controller.fixedasset.metadata.FixedAssetCategoryController.changeFixedAssetCategoryStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[categoryId, status],args:[0102050599, 1]', '127.0.0.1', '2022-04-25 19:35:10', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2909, 'admin', '新增菜单/按钮', 67, 'com.erahub.controller.system.MenuController.add()\n\nresponse:{\"code\":0,\"data\":{\"children\":[],\"menuName\":\"折旧方法\",\"id\":369},\"success\":true}', 'paramName:[menuVO],args:[MenuVO(id=null, parentId=355, menuName=折旧方法, url=/fixedasset/metadata/depreciationMethod, icon=null, type=0, orderNum=2, createTime=null, modifiedTime=null, disabled=false, open=0, perms=)]', '127.0.0.1', '2022-04-27 17:29:22', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2910, 'admin', '更新菜单', 11, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[369, MenuVO(id=369, parentId=355, menuName=折旧方法, url=/fixedasset/metadata/depreciationMethod, icon=el-icon-eleme, type=0, orderNum=2, createTime=Wed Apr 27 17:29:22 CST 2022, modifiedTime=Wed Apr 27 17:29:22 CST 2022, disabled=false, open=0, perms=)]', '127.0.0.1', '2022-04-27 17:30:52', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2911, 'admin', '折旧方法|禁用/启用', 14, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[0, 0]', '127.0.0.1', '2022-04-27 17:31:04', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2912, 'admin', '折旧方法|禁用/启用', 5, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[0, 1]', '127.0.0.1', '2022-04-27 17:31:05', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2913, 'admin', '折旧方法|禁用/启用', 10, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[0, 0]', '127.0.0.1', '2022-04-27 17:31:06', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2914, 'admin', '折旧方法|禁用/启用', 14, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[0, 1]', '127.0.0.1', '2022-04-27 17:31:11', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2915, 'admin', '导出折旧方法excel', 538, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.exportDepreciationMethodExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@2f7eedd2]', '127.0.0.1', '2022-04-27 17:31:19', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2916, 'admin', '添加折旧方法', 17, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.addDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodDTO],args:[DepreciationMethodDTO(depreciationMethodId=5, depreciationMethodName=lll, formula=null, formulaExplain=null, status=0, createTime=null, startCreateTime=null, endCreateTime=null, modifiedTime=null, remark=null, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-04-27 17:38:39', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2917, 'admin', '修改折旧方法', 12, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.updateDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodDTO],args:[DepreciationMethodDTO(depreciationMethodId=5, depreciationMethodName=lll, formula=null, formulaExplain=null, status=1, createTime=Wed Apr 27 17:38:39 CST 2022, startCreateTime=null, endCreateTime=null, modifiedTime=Wed Apr 27 17:38:39 CST 2022, remark=null, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-04-27 17:38:46', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2918, 'admin', '折旧方法|禁用/启用', 4, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[5, 0]', '127.0.0.1', '2022-04-27 17:38:49', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2919, 'admin', '修改折旧方法', 11, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.updateDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodDTO],args:[DepreciationMethodDTO(depreciationMethodId=5, depreciationMethodName=lll, formula=sadsadas, formulaExplain=dasdasda, status=0, createTime=Wed Apr 27 17:38:39 CST 2022, startCreateTime=null, endCreateTime=null, modifiedTime=Wed Apr 27 17:38:46 CST 2022, remark=dasdd, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-04-27 17:38:54', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2920, 'admin', '修改折旧方法', 11, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.updateDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodDTO],args:[DepreciationMethodDTO(depreciationMethodId=5, depreciationMethodName=lll, formula=sadsadas, formulaExplain=dasdasda, status=1, createTime=Wed Apr 27 17:38:39 CST 2022, startCreateTime=null, endCreateTime=null, modifiedTime=Wed Apr 27 17:38:54 CST 2022, remark=dasdd, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-04-27 17:39:00', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2921, 'admin', '修改折旧方法', 12, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.updateDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodDTO],args:[DepreciationMethodDTO(depreciationMethodId=5, depreciationMethodName=lll, formula=sadsadasdasdad, formulaExplain=dasdasda, status=1, createTime=Wed Apr 27 17:38:39 CST 2022, startCreateTime=null, endCreateTime=null, modifiedTime=Wed Apr 27 17:39:00 CST 2022, remark=dasdd, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-04-27 17:39:03', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2922, 'admin', '删除折旧方法', 4, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.deleteDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id],args:[5]', '127.0.0.1', '2022-04-27 17:42:43', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2923, 'admin', '添加折旧方法', 4, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.addDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodDTO],args:[DepreciationMethodDTO(depreciationMethodId=5, depreciationMethodName=2424, formula=245, formulaExplain=null, status=1, createTime=null, startCreateTime=null, endCreateTime=null, modifiedTime=null, remark=null, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-04-27 17:43:02', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2924, 'admin', '删除折旧方法', 4, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.deleteDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id],args:[5]', '127.0.0.1', '2022-04-27 17:43:35', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2925, 'admin', '折旧方法|禁用/启用', 10, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[3, 0]', '127.0.0.1', '2022-04-27 17:43:58', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2926, 'admin', '折旧方法|禁用/启用', 10, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[3, 1]', '127.0.0.1', '2022-04-27 17:43:59', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2927, 'admin', '添加折旧方法', 11, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.addDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodDTO],args:[DepreciationMethodDTO(depreciationMethodId=5, depreciationMethodName=554, formula=null, formulaExplain=null, status=1, createTime=null, startCreateTime=null, endCreateTime=null, modifiedTime=null, remark=null, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-04-27 17:44:16', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2928, 'admin', '添加折旧方法', 11, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.addDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodDTO],args:[DepreciationMethodDTO(depreciationMethodId=6, depreciationMethodName=2452, formula=null, formulaExplain=null, status=1, createTime=null, startCreateTime=null, endCreateTime=null, modifiedTime=null, remark=null, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-04-27 17:44:21', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2929, 'admin', '批量删除折旧方法', 12, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.deleteDepreciationMethodByBatchId()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodIds],args:[[5, 6]]', '127.0.0.1', '2022-04-27 17:44:26', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2930, 'admin', '导出折旧方法excel', 24, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.exportDepreciationMethodExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@1a099def]', '127.0.0.1', '2022-04-27 17:44:47', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2931, 'admin', '导出折旧方法excel', 25, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.exportDepreciationMethodExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@1b033ef5]', '127.0.0.1', '2022-04-27 18:01:02', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2932, 'admin', '导出折旧方法excel', 531, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.exportDepreciationMethodExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@5596e0b4]', '127.0.0.1', '2022-04-27 18:01:33', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2933, 'admin', '上传导入折旧方法', 133, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.importDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[request],args:[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@60ebb015]', '127.0.0.1', '2022-04-27 18:02:24', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2934, 'admin', '删除折旧方法', 12, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.deleteDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id],args:[7]', '127.0.0.1', '2022-04-27 18:02:38', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2935, 'admin', '批量删除折旧方法', 12, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.deleteDepreciationMethodByBatchId()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodIds],args:[[6, 5, 4]]', '127.0.0.1', '2022-04-27 18:02:43', '内网IP|0|0|内网IP|内网IP');
 
 -- ----------------------------
 -- Table structure for tb_login_log
@@ -8916,7 +8944,7 @@ CREATE TABLE `tb_login_log`  (
   `user_system` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作系统',
   `user_browser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '浏览器',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1841 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1843 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_login_log
@@ -9666,7 +9694,7 @@ CREATE TABLE `tb_menu`  (
   `available` int(0) NULL DEFAULT 1 COMMENT '0：不可用，1：可用',
   `open` int(0) NULL DEFAULT 1 COMMENT '0:不展开，1：展开',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 369 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 370 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_menu
@@ -9757,6 +9785,7 @@ INSERT INTO `tb_menu` VALUES (365, 356, '编辑资产类别', NULL, 'fixedAsset:
 INSERT INTO `tb_menu` VALUES (366, 356, '删除资产类别', NULL, 'fixedAsset:metadata:fixedAssetCategory:delete', 'el-icon-delete', '1', 3, '2022-04-24 14:10:48', '2022-04-24 14:10:48', 1, 0);
 INSERT INTO `tb_menu` VALUES (367, 356, '导入资产类别', NULL, 'fixedAsset:metadata:fixedAssetCategory:import', 'el-icon-upload', '1', 4, '2022-04-24 14:11:30', '2022-04-24 14:11:30', 1, 0);
 INSERT INTO `tb_menu` VALUES (368, 356, '导出资产类别', NULL, 'fixedAsset:metadata:fixedAssetCategory:export', 'el-icon-download', '1', 5, '2022-04-24 14:12:08', '2022-04-24 14:12:08', 1, 0);
+INSERT INTO `tb_menu` VALUES (369, 355, '折旧方法', '/fixedasset/metadata/depreciationMethod', '', 'el-icon-eleme', '0', 2, '2022-04-27 17:29:22', '2022-04-27 17:30:52', 1, 0);
 
 -- ----------------------------
 -- Table structure for tb_role
