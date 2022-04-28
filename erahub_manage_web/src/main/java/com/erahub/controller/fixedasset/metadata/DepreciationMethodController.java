@@ -41,7 +41,6 @@ public class DepreciationMethodController {
 
     /**
      * 所有折旧方法
-     *
      * @return
      */
     @ApiOperation(value = "所有折旧方法")

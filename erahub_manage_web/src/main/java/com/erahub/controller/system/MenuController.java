@@ -40,6 +40,7 @@ public class MenuController {
      * @return
      */
     @ApiOperation(value = "加载菜单树", notes = "获取所有菜单树，以及展开项")
+    @RequiresPermissions({"menu:select"})
     @GetMapping("/tree")
     public ResponseBean<Map<String, Object>> tree() {
         List<MenuNodeVO> menuTree = menuService.findMenuTree(false);

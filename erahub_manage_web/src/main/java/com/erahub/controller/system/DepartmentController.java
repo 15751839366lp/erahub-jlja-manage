@@ -41,6 +41,7 @@ public class DepartmentController {
      * @return
      */
     @ApiOperation(value = "部门列表", notes = "部门列表,根据部门名模糊查询")
+    @RequiresPermissions({"department:select"})
     @GetMapping("/findDepartmentList")
     public ResponseBean<PageVO<DepartmentVO>> findDepartmentList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                            @RequestParam(value = "pageSize") Integer pageSize,

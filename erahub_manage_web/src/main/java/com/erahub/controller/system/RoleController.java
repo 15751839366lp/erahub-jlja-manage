@@ -83,6 +83,7 @@ public class RoleController {
      * @return
      */
     @ApiOperation(value = "角色列表")
+    @RequiresPermissions({"role:select"})
     @GetMapping("/findRoleList")
     public ResponseBean<PageVO<RoleVO>> findRoleList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "7") Integer pageSize,

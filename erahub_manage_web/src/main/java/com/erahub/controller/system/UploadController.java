@@ -55,6 +55,7 @@ public class UploadController {
      * @return
      */
     @ApiOperation(value = "附件列表", notes = "模糊查询附件列表")
+    @RequiresPermissions({"upload:select"})
     @GetMapping("/findImageList")
     public ResponseBean<IPage<ImageAttachment>> findImageList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "8") Integer pageSize,

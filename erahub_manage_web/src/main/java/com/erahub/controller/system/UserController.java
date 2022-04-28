@@ -74,6 +74,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "用户列表", notes = "模糊查询用户列表")
+    @RequiresPermissions({"user:select"})
     @GetMapping("/findUserList")
     public ResponseBean<PageVO<UserVO>> findUserList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                      @RequestParam(value = "pageSize", defaultValue = "7") Integer pageSize,

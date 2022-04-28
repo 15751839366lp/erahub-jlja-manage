@@ -36,6 +36,7 @@ public class LogController {
      * @return
      */
     @ApiOperation(value = "日志列表", notes = "系统日志列表，模糊查询")
+    @RequiresPermissions({"log:select"})
     @GetMapping("/findLogList")
     public ResponseBean<PageVO<LogVO>> findLogList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                     @RequestParam(value = "pageSize") Integer pageSize,

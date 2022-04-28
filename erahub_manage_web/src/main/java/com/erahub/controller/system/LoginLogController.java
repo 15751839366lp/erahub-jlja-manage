@@ -40,6 +40,7 @@ public class LoginLogController {
      * @return
      */
     @ApiOperation(value = "日志列表", notes = "登入日志列表，模糊查询")
+    @RequiresPermissions({"loginLog:select"})
     @GetMapping("/findLoginLogList")
     public ResponseBean findLoginLogList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                          @RequestParam(value = "pageSize") Integer pageSize,

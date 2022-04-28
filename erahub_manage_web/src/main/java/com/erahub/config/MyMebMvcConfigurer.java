@@ -36,7 +36,7 @@ public class MyMebMvcConfigurer implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS","MIME")
+                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS", "MIME")
                 .allowCredentials(true)
                 .maxAge(3600)
                 .allowedHeaders("*");
@@ -53,31 +53,31 @@ public class MyMebMvcConfigurer implements WebMvcConfigurer {
                 logger.info("业务模块-错误码：{},错误信息:{}", fixedAssetException.getErrorCode(), fixedAssetException.getErrorMsg());
                 errorData.put("errorCode", fixedAssetException.getErrorCode());
                 errorData.put("errorMsg", fixedAssetException.getErrorMsg());
-            }else if(e instanceof BusinessException) {
+            } else if (e instanceof BusinessException) {
                 BusinessException businessException = (BusinessException) e;
                 logger.info("业务模块-错误码：{},错误信息:{}", businessException.getErrorCode(), businessException.getErrorMsg());
                 errorData.put("errorCode", businessException.getErrorCode());
                 errorData.put("errorMsg", businessException.getErrorMsg());
-            }else if(e instanceof SystemException){
+            } else if (e instanceof SystemException) {
                 SystemException systemException = (SystemException) e;
                 logger.info("系统模块-错误码：{},错误信息:{}", systemException.getErrorCode(), systemException.getErrorMsg());
                 errorData.put("errorCode", systemException.getErrorCode());
                 errorData.put("errorMsg", systemException.getErrorMsg());
-            } else if(e instanceof UnauthorizedException){
+            } else if (e instanceof UnauthorizedException) {
                 UnauthorizedException unauthorizedException = (UnauthorizedException) e;
                 logger.info("系统模块-错误码：{},错误信息:{}", HttpStatus.UNAUTHORIZED.value(), unauthorizedException.getMessage());
                 errorData.put("errorCode", HttpStatus.UNAUTHORIZED.value());
                 errorData.put("errorMsg", "服务器向你抛了一个异常,并表示（操作无权限）");
-            }else if(e instanceof HttpRequestMethodNotSupportedException){
+            } else if (e instanceof HttpRequestMethodNotSupportedException) {
                 logger.info("系统模块-错误码：{},错误信息:{}", HttpStatus.BAD_REQUEST.value(), e.getMessage());
                 errorData.put("errorCode", HttpStatus.BAD_REQUEST.value());
                 errorData.put("errorMsg", "不支持该http请求方式");
-            }else if(e instanceof NoHandlerFoundException){
-                logger.error("接口不存在-错误码：{},错误信息:{}", HttpStatus.NOT_FOUND.value(),e.getMessage());
+            } else if (e instanceof NoHandlerFoundException) {
+                logger.error("接口不存在-错误码：{},错误信息:{}", HttpStatus.NOT_FOUND.value(), e.getMessage());
                 errorData.put("errorCode", HttpStatus.NOT_FOUND.value());
-                errorData.put("errorMsg", "API接口:["+httpServletRequest.getServletPath()+"]不存在");
-            }  else {
-                logger.error("系统异常-错误码：{},错误信息:{}", HttpStatus.INTERNAL_SERVER_ERROR.value(),e.getMessage(),e);
+                errorData.put("errorMsg", "API接口:[" + httpServletRequest.getServletPath() + "]不存在");
+            } else {
+                logger.error("系统异常-错误码：{},错误信息:{}", HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), e);
                 errorData.put("errorCode", HttpStatus.INTERNAL_SERVER_ERROR.value());
                 errorData.put("errorMsg", "服务器异常，请联系管理员");
             }
@@ -99,7 +99,7 @@ public class MyMebMvcConfigurer implements WebMvcConfigurer {
         response.setHeader("Content-type", "application/json;charset=UTF-8");
         response.setStatus(HttpStatus.OK.value());
         try {
-            ObjectMapper  objectMapper=new ObjectMapper();
+            ObjectMapper objectMapper = new ObjectMapper();
             response.getWriter().write(objectMapper.writeValueAsString(result));
         } catch (IOException ex) {
             logger.error(ex.getMessage());
