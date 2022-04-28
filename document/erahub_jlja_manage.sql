@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 28/04/2022 14:47:35
+ Date: 28/04/2022 19:57:16
 */
 
 SET NAMES utf8mb4;
@@ -471,7 +471,7 @@ INSERT INTO `biz_supplier` VALUES (25, 'bdfbfbas', '北京市/市辖区/朝阳�
 DROP TABLE IF EXISTS `fa_depreciation_method`;
 CREATE TABLE `fa_depreciation_method`  (
   `depreciation_method_id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '折旧方法编号',
-  `depreciation_method_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '折旧方法名称',
+  `depreciation_method_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '折旧方法名称',
   `formula` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '计算公式',
   `formula_explain` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '公式说明',
   `status` int(0) NOT NULL DEFAULT 1 COMMENT '是否使用    1 是  0 否',
@@ -479,15 +479,15 @@ CREATE TABLE `fa_depreciation_method`  (
   `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
   PRIMARY KEY (`depreciation_method_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of fa_depreciation_method
 -- ----------------------------
-INSERT INTO `fa_depreciation_method` VALUES (1, '平均年限法', '(GDZCMX_QCYZ*(1-GDZCZC_JCZL)-GDZCMX_QCLJZJ-GDZCZC_SZ05)/(abs(GDZCZC_ZJNX*NKJYS-GDZCMX_SYYS)+1)', '(期初原值*(1-净残值率)-期初累计折旧-减值准备)/(取绝对值(折旧年限*年会计月数-已使用月数)+1)', 1, '2022-04-21 18:17:17', NULL, '年会计月数：当前会计年度有多少会计月份，一般为12');
-INSERT INTO `fa_depreciation_method` VALUES (2, '工作量法', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)/GDZCZC_ZGZL*GDZCMX_BYGZL', '期初原值*(1-净残值率)/预计总工作量*本月工作量', 1, '2022-04-21 18:17:20', NULL, NULL);
-INSERT INTO `fa_depreciation_method` VALUES (3, '一次摊销', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)', '期初原值*(1-净残值率)', 1, '2022-04-21 18:17:22', '2022-04-27 18:04:08', '用于会计制度规定一次计入费用的资产');
-INSERT INTO `fa_depreciation_method` VALUES (8, '不提折旧', '0', '0', 1, '2022-04-21 18:17:12', '2022-04-27 17:31:11', '不提折旧');
+INSERT INTO `fa_depreciation_method` VALUES (1, '平均年限法', '(GDZCMX_QCYZ*(1-GDZCZC_JCZL)-GDZCMX_QCLJZJ-GDZCZC_SZ05)/(abs(GDZCZC_ZJNX*NKJYS-GDZCMX_SYYS)+1)', '(期初原值*(1-净残值率)-期初累计折旧-减值准备)/(取绝对值(折旧年限*年会计月数-已使用月数)+1)', 1, '2022-04-28 17:27:02', '2022-04-28 17:27:02', '年会计月数：当前会计年度有多少会计月份，一般为12');
+INSERT INTO `fa_depreciation_method` VALUES (2, '工作量法', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)/GDZCZC_ZGZL*GDZCMX_BYGZL', '期初原值*(1-净残值率)/预计总工作量*本月工作量', 1, '2022-04-28 17:27:02', '2022-04-28 17:27:02', '');
+INSERT INTO `fa_depreciation_method` VALUES (3, '一次摊销', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)', '期初原值*(1-净残值率)', 1, '2022-04-28 17:27:02', '2022-04-28 17:27:02', '用于会计制度规定一次计入费用的资产');
+INSERT INTO `fa_depreciation_method` VALUES (9, '不提折旧', '0', '0', 1, '2022-04-28 17:27:02', '2022-04-28 17:27:02', '不提折旧');
 
 -- ----------------------------
 -- Table structure for fa_fixed_asset_category
@@ -7655,6 +7655,34 @@ INSERT INTO `fa_fixed_asset_category` VALUES ('061004', '烹调器具', 3, 1, 1,
 INSERT INTO `fa_fixed_asset_category` VALUES ('061005', '照明器具', 3, 1, 1, 1, '台', '', 800, 0, 3, '2022-04-25 18:22:52', '2022-04-25 19:17:25', ' ');
 
 -- ----------------------------
+-- Table structure for fa_section
+-- ----------------------------
+DROP TABLE IF EXISTS `fa_section`;
+CREATE TABLE `fa_section`  (
+  `section_id` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '单位编号',
+  `section_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '单位名称',
+  `section_abbreviation` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '单位简称',
+  `section_level` int(0) NOT NULL DEFAULT 1 COMMENT '级数',
+  `section_detailed` int(0) NOT NULL DEFAULT 1 COMMENT '是否明细    1 是  0 否',
+  `status` int(0) NOT NULL DEFAULT 1 COMMENT '是否使用    1 是  0 否',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
+  PRIMARY KEY (`section_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of fa_section
+-- ----------------------------
+INSERT INTO `fa_section` VALUES ('5913', '建安公司', '建安公司', 1, 0, 1, '2022-04-28 17:45:59', NULL, NULL);
+INSERT INTO `fa_section` VALUES ('59130001', '建安公司', '建安公司', 2, 0, 1, '2022-04-28 17:48:19', NULL, NULL);
+INSERT INTO `fa_section` VALUES ('591300010001', '机关部门', '机关', 3, 0, 1, '2022-04-28 17:48:53', NULL, NULL);
+INSERT INTO `fa_section` VALUES ('5913000100010001', '公司办公室', '公司办', 4, 1, 1, '2022-04-28 17:49:37', NULL, NULL);
+INSERT INTO `fa_section` VALUES ('591300010002', '铆焊分公司', '铆焊', 3, 1, 1, '2022-04-28 17:50:19', NULL, NULL);
+INSERT INTO `fa_section` VALUES ('59130002', '淮南分公司', '淮南分公司', 2, 1, 1, '2022-04-28 17:50:43', NULL, NULL);
+INSERT INTO `fa_section` VALUES ('5914', 'a', 'a', 1, 1, 1, '2022-04-28 19:43:23', NULL, NULL);
+
+-- ----------------------------
 -- Table structure for tb_department
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_department`;
@@ -7710,7 +7738,7 @@ CREATE TABLE `tb_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `location` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作地点',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2980 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2992 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_log
@@ -8974,6 +9002,18 @@ INSERT INTO `tb_log` VALUES (2976, 'admin', '新增菜单/按钮', 19, 'com.erah
 INSERT INTO `tb_log` VALUES (2977, 'admin', '更新菜单', 22, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[308, MenuVO(id=308, parentId=307, menuName=日志删除, url=, icon=el-icon-circle-close, type=1, orderNum=1, createTime=Sat Apr 04 19:59:20 CST 2020, modifiedTime=Sat Apr 04 19:59:20 CST 2020, disabled=false, open=1, perms=log:delete)]', '127.0.0.1', '2022-04-28 14:30:40', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (2978, 'admin', '更新菜单', 20, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[309, MenuVO(id=309, parentId=307, menuName=日志批量删除, url=null, icon=el-icon-document-delete, type=1, orderNum=2, createTime=Sat Apr 04 19:59:59 CST 2020, modifiedTime=Sat Apr 04 19:59:59 CST 2020, disabled=false, open=0, perms=log:batchDelete)]', '127.0.0.1', '2022-04-28 14:30:52', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (2979, 'admin', '角色授权', 373, 'com.erahub.controller.system.RoleController.authority()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, mids],args:[154, [Ljava.lang.Long;@292184fc]', '127.0.0.1', '2022-04-28 14:32:23', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2980, 'admin', '折旧方法|禁用/启用', 68, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[1, 0]', '127.0.0.1', '2022-04-28 17:24:29', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2981, 'admin', '折旧方法|禁用/启用', 5, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[1, 1]', '127.0.0.1', '2022-04-28 17:24:30', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2982, 'admin', '折旧方法|禁用/启用', 10, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[1, 0]', '127.0.0.1', '2022-04-28 17:25:03', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2983, 'admin', '折旧方法|禁用/启用', 4, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[2, 0]', '127.0.0.1', '2022-04-28 17:25:03', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2984, 'admin', '折旧方法|禁用/启用', 11, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[3, 0]', '127.0.0.1', '2022-04-28 17:25:04', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2985, 'admin', '折旧方法|禁用/启用', 11, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[8, 0]', '127.0.0.1', '2022-04-28 17:25:04', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2986, 'admin', '折旧方法|禁用/启用', 6, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[1, 1]', '127.0.0.1', '2022-04-28 17:25:08', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2987, 'admin', '折旧方法|禁用/启用', 5, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[2, 1]', '127.0.0.1', '2022-04-28 17:25:09', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2988, 'admin', '折旧方法|禁用/启用', 5, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[3, 1]', '127.0.0.1', '2022-04-28 17:25:09', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2989, 'admin', '折旧方法|禁用/启用', 6, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[8, 1]', '127.0.0.1', '2022-04-28 17:25:09', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2990, 'admin', '批量删除折旧方法', 7, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.deleteDepreciationMethodByBatchId()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodIds],args:[[1, 2, 3, 8]]', '127.0.0.1', '2022-04-28 17:26:47', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2991, 'admin', '上传导入折旧方法', 293, 'com.erahub.controller.fixedasset.metadata.DepreciationMethodController.importDepreciationMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[request],args:[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@121bd748]', '127.0.0.1', '2022-04-28 17:27:02', '内网IP|0|0|内网IP|内网IP');
 
 -- ----------------------------
 -- Table structure for tb_login_log

@@ -29,7 +29,10 @@ public enum FixedAssetCodeEnum implements BaseError {
     FIXED_ASSET_CATEGORY_NOT_FOUND(40101, "资产类别不存在!"),
 
     //折旧方法模块
-    DEPRECIATION_METHOD_NOT_FOUND(40201, "折旧方法不存在!");
+    DEPRECIATION_METHOD_NOT_FOUND(40201, "折旧方法不存在!"),
+
+    //单位模块
+    SECTION_NOT_FOUND(40301, "单位不存在!");
 
     /** 错误码 */
     private int errorCode;

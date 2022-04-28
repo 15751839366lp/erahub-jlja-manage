@@ -14,7 +14,7 @@ import java.util.List;
 public class PageVO<T> {
     private long total;
 
-    private List<T> rows=new ArrayList<>();
+    private List<T> rows = new ArrayList<>();
 
     public PageVO(long total, List<T> data) {
         this.total = total;
