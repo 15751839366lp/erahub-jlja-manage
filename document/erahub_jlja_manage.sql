@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 27/04/2022 19:37:30
+ Date: 28/04/2022 14:47:35
 */
 
 SET NAMES utf8mb4;
@@ -479,15 +479,15 @@ CREATE TABLE `fa_depreciation_method`  (
   `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
   PRIMARY KEY (`depreciation_method_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of fa_depreciation_method
 -- ----------------------------
-INSERT INTO `fa_depreciation_method` VALUES (0, '不提折旧', '0', '0', 1, '2022-04-21 18:17:12', '2022-04-27 17:31:11', '不提折旧');
 INSERT INTO `fa_depreciation_method` VALUES (1, '平均年限法', '(GDZCMX_QCYZ*(1-GDZCZC_JCZL)-GDZCMX_QCLJZJ-GDZCZC_SZ05)/(abs(GDZCZC_ZJNX*NKJYS-GDZCMX_SYYS)+1)', '(期初原值*(1-净残值率)-期初累计折旧-减值准备)/(取绝对值(折旧年限*年会计月数-已使用月数)+1)', 1, '2022-04-21 18:17:17', NULL, '年会计月数：当前会计年度有多少会计月份，一般为12');
 INSERT INTO `fa_depreciation_method` VALUES (2, '工作量法', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)/GDZCZC_ZGZL*GDZCMX_BYGZL', '期初原值*(1-净残值率)/预计总工作量*本月工作量', 1, '2022-04-21 18:17:20', NULL, NULL);
 INSERT INTO `fa_depreciation_method` VALUES (3, '一次摊销', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)', '期初原值*(1-净残值率)', 1, '2022-04-21 18:17:22', '2022-04-27 18:04:08', '用于会计制度规定一次计入费用的资产');
+INSERT INTO `fa_depreciation_method` VALUES (8, '不提折旧', '0', '0', 1, '2022-04-21 18:17:12', '2022-04-27 17:31:11', '不提折旧');
 
 -- ----------------------------
 -- Table structure for fa_fixed_asset_category
@@ -7710,7 +7710,7 @@ CREATE TABLE `tb_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `location` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作地点',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2936 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2980 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_log
@@ -8947,6 +8947,33 @@ INSERT INTO `tb_log` VALUES (2949, 'test01', '角色授权', 100, 'com.erahub.co
 INSERT INTO `tb_log` VALUES (2950, 'test01', '角色授权', 56, 'com.erahub.controller.system.RoleController.authority()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, mids],args:[155, [Ljava.lang.Long;@13ac0674]', '127.0.0.1', '2022-04-27 19:33:02', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (2951, 'test01', '更新菜单', 10, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[370, MenuVO(id=370, parentId=369, menuName=添加折旧方法, url=null, icon=el-icon-plus, type=1, orderNum=2, createTime=Wed Apr 27 19:14:49 CST 2022, modifiedTime=Wed Apr 27 19:14:49 CST 2022, disabled=false, open=0, perms=fixedAsset:metadata:depreciationMethod:add)]', '127.0.0.1', '2022-04-27 19:33:10', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (2952, 'test01', '更新菜单', 12, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[364, MenuVO(id=364, parentId=356, menuName=添加资产类别, url=, icon=el-icon-plus, type=1, orderNum=2, createTime=Sun Apr 24 14:07:16 CST 2022, modifiedTime=Sun Apr 24 14:08:18 CST 2022, disabled=false, open=0, perms=fixedAsset:metadata:fixedAssetCategory:add)]', '127.0.0.1', '2022-04-27 19:33:22', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2953, 'admin', '角色授权', 407, 'com.erahub.controller.system.RoleController.authority()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, mids],args:[155, [Ljava.lang.Long;@6f48f45d]', '127.0.0.1', '2022-04-28 14:03:16', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2954, 'admin', '新增菜单/按钮', 238, 'com.erahub.controller.system.MenuController.add()\n\nresponse:{\"code\":0,\"data\":{\"children\":[],\"icon\":\"el-icon-more\",\"menuName\":\"用户查询\",\"id\":377},\"success\":true}', 'paramName:[menuVO],args:[MenuVO(id=null, parentId=226, menuName=用户查询, url=, icon=el-icon-more, type=1, orderNum=1, createTime=null, modifiedTime=null, disabled=false, open=0, perms=user:select)]', '127.0.0.1', '2022-04-28 14:20:23', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2955, 'admin', '新增菜单/按钮', 12, 'com.erahub.controller.system.MenuController.add()\n\nresponse:{\"code\":0,\"data\":{\"children\":[],\"icon\":\"el-icon-more\",\"menuName\":\"查询菜单\",\"id\":378},\"success\":true}', 'paramName:[menuVO],args:[MenuVO(id=null, parentId=4, menuName=查询菜单, url=null, icon=el-icon-more, type=1, orderNum=1, createTime=null, modifiedTime=null, disabled=false, open=0, perms=menu:select)]', '127.0.0.1', '2022-04-28 14:21:31', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2956, 'admin', '新增菜单/按钮', 19, 'com.erahub.controller.system.MenuController.add()\n\nresponse:{\"code\":0,\"data\":{\"children\":[],\"icon\":\"el-icon-more\",\"menuName\":\"角色查询\",\"id\":379},\"success\":true}', 'paramName:[menuVO],args:[MenuVO(id=null, parentId=235, menuName=角色查询, url=null, icon=el-icon-more, type=1, orderNum=1, createTime=null, modifiedTime=null, disabled=false, open=0, perms=role:select)]', '127.0.0.1', '2022-04-28 14:22:29', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2957, 'admin', '新增菜单/按钮', 19, 'com.erahub.controller.system.MenuController.add()\n\nresponse:{\"code\":0,\"data\":{\"children\":[],\"icon\":\"el-icon-more\",\"menuName\":\"查询部门\",\"id\":380},\"success\":true}', 'paramName:[menuVO],args:[MenuVO(id=null, parentId=261, menuName=查询部门, url=null, icon=el-icon-more, type=1, orderNum=1, createTime=null, modifiedTime=null, disabled=false, open=0, perms=department:select)]', '127.0.0.1', '2022-04-28 14:23:17', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2958, 'admin', '更新菜单', 38, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[265, MenuVO(id=265, parentId=261, menuName=删除部门, url=null, icon=el-icon-delete, type=1, orderNum=1, createTime=Sun Mar 15 12:03:21 CST 2020, modifiedTime=Sun Mar 15 12:03:21 CST 2020, disabled=false, open=0, perms=department:delete)]', '127.0.0.1', '2022-04-28 14:23:30', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2959, 'admin', '更新菜单', 29, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[264, MenuVO(id=264, parentId=261, menuName=部门更新, url=, icon=el-icon-refresh, type=1, orderNum=1, createTime=Sun Mar 15 12:02:34 CST 2020, modifiedTime=Sun Mar 15 12:16:32 CST 2020, disabled=false, open=0, perms=department:update)]', '127.0.0.1', '2022-04-28 14:23:57', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2960, 'admin', '更新菜单', 21, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[380, MenuVO(id=380, parentId=261, menuName=部门查询, url=null, icon=el-icon-more, type=1, orderNum=1, createTime=Thu Apr 28 14:23:17 CST 2022, modifiedTime=Thu Apr 28 14:23:17 CST 2022, disabled=false, open=0, perms=department:select)]', '127.0.0.1', '2022-04-28 14:24:08', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2961, 'admin', '更新菜单', 21, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[265, MenuVO(id=265, parentId=261, menuName=部门删除, url=null, icon=el-icon-delete, type=1, orderNum=1, createTime=Sun Mar 15 12:03:21 CST 2020, modifiedTime=Thu Apr 28 14:23:30 CST 2022, disabled=false, open=0, perms=department:delete)]', '127.0.0.1', '2022-04-28 14:24:18', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2962, 'admin', '更新菜单', 14, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[263, MenuVO(id=263, parentId=261, menuName=部门编辑, url=, icon=el-icon-edit, type=1, orderNum=1, createTime=Sun Mar 15 11:59:52 CST 2020, modifiedTime=Sun Mar 15 12:16:36 CST 2020, disabled=false, open=0, perms=department:edit)]', '127.0.0.1', '2022-04-28 14:24:31', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2963, 'admin', '更新菜单', 21, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[262, MenuVO(id=262, parentId=261, menuName=部门添加, url=, icon=el-icon-plus, type=1, orderNum=1, createTime=Sun Mar 15 11:57:42 CST 2020, modifiedTime=Sat Mar 21 12:37:21 CST 2020, disabled=false, open=0, perms=department:add)]', '127.0.0.1', '2022-04-28 14:24:44', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2964, 'admin', '更新菜单', 20, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[255, MenuVO(id=255, parentId=235, menuName=角色添加, url=, icon=el-icon-help, type=1, orderNum=1, createTime=Wed Mar 11 01:34:18 CST 2020, modifiedTime=Wed Mar 11 01:34:18 CST 2020, disabled=false, open=0, perms=role:add)]', '127.0.0.1', '2022-04-28 14:25:00', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2965, 'admin', '更新菜单', 20, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[250, MenuVO(id=250, parentId=4, menuName=菜单删除, url=, icon=el-icon-folder-opened, type=1, orderNum=3, createTime=Tue Mar 10 07:57:38 CST 2020, modifiedTime=Sun Mar 15 13:29:41 CST 2020, disabled=false, open=0, perms=menu:delete)]', '127.0.0.1', '2022-04-28 14:25:14', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2966, 'admin', '更新菜单', 20, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[249, MenuVO(id=249, parentId=4, menuName=菜单修改, url=, icon=el-icon-share, type=1, orderNum=2, createTime=Tue Mar 10 07:56:55 CST 2020, modifiedTime=Sun Mar 15 13:29:29 CST 2020, disabled=false, open=0, perms=menu:update)]', '127.0.0.1', '2022-04-28 14:25:24', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2967, 'admin', '更新菜单', 21, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[378, MenuVO(id=378, parentId=4, menuName=菜单查询, url=null, icon=el-icon-more, type=1, orderNum=1, createTime=Thu Apr 28 14:21:31 CST 2022, modifiedTime=Thu Apr 28 14:21:31 CST 2022, disabled=false, open=0, perms=menu:select)]', '127.0.0.1', '2022-04-28 14:25:33', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2968, 'admin', '更新菜单', 21, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[329, MenuVO(id=329, parentId=4, menuName=菜单导出, url=null, icon=el-icon-edit, type=1, orderNum=1, createTime=Mon Apr 27 17:26:40 CST 2020, modifiedTime=Fri Oct 15 16:34:02 CST 2021, disabled=false, open=0, perms=menu:export)]', '127.0.0.1', '2022-04-28 14:25:45', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2969, 'admin', '更新菜单', 23, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[301, MenuVO(id=301, parentId=4, menuName=菜单编辑, url=, icon=el-icon-edit, type=1, orderNum=1, createTime=Sun Mar 22 23:12:25 CST 2020, modifiedTime=Sun Mar 22 23:12:25 CST 2020, disabled=false, open=0, perms=menu:edit)]', '127.0.0.1', '2022-04-28 14:25:57', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2970, 'admin', '更新菜单', 21, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[247, MenuVO(id=247, parentId=4, menuName=菜单添加, url=, icon=el-icon-s-opportunity, type=1, orderNum=1, createTime=Tue Mar 10 07:55:10 CST 2020, modifiedTime=Mon Apr 27 09:59:43 CST 2020, disabled=false, open=0, perms=menu:add)]', '127.0.0.1', '2022-04-28 14:26:07', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2971, 'admin', '更新菜单', 18, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[256, MenuVO(id=256, parentId=226, menuName=用户禁用, url=, icon=el-icon-circle-close, type=1, orderNum=1, createTime=Wed Mar 11 06:50:04 CST 2020, modifiedTime=Sat Mar 14 05:05:49 CST 2020, disabled=false, open=0, perms=user:status)]', '127.0.0.1', '2022-04-28 14:26:30', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2972, 'admin', '新增菜单/按钮', 18, 'com.erahub.controller.system.MenuController.add()\n\nresponse:{\"code\":0,\"data\":{\"children\":[],\"icon\":\"el-icon-more\",\"menuName\":\"日志查询\",\"id\":381},\"success\":true}', 'paramName:[menuVO],args:[MenuVO(id=null, parentId=271, menuName=日志查询, url=null, icon=el-icon-more, type=1, orderNum=1, createTime=null, modifiedTime=null, disabled=false, open=0, perms=loginLog:select)]', '127.0.0.1', '2022-04-28 14:28:01', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2973, 'admin', '更新菜单', 19, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[299, MenuVO(id=299, parentId=271, menuName=登录日志删除, url=, icon=el-icon-delete, type=1, orderNum=1, createTime=Sun Mar 22 21:55:44 CST 2020, modifiedTime=Sun Mar 22 21:55:44 CST 2020, disabled=false, open=0, perms=loginLog:delete)]', '127.0.0.1', '2022-04-28 14:29:23', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2974, 'admin', '更新菜单', 21, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[300, MenuVO(id=300, parentId=271, menuName=登录日志批量删除, url=, icon=el-icon-delete-solid, type=1, orderNum=1, createTime=Sun Mar 22 22:19:26 CST 2020, modifiedTime=Sun Mar 22 22:19:26 CST 2020, disabled=false, open=0, perms=loginLog:batchDelete)]', '127.0.0.1', '2022-04-28 14:29:32', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2975, 'admin', '更新菜单', 11, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[381, MenuVO(id=381, parentId=271, menuName=登录日志查询, url=null, icon=el-icon-more, type=1, orderNum=1, createTime=Thu Apr 28 14:28:01 CST 2022, modifiedTime=Thu Apr 28 14:28:01 CST 2022, disabled=false, open=0, perms=loginLog:select)]', '127.0.0.1', '2022-04-28 14:29:48', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2976, 'admin', '新增菜单/按钮', 19, 'com.erahub.controller.system.MenuController.add()\n\nresponse:{\"code\":0,\"data\":{\"children\":[],\"icon\":\"el-icon-more\",\"menuName\":\"日志查询\",\"id\":382},\"success\":true}', 'paramName:[menuVO],args:[MenuVO(id=null, parentId=307, menuName=日志查询, url=null, icon=el-icon-more, type=1, orderNum=1, createTime=null, modifiedTime=null, disabled=false, open=0, perms=log:select)]', '127.0.0.1', '2022-04-28 14:30:26', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2977, 'admin', '更新菜单', 22, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[308, MenuVO(id=308, parentId=307, menuName=日志删除, url=, icon=el-icon-circle-close, type=1, orderNum=1, createTime=Sat Apr 04 19:59:20 CST 2020, modifiedTime=Sat Apr 04 19:59:20 CST 2020, disabled=false, open=1, perms=log:delete)]', '127.0.0.1', '2022-04-28 14:30:40', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2978, 'admin', '更新菜单', 20, 'com.erahub.controller.system.MenuController.update()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, menuVO],args:[309, MenuVO(id=309, parentId=307, menuName=日志批量删除, url=null, icon=el-icon-document-delete, type=1, orderNum=2, createTime=Sat Apr 04 19:59:59 CST 2020, modifiedTime=Sat Apr 04 19:59:59 CST 2020, disabled=false, open=0, perms=log:batchDelete)]', '127.0.0.1', '2022-04-28 14:30:52', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (2979, 'admin', '角色授权', 373, 'com.erahub.controller.system.RoleController.authority()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, mids],args:[154, [Ljava.lang.Long;@292184fc]', '127.0.0.1', '2022-04-28 14:32:23', '内网IP|0|0|内网IP|内网IP');
 
 -- ----------------------------
 -- Table structure for tb_login_log
@@ -8961,7 +8988,7 @@ CREATE TABLE `tb_login_log`  (
   `user_system` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作系统',
   `user_browser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '浏览器',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1843 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1851 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_login_log
@@ -9695,6 +9722,11 @@ INSERT INTO `tb_login_log` VALUES (1842, 'admin', '2022-04-25 19:38:41', '内网
 INSERT INTO `tb_login_log` VALUES (1843, 'LiPeng', '2022-04-27 19:20:50', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
 INSERT INTO `tb_login_log` VALUES (1844, 'test01', '2022-04-27 19:22:02', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
 INSERT INTO `tb_login_log` VALUES (1845, 'admin', '2022-04-27 19:33:47', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
+INSERT INTO `tb_login_log` VALUES (1846, 'test01', '2022-04-28 14:03:46', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
+INSERT INTO `tb_login_log` VALUES (1847, 'admin', '2022-04-28 14:07:12', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
+INSERT INTO `tb_login_log` VALUES (1848, 'LiPeng', '2022-04-28 14:31:47', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
+INSERT INTO `tb_login_log` VALUES (1849, 'admin', '2022-04-28 14:32:07', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
+INSERT INTO `tb_login_log` VALUES (1850, 'LiPeng', '2022-04-28 14:32:52', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
 
 -- ----------------------------
 -- Table structure for tb_menu
@@ -9714,7 +9746,7 @@ CREATE TABLE `tb_menu`  (
   `available` int(0) NULL DEFAULT 1 COMMENT '0：不可用，1：可用',
   `open` int(0) NULL DEFAULT 1 COMMENT '0:不展开，1：展开',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 370 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 383 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_menu
@@ -9730,22 +9762,22 @@ INSERT INTO `tb_menu` VALUES (239, 226, '用户删除', '', 'user:delete', 'el-i
 INSERT INTO `tb_menu` VALUES (240, 226, '用户编辑', '', 'user:edit', 'el-icon-video-camera-solid', '1', 1, '2020-03-10 06:06:30', '2020-03-10 07:52:28', 1, 0);
 INSERT INTO `tb_menu` VALUES (241, 235, '角色编辑', '', 'role:edit', 'el-icon-s-promotion', '1', 2, '2020-03-10 06:11:03', '2020-03-11 11:40:19', 1, 0);
 INSERT INTO `tb_menu` VALUES (242, 235, '角色删除', '', 'role:delete', 'el-icon-s-marketing', '1', 3, '2020-03-10 06:15:29', '2020-03-11 11:43:36', 1, 0);
-INSERT INTO `tb_menu` VALUES (247, 4, '添加菜单', '', 'menu:add', 'el-icon-s-opportunity', '1', 1, '2020-03-10 07:55:10', '2020-04-27 09:59:43', 1, 0);
-INSERT INTO `tb_menu` VALUES (249, 4, '修改菜单', '', 'menu:update', 'el-icon-share', '1', 2, '2020-03-10 07:56:55', '2020-03-15 13:29:29', 1, 0);
-INSERT INTO `tb_menu` VALUES (250, 4, '删除菜单', '', 'menu:delete', 'el-icon-folder-opened', '1', 3, '2020-03-10 07:57:38', '2020-03-15 13:29:41', 1, 0);
+INSERT INTO `tb_menu` VALUES (247, 4, '菜单添加', '', 'menu:add', 'el-icon-s-opportunity', '1', 1, '2020-03-10 07:55:10', '2022-04-28 14:26:07', 1, 0);
+INSERT INTO `tb_menu` VALUES (249, 4, '菜单修改', '', 'menu:update', 'el-icon-share', '1', 2, '2020-03-10 07:56:55', '2022-04-28 14:25:24', 1, 0);
+INSERT INTO `tb_menu` VALUES (250, 4, '菜单删除', '', 'menu:delete', 'el-icon-folder-opened', '1', 3, '2020-03-10 07:57:38', '2022-04-28 14:25:14', 1, 0);
 INSERT INTO `tb_menu` VALUES (251, 235, '分配权限', '', 'role:authority', 'el-icon-document-add', '1', 1, '2020-03-10 08:13:22', '2020-03-11 11:39:30', 1, 0);
 INSERT INTO `tb_menu` VALUES (253, 1, '控制面板', '/system/welcome', 'welcome:view', 'el-icon-star-off', '0', 1, '2020-03-10 08:46:44', '2020-12-15 19:22:46', 1, 0);
 INSERT INTO `tb_menu` VALUES (254, 226, '分配角色', '', 'user:assign', 'el-icon-s-tools', '1', 3, '2020-03-11 01:32:29', '2020-04-27 10:58:30', 1, 0);
-INSERT INTO `tb_menu` VALUES (255, 235, '添加角色', '', 'role:add', 'el-icon-help', '1', 1, '2020-03-11 01:34:18', '2020-03-11 01:34:18', 1, 0);
-INSERT INTO `tb_menu` VALUES (256, 226, '禁用用户', '', 'user:status', 'el-icon-circle-close', '1', 1, '2020-03-11 06:50:04', '2020-03-14 05:05:49', 1, 0);
+INSERT INTO `tb_menu` VALUES (255, 235, '角色添加', '', 'role:add', 'el-icon-help', '1', 1, '2020-03-11 01:34:18', '2022-04-28 14:25:00', 1, 0);
+INSERT INTO `tb_menu` VALUES (256, 226, '用户禁用', '', 'user:status', 'el-icon-circle-close', '1', 1, '2020-03-11 06:50:04', '2022-04-28 14:26:30', 1, 0);
 INSERT INTO `tb_menu` VALUES (258, 226, '用户更新', '', 'user:update', 'el-icon-refresh', '1', 1, '2020-03-11 08:26:54', '2020-03-11 08:26:54', 1, 0);
 INSERT INTO `tb_menu` VALUES (259, 235, '角色更新', '', 'role:update', 'el-icon-refresh-left', '1', 1, '2020-03-11 11:45:20', '2020-03-11 11:45:20', 1, 0);
 INSERT INTO `tb_menu` VALUES (260, 235, '状态更新', '', 'role:status', 'el-icon-refresh', '1', 1, '2020-03-14 05:07:02', '2020-03-14 05:07:24', 1, 0);
 INSERT INTO `tb_menu` VALUES (261, 1, '部门管理', '/system/departments', '', 'el-icon-s-home', '0', 3, '2020-03-15 06:05:48', '2021-10-15 16:34:23', 1, 0);
-INSERT INTO `tb_menu` VALUES (262, 261, '添加部门', '', 'department:add', 'el-icon-plus', '1', 1, '2020-03-15 11:57:42', '2020-03-21 12:37:21', 1, 0);
-INSERT INTO `tb_menu` VALUES (263, 261, '编辑院系', '', 'department:edit', 'el-icon-edit', '1', 1, '2020-03-15 11:59:52', '2020-03-15 12:16:36', 1, 0);
-INSERT INTO `tb_menu` VALUES (264, 261, '更新院系', '', 'department:update', 'el-icon-refresh', '1', 1, '2020-03-15 12:02:34', '2020-03-15 12:16:32', 1, 0);
-INSERT INTO `tb_menu` VALUES (265, 261, '删除院系', NULL, 'department:delete', 'el-icon-delete', '1', 1, '2020-03-15 12:03:21', '2020-03-15 12:03:21', 1, 0);
+INSERT INTO `tb_menu` VALUES (262, 261, '部门添加', '', 'department:add', 'el-icon-plus', '1', 1, '2020-03-15 11:57:42', '2022-04-28 14:24:44', 1, 0);
+INSERT INTO `tb_menu` VALUES (263, 261, '部门编辑', '', 'department:edit', 'el-icon-edit', '1', 1, '2020-03-15 11:59:52', '2022-04-28 14:24:31', 1, 0);
+INSERT INTO `tb_menu` VALUES (264, 261, '部门更新', '', 'department:update', 'el-icon-refresh', '1', 1, '2020-03-15 12:02:34', '2022-04-28 14:23:57', 1, 0);
+INSERT INTO `tb_menu` VALUES (265, 261, '部门删除', NULL, 'department:delete', 'el-icon-delete', '1', 1, '2020-03-15 12:03:21', '2022-04-28 14:24:18', 1, 0);
 INSERT INTO `tb_menu` VALUES (267, 351, '物资资料', '/business/material/product/list', '', 'el-icon-goods', '0', 2, '2020-03-16 09:01:02', '2021-10-20 14:30:41', 1, 0);
 INSERT INTO `tb_menu` VALUES (268, 351, '物资类别', '/business/material/product/categories', '', 'el-icon-star-off', '0', 2, '2020-03-16 09:01:48', '2021-10-20 14:30:45', 1, 0);
 INSERT INTO `tb_menu` VALUES (269, 351, '物资来源', '/business/material/product/suppliers', '', 'el-icon-coordinate', '0', 5, '2020-03-16 12:35:10', '2021-10-20 14:31:03', 1, 0);
@@ -9765,14 +9797,14 @@ INSERT INTO `tb_menu` VALUES (284, 268, '删除类别', NULL, 'productCategory:d
 INSERT INTO `tb_menu` VALUES (285, 268, '编辑类别', NULL, 'productCategory:edit', 'el-icon-scissors', '1', 2, '2020-03-21 02:27:42', '2020-03-21 02:27:42', 1, 0);
 INSERT INTO `tb_menu` VALUES (286, 268, '更新类别', NULL, 'productCategory:update', ' el-icon-coordinate', '1', 1, '2020-03-21 02:28:17', '2020-03-21 02:28:17', 1, 0);
 INSERT INTO `tb_menu` VALUES (298, 5, 'SQL监控', '/monitor/druid', NULL, 'el-icon-view', '0', 3, '2020-03-22 02:48:05', '2021-10-20 15:11:17', 1, 0);
-INSERT INTO `tb_menu` VALUES (299, 271, '删除日志', '', 'loginLog:delete', 'el-icon-delete', '1', 1, '2020-03-22 21:55:44', '2020-03-22 21:55:44', 1, 0);
-INSERT INTO `tb_menu` VALUES (300, 271, '批量删除', '', 'loginLog:batchDelete', 'el-icon-delete-solid', '1', 1, '2020-03-22 22:19:26', '2020-03-22 22:19:26', 1, 0);
-INSERT INTO `tb_menu` VALUES (301, 4, '编辑菜单', '', 'menu:edit', 'el-icon-edit', '1', 1, '2020-03-22 23:12:25', '2020-03-22 23:12:25', 1, 0);
+INSERT INTO `tb_menu` VALUES (299, 271, '登录日志删除', '', 'loginLog:delete', 'el-icon-delete', '1', 1, '2020-03-22 21:55:44', '2022-04-28 14:29:23', 1, 0);
+INSERT INTO `tb_menu` VALUES (300, 271, '登录日志批量删除', '', 'loginLog:batchDelete', 'el-icon-delete-solid', '1', 1, '2020-03-22 22:19:26', '2022-04-28 14:29:32', 1, 0);
+INSERT INTO `tb_menu` VALUES (301, 4, '菜单编辑', '', 'menu:edit', 'el-icon-edit', '1', 1, '2020-03-22 23:12:25', '2022-04-28 14:25:57', 1, 0);
 INSERT INTO `tb_menu` VALUES (303, 312, '健康报备', '', '', 'el-icon-platform-eleme', '0', 3, '2020-03-24 10:11:53', '2020-12-15 20:15:30', 1, 1);
 INSERT INTO `tb_menu` VALUES (304, 303, '健康打卡', '/business/material/covid19/health', '', 'el-icon-s-cooperation', '0', 1, '2020-03-24 10:12:57', '2021-10-20 14:29:52', 1, 0);
 INSERT INTO `tb_menu` VALUES (307, 5, '操作日志', '/monitor/logs', '', 'el-icon-edit', '0', 2, '2020-04-04 19:04:53', '2021-10-20 15:11:11', 1, 0);
-INSERT INTO `tb_menu` VALUES (308, 307, '删除日志', '', 'log:delete', 'el-icon-circle-close', '1', 1, '2020-04-04 19:59:20', '2020-04-04 19:59:20', 1, 1);
-INSERT INTO `tb_menu` VALUES (309, 307, '批量删除', NULL, 'log:batchDelete', 'el-icon-document-delete', '1', 2, '2020-04-04 19:59:59', '2020-04-04 19:59:59', 1, 0);
+INSERT INTO `tb_menu` VALUES (308, 307, '日志删除', '', 'log:delete', 'el-icon-circle-close', '1', 1, '2020-04-04 19:59:20', '2022-04-28 14:30:40', 1, 1);
+INSERT INTO `tb_menu` VALUES (309, 307, '日志批量删除', NULL, 'log:batchDelete', 'el-icon-document-delete', '1', 2, '2020-04-04 19:59:59', '2022-04-28 14:30:52', 1, 0);
 INSERT INTO `tb_menu` VALUES (310, 351, '物资去处', '/business/material/product/consumers', '', 'el-icon-edit', '0', 1, '2020-04-05 10:08:21', '2021-10-20 14:30:35', 1, 0);
 INSERT INTO `tb_menu` VALUES (312, 0, '业务管理', NULL, NULL, 'el-icon-s-goods', '0', 2, '2020-04-05 10:19:07', '2020-08-19 17:57:27', 1, 1);
 INSERT INTO `tb_menu` VALUES (316, 351, '物资库存', '/business/material/product/stocks', '', 'el-icon-tickets', '0', 5, '2020-04-16 08:45:08', '2021-10-20 14:31:13', 1, 0);
@@ -9785,7 +9817,7 @@ INSERT INTO `tb_menu` VALUES (324, 310, '编辑去处', '', 'consumer:edit', 'el
 INSERT INTO `tb_menu` VALUES (325, 310, '更新去处', NULL, 'consumer:update', 'el-icon-star-off', '1', 1, '2020-04-27 17:00:18', '2020-04-27 17:00:18', 1, 1);
 INSERT INTO `tb_menu` VALUES (326, 230, '添加入库', '', 'inStock:in', 'el-icon-plus', '1', 3, '2020-04-27 17:07:04', '2020-08-19 17:57:15', 1, 1);
 INSERT INTO `tb_menu` VALUES (328, 230, '入库明细', NULL, 'inStock:detail', 'el-icon-zoom-in', '1', 2, '2020-04-27 17:08:25', '2021-09-27 11:07:53', 1, 0);
-INSERT INTO `tb_menu` VALUES (329, 4, '导出菜单', NULL, 'menu:export', 'el-icon-edit', '1', 1, '2020-04-27 17:26:40', '2021-10-15 16:34:02', 1, 0);
+INSERT INTO `tb_menu` VALUES (329, 4, '菜单导出', NULL, 'menu:export', 'el-icon-edit', '1', 1, '2020-04-27 17:26:40', '2022-04-28 14:25:45', 1, 0);
 INSERT INTO `tb_menu` VALUES (331, 267, '删除物资', NULL, 'product:delete', 'el-icon-delete', '1', 1, '2020-04-30 18:27:02', '2020-04-30 19:05:31', 1, 0);
 INSERT INTO `tb_menu` VALUES (332, 267, '回收物资', '', 'product:remove', 'el-icon-remove', '1', 1, '2020-04-30 18:56:48', '2020-04-30 18:56:48', 1, 1);
 INSERT INTO `tb_menu` VALUES (333, 267, '物资审核', NULL, 'product:publish', 'el-icon-edit', '1', 1, '2020-04-30 18:58:38', '2020-04-30 19:05:42', 1, 0);
@@ -9813,6 +9845,12 @@ INSERT INTO `tb_menu` VALUES (373, 369, '导入折旧方法', NULL, 'fixedAsset:
 INSERT INTO `tb_menu` VALUES (374, 369, '导出折旧方法', NULL, 'fixedAsset:metadata:depreciationMethod:export', 'el-icon-download', '1', 5, '2022-04-27 19:18:58', '2022-04-27 19:18:58', 1, 0);
 INSERT INTO `tb_menu` VALUES (375, 369, '查询折旧方法', '', 'fixedAsset:metadata:depreciationMethod:select', 'el-icon-more', '1', 1, '2022-04-27 19:29:02', '2022-04-27 19:29:45', 1, 0);
 INSERT INTO `tb_menu` VALUES (376, 356, '查询资产类别', '', 'fixedAsset:metadata:fixedAssetCategory:select', 'el-icon-more', '1', 1, '2022-04-27 19:31:19', '2022-04-27 19:31:19', 1, 0);
+INSERT INTO `tb_menu` VALUES (377, 226, '用户查询', '', 'user:select', 'el-icon-more', '1', 1, '2022-04-28 14:20:23', '2022-04-28 14:20:23', 1, 0);
+INSERT INTO `tb_menu` VALUES (378, 4, '菜单查询', NULL, 'menu:select', 'el-icon-more', '1', 1, '2022-04-28 14:21:31', '2022-04-28 14:25:33', 1, 0);
+INSERT INTO `tb_menu` VALUES (379, 235, '角色查询', NULL, 'role:select', 'el-icon-more', '1', 1, '2022-04-28 14:22:29', '2022-04-28 14:22:29', 1, 0);
+INSERT INTO `tb_menu` VALUES (380, 261, '部门查询', NULL, 'department:select', 'el-icon-more', '1', 1, '2022-04-28 14:23:17', '2022-04-28 14:24:08', 1, 0);
+INSERT INTO `tb_menu` VALUES (381, 271, '登录日志查询', NULL, 'loginLog:select', 'el-icon-more', '1', 1, '2022-04-28 14:28:01', '2022-04-28 14:29:48', 1, 0);
+INSERT INTO `tb_menu` VALUES (382, 307, '日志查询', NULL, 'log:select', 'el-icon-more', '1', 1, '2022-04-28 14:30:26', '2022-04-28 14:30:26', 1, 0);
 
 -- ----------------------------
 -- Table structure for tb_role
@@ -9844,7 +9882,7 @@ CREATE TABLE `tb_role_menu`  (
   `role_id` bigint(0) NOT NULL COMMENT '角色ID',
   `menu_id` bigint(0) NOT NULL COMMENT '菜单/按钮ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 314 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 734 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_role_menu
@@ -9886,144 +9924,150 @@ INSERT INTO `tb_role_menu` VALUES (34, 156, 270);
 INSERT INTO `tb_role_menu` VALUES (35, 156, 316);
 INSERT INTO `tb_role_menu` VALUES (36, 156, 1);
 INSERT INTO `tb_role_menu` VALUES (37, 156, 312);
-INSERT INTO `tb_role_menu` VALUES (452, 154, 1);
-INSERT INTO `tb_role_menu` VALUES (453, 154, 253);
-INSERT INTO `tb_role_menu` VALUES (454, 154, 226);
-INSERT INTO `tb_role_menu` VALUES (455, 154, 234);
-INSERT INTO `tb_role_menu` VALUES (456, 154, 239);
-INSERT INTO `tb_role_menu` VALUES (457, 154, 240);
-INSERT INTO `tb_role_menu` VALUES (458, 154, 256);
-INSERT INTO `tb_role_menu` VALUES (459, 154, 258);
-INSERT INTO `tb_role_menu` VALUES (460, 154, 317);
-INSERT INTO `tb_role_menu` VALUES (461, 154, 254);
-INSERT INTO `tb_role_menu` VALUES (462, 154, 4);
-INSERT INTO `tb_role_menu` VALUES (463, 154, 247);
-INSERT INTO `tb_role_menu` VALUES (464, 154, 301);
-INSERT INTO `tb_role_menu` VALUES (465, 154, 329);
-INSERT INTO `tb_role_menu` VALUES (466, 154, 249);
-INSERT INTO `tb_role_menu` VALUES (467, 154, 250);
-INSERT INTO `tb_role_menu` VALUES (468, 154, 235);
-INSERT INTO `tb_role_menu` VALUES (469, 154, 251);
-INSERT INTO `tb_role_menu` VALUES (470, 154, 255);
-INSERT INTO `tb_role_menu` VALUES (471, 154, 259);
-INSERT INTO `tb_role_menu` VALUES (472, 154, 260);
-INSERT INTO `tb_role_menu` VALUES (473, 154, 241);
-INSERT INTO `tb_role_menu` VALUES (474, 154, 242);
-INSERT INTO `tb_role_menu` VALUES (475, 154, 261);
-INSERT INTO `tb_role_menu` VALUES (476, 154, 262);
-INSERT INTO `tb_role_menu` VALUES (477, 154, 263);
-INSERT INTO `tb_role_menu` VALUES (478, 154, 264);
-INSERT INTO `tb_role_menu` VALUES (479, 154, 265);
-INSERT INTO `tb_role_menu` VALUES (480, 154, 318);
-INSERT INTO `tb_role_menu` VALUES (481, 154, 321);
-INSERT INTO `tb_role_menu` VALUES (482, 154, 312);
-INSERT INTO `tb_role_menu` VALUES (483, 154, 351);
-INSERT INTO `tb_role_menu` VALUES (484, 154, 230);
-INSERT INTO `tb_role_menu` VALUES (485, 154, 328);
-INSERT INTO `tb_role_menu` VALUES (486, 154, 338);
-INSERT INTO `tb_role_menu` VALUES (487, 154, 326);
-INSERT INTO `tb_role_menu` VALUES (488, 154, 337);
-INSERT INTO `tb_role_menu` VALUES (489, 154, 340);
-INSERT INTO `tb_role_menu` VALUES (490, 154, 339);
-INSERT INTO `tb_role_menu` VALUES (491, 154, 310);
-INSERT INTO `tb_role_menu` VALUES (492, 154, 323);
-INSERT INTO `tb_role_menu` VALUES (493, 154, 324);
-INSERT INTO `tb_role_menu` VALUES (494, 154, 325);
-INSERT INTO `tb_role_menu` VALUES (495, 154, 322);
-INSERT INTO `tb_role_menu` VALUES (496, 154, 267);
-INSERT INTO `tb_role_menu` VALUES (497, 154, 274);
-INSERT INTO `tb_role_menu` VALUES (498, 154, 278);
-INSERT INTO `tb_role_menu` VALUES (499, 154, 331);
-INSERT INTO `tb_role_menu` VALUES (500, 154, 332);
-INSERT INTO `tb_role_menu` VALUES (501, 154, 333);
-INSERT INTO `tb_role_menu` VALUES (502, 154, 336);
-INSERT INTO `tb_role_menu` VALUES (503, 154, 276);
-INSERT INTO `tb_role_menu` VALUES (504, 154, 277);
-INSERT INTO `tb_role_menu` VALUES (505, 154, 268);
-INSERT INTO `tb_role_menu` VALUES (506, 154, 283);
-INSERT INTO `tb_role_menu` VALUES (507, 154, 284);
-INSERT INTO `tb_role_menu` VALUES (508, 154, 286);
-INSERT INTO `tb_role_menu` VALUES (509, 154, 285);
-INSERT INTO `tb_role_menu` VALUES (510, 154, 269);
-INSERT INTO `tb_role_menu` VALUES (511, 154, 279);
-INSERT INTO `tb_role_menu` VALUES (512, 154, 280);
-INSERT INTO `tb_role_menu` VALUES (513, 154, 281);
-INSERT INTO `tb_role_menu` VALUES (514, 154, 282);
-INSERT INTO `tb_role_menu` VALUES (515, 154, 270);
-INSERT INTO `tb_role_menu` VALUES (516, 154, 316);
-INSERT INTO `tb_role_menu` VALUES (517, 154, 303);
-INSERT INTO `tb_role_menu` VALUES (518, 154, 273);
-INSERT INTO `tb_role_menu` VALUES (519, 154, 304);
-INSERT INTO `tb_role_menu` VALUES (520, 154, 343);
-INSERT INTO `tb_role_menu` VALUES (521, 154, 354);
-INSERT INTO `tb_role_menu` VALUES (522, 154, 355);
-INSERT INTO `tb_role_menu` VALUES (523, 154, 356);
-INSERT INTO `tb_role_menu` VALUES (524, 154, 364);
-INSERT INTO `tb_role_menu` VALUES (525, 154, 376);
-INSERT INTO `tb_role_menu` VALUES (526, 154, 365);
-INSERT INTO `tb_role_menu` VALUES (527, 154, 366);
-INSERT INTO `tb_role_menu` VALUES (528, 154, 367);
-INSERT INTO `tb_role_menu` VALUES (529, 154, 368);
-INSERT INTO `tb_role_menu` VALUES (530, 154, 369);
-INSERT INTO `tb_role_menu` VALUES (531, 154, 370);
-INSERT INTO `tb_role_menu` VALUES (532, 154, 375);
-INSERT INTO `tb_role_menu` VALUES (533, 154, 371);
-INSERT INTO `tb_role_menu` VALUES (534, 154, 372);
-INSERT INTO `tb_role_menu` VALUES (535, 154, 373);
-INSERT INTO `tb_role_menu` VALUES (536, 154, 374);
-INSERT INTO `tb_role_menu` VALUES (537, 154, 5);
-INSERT INTO `tb_role_menu` VALUES (538, 154, 271);
-INSERT INTO `tb_role_menu` VALUES (539, 154, 299);
-INSERT INTO `tb_role_menu` VALUES (540, 154, 300);
-INSERT INTO `tb_role_menu` VALUES (541, 154, 307);
-INSERT INTO `tb_role_menu` VALUES (542, 154, 308);
-INSERT INTO `tb_role_menu` VALUES (543, 154, 309);
-INSERT INTO `tb_role_menu` VALUES (544, 154, 298);
-INSERT INTO `tb_role_menu` VALUES (545, 154, 344);
-INSERT INTO `tb_role_menu` VALUES (546, 155, 1);
-INSERT INTO `tb_role_menu` VALUES (547, 155, 253);
-INSERT INTO `tb_role_menu` VALUES (548, 155, 226);
-INSERT INTO `tb_role_menu` VALUES (549, 155, 234);
-INSERT INTO `tb_role_menu` VALUES (550, 155, 239);
-INSERT INTO `tb_role_menu` VALUES (551, 155, 256);
-INSERT INTO `tb_role_menu` VALUES (552, 155, 258);
-INSERT INTO `tb_role_menu` VALUES (553, 155, 317);
-INSERT INTO `tb_role_menu` VALUES (554, 155, 254);
-INSERT INTO `tb_role_menu` VALUES (555, 155, 4);
-INSERT INTO `tb_role_menu` VALUES (556, 155, 247);
-INSERT INTO `tb_role_menu` VALUES (557, 155, 301);
-INSERT INTO `tb_role_menu` VALUES (558, 155, 329);
-INSERT INTO `tb_role_menu` VALUES (559, 155, 249);
-INSERT INTO `tb_role_menu` VALUES (560, 155, 250);
-INSERT INTO `tb_role_menu` VALUES (561, 155, 235);
-INSERT INTO `tb_role_menu` VALUES (562, 155, 251);
-INSERT INTO `tb_role_menu` VALUES (563, 155, 255);
-INSERT INTO `tb_role_menu` VALUES (564, 155, 259);
-INSERT INTO `tb_role_menu` VALUES (565, 155, 260);
-INSERT INTO `tb_role_menu` VALUES (566, 155, 241);
-INSERT INTO `tb_role_menu` VALUES (567, 155, 242);
-INSERT INTO `tb_role_menu` VALUES (568, 155, 261);
-INSERT INTO `tb_role_menu` VALUES (569, 155, 262);
-INSERT INTO `tb_role_menu` VALUES (570, 155, 263);
-INSERT INTO `tb_role_menu` VALUES (571, 155, 264);
-INSERT INTO `tb_role_menu` VALUES (572, 155, 265);
-INSERT INTO `tb_role_menu` VALUES (573, 155, 318);
-INSERT INTO `tb_role_menu` VALUES (574, 155, 321);
-INSERT INTO `tb_role_menu` VALUES (575, 155, 376);
-INSERT INTO `tb_role_menu` VALUES (576, 155, 375);
-INSERT INTO `tb_role_menu` VALUES (577, 155, 5);
-INSERT INTO `tb_role_menu` VALUES (578, 155, 271);
-INSERT INTO `tb_role_menu` VALUES (579, 155, 299);
-INSERT INTO `tb_role_menu` VALUES (580, 155, 300);
-INSERT INTO `tb_role_menu` VALUES (581, 155, 307);
-INSERT INTO `tb_role_menu` VALUES (582, 155, 308);
-INSERT INTO `tb_role_menu` VALUES (583, 155, 309);
-INSERT INTO `tb_role_menu` VALUES (584, 155, 298);
-INSERT INTO `tb_role_menu` VALUES (585, 155, 344);
-INSERT INTO `tb_role_menu` VALUES (586, 155, 354);
-INSERT INTO `tb_role_menu` VALUES (587, 155, 355);
-INSERT INTO `tb_role_menu` VALUES (588, 155, 356);
-INSERT INTO `tb_role_menu` VALUES (589, 155, 369);
+INSERT INTO `tb_role_menu` VALUES (590, 155, 253);
+INSERT INTO `tb_role_menu` VALUES (591, 155, 234);
+INSERT INTO `tb_role_menu` VALUES (592, 155, 239);
+INSERT INTO `tb_role_menu` VALUES (593, 155, 256);
+INSERT INTO `tb_role_menu` VALUES (594, 155, 258);
+INSERT INTO `tb_role_menu` VALUES (595, 155, 317);
+INSERT INTO `tb_role_menu` VALUES (596, 155, 254);
+INSERT INTO `tb_role_menu` VALUES (597, 155, 4);
+INSERT INTO `tb_role_menu` VALUES (598, 155, 247);
+INSERT INTO `tb_role_menu` VALUES (599, 155, 301);
+INSERT INTO `tb_role_menu` VALUES (600, 155, 329);
+INSERT INTO `tb_role_menu` VALUES (601, 155, 249);
+INSERT INTO `tb_role_menu` VALUES (602, 155, 250);
+INSERT INTO `tb_role_menu` VALUES (603, 155, 235);
+INSERT INTO `tb_role_menu` VALUES (604, 155, 251);
+INSERT INTO `tb_role_menu` VALUES (605, 155, 255);
+INSERT INTO `tb_role_menu` VALUES (606, 155, 259);
+INSERT INTO `tb_role_menu` VALUES (607, 155, 260);
+INSERT INTO `tb_role_menu` VALUES (608, 155, 241);
+INSERT INTO `tb_role_menu` VALUES (609, 155, 242);
+INSERT INTO `tb_role_menu` VALUES (610, 155, 261);
+INSERT INTO `tb_role_menu` VALUES (611, 155, 262);
+INSERT INTO `tb_role_menu` VALUES (612, 155, 263);
+INSERT INTO `tb_role_menu` VALUES (613, 155, 264);
+INSERT INTO `tb_role_menu` VALUES (614, 155, 265);
+INSERT INTO `tb_role_menu` VALUES (615, 155, 318);
+INSERT INTO `tb_role_menu` VALUES (616, 155, 321);
+INSERT INTO `tb_role_menu` VALUES (617, 155, 356);
+INSERT INTO `tb_role_menu` VALUES (618, 155, 376);
+INSERT INTO `tb_role_menu` VALUES (619, 155, 371);
+INSERT INTO `tb_role_menu` VALUES (620, 155, 5);
+INSERT INTO `tb_role_menu` VALUES (621, 155, 271);
+INSERT INTO `tb_role_menu` VALUES (622, 155, 299);
+INSERT INTO `tb_role_menu` VALUES (623, 155, 300);
+INSERT INTO `tb_role_menu` VALUES (624, 155, 307);
+INSERT INTO `tb_role_menu` VALUES (625, 155, 308);
+INSERT INTO `tb_role_menu` VALUES (626, 155, 309);
+INSERT INTO `tb_role_menu` VALUES (627, 155, 298);
+INSERT INTO `tb_role_menu` VALUES (628, 155, 344);
+INSERT INTO `tb_role_menu` VALUES (629, 155, 1);
+INSERT INTO `tb_role_menu` VALUES (630, 155, 226);
+INSERT INTO `tb_role_menu` VALUES (631, 155, 354);
+INSERT INTO `tb_role_menu` VALUES (632, 155, 355);
+INSERT INTO `tb_role_menu` VALUES (633, 155, 369);
+INSERT INTO `tb_role_menu` VALUES (634, 154, 1);
+INSERT INTO `tb_role_menu` VALUES (635, 154, 253);
+INSERT INTO `tb_role_menu` VALUES (636, 154, 226);
+INSERT INTO `tb_role_menu` VALUES (637, 154, 234);
+INSERT INTO `tb_role_menu` VALUES (638, 154, 239);
+INSERT INTO `tb_role_menu` VALUES (639, 154, 240);
+INSERT INTO `tb_role_menu` VALUES (640, 154, 256);
+INSERT INTO `tb_role_menu` VALUES (641, 154, 258);
+INSERT INTO `tb_role_menu` VALUES (642, 154, 317);
+INSERT INTO `tb_role_menu` VALUES (643, 154, 377);
+INSERT INTO `tb_role_menu` VALUES (644, 154, 254);
+INSERT INTO `tb_role_menu` VALUES (645, 154, 4);
+INSERT INTO `tb_role_menu` VALUES (646, 154, 247);
+INSERT INTO `tb_role_menu` VALUES (647, 154, 301);
+INSERT INTO `tb_role_menu` VALUES (648, 154, 329);
+INSERT INTO `tb_role_menu` VALUES (649, 154, 378);
+INSERT INTO `tb_role_menu` VALUES (650, 154, 249);
+INSERT INTO `tb_role_menu` VALUES (651, 154, 250);
+INSERT INTO `tb_role_menu` VALUES (652, 154, 235);
+INSERT INTO `tb_role_menu` VALUES (653, 154, 251);
+INSERT INTO `tb_role_menu` VALUES (654, 154, 255);
+INSERT INTO `tb_role_menu` VALUES (655, 154, 259);
+INSERT INTO `tb_role_menu` VALUES (656, 154, 260);
+INSERT INTO `tb_role_menu` VALUES (657, 154, 379);
+INSERT INTO `tb_role_menu` VALUES (658, 154, 241);
+INSERT INTO `tb_role_menu` VALUES (659, 154, 242);
+INSERT INTO `tb_role_menu` VALUES (660, 154, 261);
+INSERT INTO `tb_role_menu` VALUES (661, 154, 262);
+INSERT INTO `tb_role_menu` VALUES (662, 154, 263);
+INSERT INTO `tb_role_menu` VALUES (663, 154, 264);
+INSERT INTO `tb_role_menu` VALUES (664, 154, 265);
+INSERT INTO `tb_role_menu` VALUES (665, 154, 380);
+INSERT INTO `tb_role_menu` VALUES (666, 154, 318);
+INSERT INTO `tb_role_menu` VALUES (667, 154, 321);
+INSERT INTO `tb_role_menu` VALUES (668, 154, 312);
+INSERT INTO `tb_role_menu` VALUES (669, 154, 351);
+INSERT INTO `tb_role_menu` VALUES (670, 154, 230);
+INSERT INTO `tb_role_menu` VALUES (671, 154, 328);
+INSERT INTO `tb_role_menu` VALUES (672, 154, 338);
+INSERT INTO `tb_role_menu` VALUES (673, 154, 326);
+INSERT INTO `tb_role_menu` VALUES (674, 154, 337);
+INSERT INTO `tb_role_menu` VALUES (675, 154, 340);
+INSERT INTO `tb_role_menu` VALUES (676, 154, 339);
+INSERT INTO `tb_role_menu` VALUES (677, 154, 310);
+INSERT INTO `tb_role_menu` VALUES (678, 154, 323);
+INSERT INTO `tb_role_menu` VALUES (679, 154, 324);
+INSERT INTO `tb_role_menu` VALUES (680, 154, 325);
+INSERT INTO `tb_role_menu` VALUES (681, 154, 322);
+INSERT INTO `tb_role_menu` VALUES (682, 154, 267);
+INSERT INTO `tb_role_menu` VALUES (683, 154, 274);
+INSERT INTO `tb_role_menu` VALUES (684, 154, 278);
+INSERT INTO `tb_role_menu` VALUES (685, 154, 331);
+INSERT INTO `tb_role_menu` VALUES (686, 154, 332);
+INSERT INTO `tb_role_menu` VALUES (687, 154, 333);
+INSERT INTO `tb_role_menu` VALUES (688, 154, 336);
+INSERT INTO `tb_role_menu` VALUES (689, 154, 276);
+INSERT INTO `tb_role_menu` VALUES (690, 154, 277);
+INSERT INTO `tb_role_menu` VALUES (691, 154, 268);
+INSERT INTO `tb_role_menu` VALUES (692, 154, 283);
+INSERT INTO `tb_role_menu` VALUES (693, 154, 284);
+INSERT INTO `tb_role_menu` VALUES (694, 154, 286);
+INSERT INTO `tb_role_menu` VALUES (695, 154, 285);
+INSERT INTO `tb_role_menu` VALUES (696, 154, 269);
+INSERT INTO `tb_role_menu` VALUES (697, 154, 279);
+INSERT INTO `tb_role_menu` VALUES (698, 154, 280);
+INSERT INTO `tb_role_menu` VALUES (699, 154, 281);
+INSERT INTO `tb_role_menu` VALUES (700, 154, 282);
+INSERT INTO `tb_role_menu` VALUES (701, 154, 270);
+INSERT INTO `tb_role_menu` VALUES (702, 154, 316);
+INSERT INTO `tb_role_menu` VALUES (703, 154, 303);
+INSERT INTO `tb_role_menu` VALUES (704, 154, 273);
+INSERT INTO `tb_role_menu` VALUES (705, 154, 304);
+INSERT INTO `tb_role_menu` VALUES (706, 154, 343);
+INSERT INTO `tb_role_menu` VALUES (707, 154, 354);
+INSERT INTO `tb_role_menu` VALUES (708, 154, 355);
+INSERT INTO `tb_role_menu` VALUES (709, 154, 356);
+INSERT INTO `tb_role_menu` VALUES (710, 154, 376);
+INSERT INTO `tb_role_menu` VALUES (711, 154, 364);
+INSERT INTO `tb_role_menu` VALUES (712, 154, 365);
+INSERT INTO `tb_role_menu` VALUES (713, 154, 366);
+INSERT INTO `tb_role_menu` VALUES (714, 154, 367);
+INSERT INTO `tb_role_menu` VALUES (715, 154, 368);
+INSERT INTO `tb_role_menu` VALUES (716, 154, 369);
+INSERT INTO `tb_role_menu` VALUES (717, 154, 375);
+INSERT INTO `tb_role_menu` VALUES (718, 154, 370);
+INSERT INTO `tb_role_menu` VALUES (719, 154, 371);
+INSERT INTO `tb_role_menu` VALUES (720, 154, 372);
+INSERT INTO `tb_role_menu` VALUES (721, 154, 373);
+INSERT INTO `tb_role_menu` VALUES (722, 154, 374);
+INSERT INTO `tb_role_menu` VALUES (723, 154, 5);
+INSERT INTO `tb_role_menu` VALUES (724, 154, 271);
+INSERT INTO `tb_role_menu` VALUES (725, 154, 299);
+INSERT INTO `tb_role_menu` VALUES (726, 154, 300);
+INSERT INTO `tb_role_menu` VALUES (727, 154, 381);
+INSERT INTO `tb_role_menu` VALUES (728, 154, 307);
+INSERT INTO `tb_role_menu` VALUES (729, 154, 308);
+INSERT INTO `tb_role_menu` VALUES (730, 154, 382);
+INSERT INTO `tb_role_menu` VALUES (731, 154, 309);
+INSERT INTO `tb_role_menu` VALUES (732, 154, 298);
+INSERT INTO `tb_role_menu` VALUES (733, 154, 344);
 
 -- ----------------------------
 -- Table structure for tb_user
