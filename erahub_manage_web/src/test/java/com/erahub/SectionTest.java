@@ -1,5 +1,6 @@
 package com.erahub;
 
+import com.erahub.common.dto.fixedasset.metadata.SectionDTO;
 import com.erahub.common.model.fixedasset.metadata.Section;
 import com.erahub.common.vo.fixedasset.metadata.SectionVO;
 import com.erahub.fixedasset.metadata.service.SectionService;
@@ -23,7 +24,7 @@ public class SectionTest {
 
     @Test
     void treeBuild() {
-        List<SectionVO> tree = sectionService.getSectionList().getRows();
+        List<SectionVO> tree = sectionService.getSectionList(new SectionDTO()).getRows();
         System.out.println(tree);
     }
 }

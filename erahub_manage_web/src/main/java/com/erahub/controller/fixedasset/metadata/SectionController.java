@@ -1,6 +1,7 @@
 package com.erahub.controller.fixedasset.metadata;
 
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
+import com.erahub.common.dto.fixedasset.metadata.SectionDTO;
 import com.erahub.common.response.ResponseBean;
 import com.erahub.common.vo.common.PageVO;
 import com.erahub.common.vo.fixedasset.metadata.FixedAssetCategoryVO;
@@ -12,6 +13,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author lipeng
@@ -29,13 +32,14 @@ public class SectionController {
 
     /**
      * 获取单位列表
+     * @param sectionDTO
      * @return
      */
     @ApiOperation(value = "单位列表", notes = "获取单位列表")
     @RequiresPermissions({"fixedAsset:metadata:section:select"})
-    @GetMapping("/getSectionList")
-    public ResponseBean<PageVO<SectionVO>> getSectionList() {
-        PageVO<SectionVO> resultData = sectionService.getSectionList();
+    @PostMapping("/getSectionList")
+    public ResponseBean<PageVO<SectionVO>> getSectionList(@RequestBody SectionDTO sectionDTO) {
+        PageVO<SectionVO> resultData = sectionService.getSectionList(sectionDTO);
         return ResponseBean.success(resultData);
     }
 

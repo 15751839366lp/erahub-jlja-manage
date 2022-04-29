@@ -40,14 +40,11 @@ public class SectionDTO {
 
     private String remark;
 
+    private String parentSectionId;
+
     private Integer pageNum;
 
     private Integer pageSize;
 
     private Integer isAccurate;
-
-    private String sortColumn;
-
-    private Boolean isAsc;
-
 }

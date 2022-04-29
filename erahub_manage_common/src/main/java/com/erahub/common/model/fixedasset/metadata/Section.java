@@ -2,6 +2,7 @@ package com.erahub.common.model.fixedasset.metadata;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.Date;
 @TableName("fa_section")
 public class Section implements Serializable {
 
+    @TableId
     private String sectionId;
 
     private String sectionName;
