@@ -11,10 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author lipeng
@@ -36,7 +33,7 @@ public class SectionController {
      */
     @ApiOperation(value = "单位列表", notes = "获取单位列表")
     @RequiresPermissions({"fixedAsset:metadata:section:select"})
-    @PostMapping("/getSectionList")
+    @GetMapping("/getSectionList")
     public ResponseBean<PageVO<SectionVO>> getSectionList() {
         PageVO<SectionVO> resultData = sectionService.getSectionList();
         return ResponseBean.success(resultData);
