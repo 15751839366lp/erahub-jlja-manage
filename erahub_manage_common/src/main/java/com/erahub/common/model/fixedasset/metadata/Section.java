@@ -27,6 +27,9 @@ public class Section implements Serializable {
 
     private String sectionAbbreviation;
 
+    @TableField(exist = false)
+    private Long fixedAssetQuantity;
+
     private Long sectionLevel;
 
     private Long sectionDetailed;

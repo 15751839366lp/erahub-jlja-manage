@@ -32,6 +32,9 @@ public class SectionConverter {
                 SectionVO sectionVO = new SectionVO();
                 BeanUtils.copyProperties(section, sectionVO);
 
+                if(section.getFixedAssetQuantity() == null){
+                    sectionVO.setFixedAssetQuantity(0l);
+                }
                 sectionVOS.add(sectionVO);
             }
         }

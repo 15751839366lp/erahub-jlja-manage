@@ -25,7 +25,6 @@ public class RegexUtils {
      */
     public static boolean isStringInteger(String str) {
         Pattern pattern = Pattern.compile("^[+]?(0|([0-9]\\d*))?$");
-        boolean matches = pattern.matcher(str).matches();
         return pattern.matcher(str).matches();
     }
 }

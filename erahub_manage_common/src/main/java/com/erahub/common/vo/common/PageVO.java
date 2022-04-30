@@ -32,4 +32,10 @@ public class PageVO<T> {
         this.rows = rows;
         this.data = data;
     }
+    public PageVO(long total, List<T> rows,List<String> data,Map<String,String> map) {
+        this.total = total;
+        this.rows = rows;
+        this.data = data;
+    }
+
 }

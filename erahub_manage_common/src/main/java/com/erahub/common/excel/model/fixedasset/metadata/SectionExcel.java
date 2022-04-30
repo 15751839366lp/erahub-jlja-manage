@@ -3,6 +3,7 @@ package com.erahub.common.excel.model.fixedasset.metadata;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -27,6 +28,10 @@ public class SectionExcel {
     @ColumnWidth(40)
     @ExcelProperty(value = "单位简称")
     private String sectionAbbreviation;
+
+    @ColumnWidth(20)
+    @ExcelProperty(value = "资产数量")
+    private Long fixedAssetQuantity;
 
     @ColumnWidth(10)
     @ExcelProperty(value = "单位等级")

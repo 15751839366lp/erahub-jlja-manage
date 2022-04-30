@@ -10,6 +10,7 @@ import com.erahub.common.error.fixedasset.FixedAssetCodeEnum;
 import com.erahub.common.error.fixedasset.FixedAssetException;
 import com.erahub.common.excel.model.fixedasset.metadata.FixedAssetCategoryExcel;
 import com.erahub.common.excel.model.fixedasset.metadata.SectionExcel;
+import com.erahub.common.model.fixedasset.metadata.DepreciationMethod;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
 import com.erahub.common.model.fixedasset.metadata.Section;
 import com.erahub.common.utils.ListMapUtils;
@@ -25,11 +26,14 @@ import com.erahub.fixedasset.metadata.utils.SectionTreeBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import org.apache.poi.hpsf.wellknown.SectionIDMap;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,60 +64,21 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
     @Override
     public PageVO<SectionVO> getSectionList(SectionDTO sectionDTO) {
         IPage<Section> sectionVOIPage = new Page<>(0, -1);
-        QueryWrapper<Section> sectionWrapper = new QueryWrapper<>();
 
         Boolean isAllList = true;
-        Integer isAccurate = sectionDTO.getIsAccurate();
-        String sectionId = sectionDTO.getSectionId();
-        String sectionName = sectionDTO.getSectionName();
-        String sectionAbbreviation = sectionDTO.getSectionAbbreviation();
-        Long status = sectionDTO.getStatus();
-        Long sectionDetailed = sectionDTO.getSectionDetailed();
-        Date startCreateTime = sectionDTO.getStartCreateTime();
-        Date endCreateTime = sectionDTO.getEndCreateTime();
 
-        if (!StringUtils.isEmpty(sectionId)) {
-            if (isAccurate == 0) {
-                sectionWrapper.eq("section_id", sectionId);
-            } else {
-                sectionWrapper.like("section_id", sectionId);
-            }
-            isAllList = false;
-        }
-        if (!StringUtils.isEmpty(sectionName)) {
-            if (isAccurate == 0) {
-                sectionWrapper.eq("section_name", sectionName);
-            } else {
-                sectionWrapper.like("section_name", sectionName);
-            }
-            isAllList = false;
-        }
-        if (!StringUtils.isEmpty(sectionAbbreviation)) {
-            if (isAccurate == 0) {
-                sectionWrapper.eq("section_abbreviation", sectionAbbreviation);
-            } else {
-                sectionWrapper.like("section_abbreviation", sectionAbbreviation);
-            }
-            isAllList = false;
-        }
-        if (sectionDetailed != null) {
-            sectionWrapper.eq("section_detailed", sectionDetailed);
-            isAllList = false;
-        }
-        if (status != null) {
-            sectionWrapper.eq("status", status);
-            isAllList = false;
-        }
-        if (startCreateTime != null) {
-            sectionWrapper.ge("create_time", startCreateTime);
-            isAllList = false;
-        }
-        if (endCreateTime != null) {
-            sectionWrapper.le("create_time", endCreateTime);
+        if (!StringUtils.isEmpty(sectionDTO.getSectionId())
+                || !StringUtils.isEmpty(sectionDTO.getSectionName())
+                || !StringUtils.isEmpty(sectionDTO.getSectionAbbreviation())
+                || !StringUtils.isEmpty(sectionDTO.getSectionDetailed())
+                || !StringUtils.isEmpty(sectionDTO.getStatus())
+                || !StringUtils.isEmpty(sectionDTO.getStartCreateTime())
+                || !StringUtils.isEmpty(sectionDTO.getEndCreateTime())
+        ) {
             isAllList = false;
         }
 
-        sectionVOIPage = sectionMapper.selectPage(sectionVOIPage, sectionWrapper);
+        sectionVOIPage = sectionMapper.selectPageList(sectionVOIPage, sectionDTO);
 
         List<Section> sections = sectionVOIPage.getRecords();
         List<String> sectionIdList = new ArrayList<>();
@@ -122,7 +87,7 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
 
         if (sections != null && sections.size() > 0) {
             sectionIdList = sections.stream().map(Section::getSectionId).collect(Collectors.toList());
-            if(!isAllList){
+            if (!isAllList) {
                 sections = sectionMapper.selectAllParentList(sectionIdList);
             }
 
@@ -134,14 +99,15 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
 
     /**
      * 导出excel
+     *
      * @return
      */
     @Override
-    public List<SectionExcel> exportSectionExcel(){
+    public List<SectionExcel> exportSectionExcel() {
         List<SectionExcel> sectionExcels = new ArrayList<>();
-
-        List<Section> sections = sectionMapper.selectList(new QueryWrapper<>());
-        List<SectionVO> sectionVOS = sectionConverter.converterToSectionVOList(sections);
+        IPage<Section> sectionVOIPage = new Page<>(0, -1);
+        sectionVOIPage = sectionMapper.selectPageList(sectionVOIPage, new SectionDTO());
+        List<SectionVO> sectionVOS = sectionConverter.converterToSectionVOList(sectionVOIPage.getRecords());
         ListMapUtils.copyList(sectionVOS, sectionExcels, SectionExcel.class);
 
         return sectionExcels;
@@ -149,6 +115,7 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
 
     /**
      * 更新使用单位状态
+     *
      * @param sectionId
      * @param status
      */
@@ -161,6 +128,40 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
 
         dbSection.setStatus(status);
         sectionMapper.updateById(dbSection);
+    }
 
+    /**
+     * 添加使用单位
+     *
+     * @param sectionDTO
+     * @throws FixedAssetException
+     */
+    @Transactional
+    @Override
+    public void addSection(SectionDTO sectionDTO) throws FixedAssetException {
+        @NotNull(message = "使用单位id不能为空") String sectionId = sectionDTO.getSectionId();
+        @NotBlank(message = "使用单位名称不能为空") String sectionName = sectionDTO.getSectionName();
+        @NotNull(message = "使用单位简称不能为空") String sectionAbbreviation = sectionDTO.getSectionAbbreviation();
+
+        Integer num = sectionMapper.selectCount(new QueryWrapper<Section>().eq("section_id", sectionId));
+        if (num > 0) {
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该使用单位id已占用");
+        }
+
+        if (sectionId.length() % 4 != 0 || !RegexUtils.isStringInteger(sectionId)) {
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该使用单位id格式有误");
+        }
+
+        String parentSectionId = sectionId.substring(0, sectionId.length() - 4);
+        List<Section> parentSection = sectionMapper.selectList(new QueryWrapper<Section>().eq("section_id", parentSectionId));
+        if (!StringUtils.isEmpty(parentSectionId) && (parentSection == null || parentSection.size() == 0)) {
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该使用单位父节点不存在");
+        } else if(!StringUtils.isEmpty(parentSectionId) && (parentSection == null || parentSection.get(0).getSectionDetailed() == 1)){
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该使用单位父节点明细节点");
+        }
+
+        Section section = sectionConverter.converterToSection(sectionDTO);
+
+        sectionMapper.insert(section);
     }
 }

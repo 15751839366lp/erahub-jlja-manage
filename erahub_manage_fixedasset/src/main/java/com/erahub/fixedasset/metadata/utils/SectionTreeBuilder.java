@@ -38,6 +38,10 @@ public class SectionTreeBuilder {
         nodes.forEach(item -> {
             long length = item.getSectionId().length();
 
+            if(item.getFixedAssetQuantity() == null){
+                item.setFixedAssetQuantity(0l);
+            }
+
             SectionVO sectionVO = new SectionVO();
             BeanUtils.copyProperties(item, sectionVO);
 

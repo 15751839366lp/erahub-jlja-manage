@@ -84,4 +84,18 @@ public class SectionController {
         sectionService.changeSectionStatus(sectionId,status);
         return ResponseBean.success();
     }
+
+    /**
+     * 添加使用单位
+     * @param sectionDTO
+     * @return
+     */
+    @ControllerEndpoint(exceptionMessage = "添加使用单位失败", operation = "添加使用单位")
+    @ApiOperation(value = "添加使用单位", notes = "添加资使用单位")
+    @RequiresPermissions({"fixedAsset:metadata:section:add"})
+    @PostMapping("/addSection")
+    public ResponseBean addSection(@RequestBody @Validated SectionDTO sectionDTO) throws FixedAssetException {
+        sectionService.addSection(sectionDTO);
+        return ResponseBean.success();
+    }
 }

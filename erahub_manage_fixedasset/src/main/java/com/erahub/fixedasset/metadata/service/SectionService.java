@@ -34,4 +34,10 @@ public interface SectionService extends IService<Section> {
      * @return
      */
     void changeSectionStatus(String sectionId, Long status) throws FixedAssetException;
+    /**
+     * 添加使用单位
+     * @param sectionDTO
+     * @return
+     */
+    void addSection(SectionDTO sectionDTO) throws FixedAssetException;
 }

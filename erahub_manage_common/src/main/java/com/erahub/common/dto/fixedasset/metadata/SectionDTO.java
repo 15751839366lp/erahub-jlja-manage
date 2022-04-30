@@ -20,6 +20,8 @@ public class SectionDTO {
 
     private String sectionAbbreviation;
 
+    private Long fixedAssetQuantity;
+
     private Long sectionLevel;
 
     private Long sectionDetailed;

@@ -21,6 +21,8 @@ public class SectionVO {
 
     private String sectionAbbreviation;
 
+    private Long fixedAssetQuantity;
+
     private Long sectionLevel;
 
     private Long sectionDetailed;
@@ -36,4 +38,6 @@ public class SectionVO {
     private String remark;
 
     private List<SectionVO> children;
+
+    private Boolean hasChildren;
 }
