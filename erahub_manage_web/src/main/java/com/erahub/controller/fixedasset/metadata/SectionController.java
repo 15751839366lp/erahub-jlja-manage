@@ -51,6 +51,19 @@ public class SectionController {
     }
 
     /**
+     * 获取单位列表子节点
+     * @param sectionId
+     * @return
+     */
+    @ApiOperation(value = "单位列表子节点", notes = "获取单位列表子节点")
+    @RequiresPermissions({"fixedAsset:metadata:section:select"})
+    @GetMapping("/getChildrenList/{sectionId}")
+    public ResponseBean<PageVO<SectionVO>> getChildrenList(@PathVariable String sectionId) throws FixedAssetException{
+        PageVO<SectionVO> resultData = sectionService.getChildrenList(sectionId);
+        return ResponseBean.success(resultData);
+    }
+
+    /**
      * 导出excel
      * @param response
      */

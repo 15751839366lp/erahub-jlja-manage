@@ -40,4 +40,10 @@ public interface SectionService extends IService<Section> {
      * @return
      */
     void addSection(SectionDTO sectionDTO) throws FixedAssetException;
+    /**
+     * 获取子节点
+     * @param sectionId
+     * @return
+     */
+    PageVO<SectionVO> getChildrenList(String sectionId) throws FixedAssetException;
 }

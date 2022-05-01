@@ -37,13 +37,16 @@ public class SectionTreeBuilder {
         //按级分类
         nodes.forEach(item -> {
             long length = item.getSectionId().length();
-
-            if(item.getFixedAssetQuantity() == null){
-                item.setFixedAssetQuantity(0l);
-            }
-
             SectionVO sectionVO = new SectionVO();
             BeanUtils.copyProperties(item, sectionVO);
+
+            if(item.getFixedAssetQuantity() == null){
+                sectionVO.setFixedAssetQuantity(0l);
+            }
+
+//            if(item.getSectionDetailed() != null){
+//                sectionVO.setHasChildren(item.getSectionDetailed() == 1 ? false : true);
+//            }
 
             if (tmpMap.containsKey(length)) {
                 tmpMap.get(length).put(item.getSectionId(), sectionVO);

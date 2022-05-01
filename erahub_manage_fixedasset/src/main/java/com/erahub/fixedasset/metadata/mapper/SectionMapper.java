@@ -22,4 +22,6 @@ public interface SectionMapper extends BaseMapper<Section> {
                                              @Param("sectionDTO") SectionDTO sectionDTO);
 
     List<Section> selectAllParentList(@Param("sectionIdList") List<String> sectionIdList);
+
+    List<Section> selectChildrenList(@Param("sectionId") String sectionId);
 }

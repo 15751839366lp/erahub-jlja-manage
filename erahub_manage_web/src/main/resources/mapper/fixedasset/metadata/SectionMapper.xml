@@ -60,5 +60,13 @@
         </foreach>
     </select>
 
+    <select id="selectChildrenList" resultType="com.erahub.common.model.fixedasset.metadata.Section"
+            parameterType="java.lang.String"
+    >
+        select fs.*,ffa.fixed_asset_quantity from fa_section as fs left join
+        (select section_id,COUNT(section_id) as fixed_asset_quantity from fa_fixed_asset GROUP BY section_id) as ffa
+        on fs.section_id = ffa.section_id
+        where fs.section_id like '${sectionId}%' and length(fs.section_id) = length(#{sectionId}) + 4
+    </select>
 
 </mapper>

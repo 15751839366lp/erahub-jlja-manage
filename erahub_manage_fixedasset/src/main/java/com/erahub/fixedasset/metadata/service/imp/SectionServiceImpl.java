@@ -98,6 +98,26 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
     }
 
     /**
+     * 获取子节点
+     *
+     * @param sectionId
+     * @return
+     */
+    @Override
+    public PageVO<SectionVO> getChildrenList(String sectionId) throws FixedAssetException {
+
+
+        if (StringUtils.isEmpty(sectionId)) {
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "ID为空");
+        }
+
+        List<Section> sections = sectionMapper.selectChildrenList(sectionId);
+        List<SectionVO> sectionVOS = sectionConverter.converterToSectionVOList(sections);
+
+        return new PageVO<SectionVO>(sections.size(),sectionVOS);
+    }
+
+    /**
      * 导出excel
      *
      * @return
