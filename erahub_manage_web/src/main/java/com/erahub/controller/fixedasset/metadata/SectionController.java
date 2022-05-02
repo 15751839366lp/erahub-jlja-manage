@@ -18,10 +18,14 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author lipeng
@@ -109,6 +113,64 @@ public class SectionController {
     @PostMapping("/addSection")
     public ResponseBean addSection(@RequestBody @Validated SectionDTO sectionDTO) throws FixedAssetException {
         sectionService.addSection(sectionDTO);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 修改使用单位
+     * @param sectionDTO
+     * @return
+     */
+    @ControllerEndpoint(exceptionMessage = "修改使用单位失败", operation = "修改使用单位")
+    @ApiOperation(value = "修改使用单位", notes = "修改使用单位")
+    @RequiresPermissions({"fixedAsset:metadata:section:edit"})
+    @PutMapping("/updateSection")
+    public ResponseBean updateSection(@RequestBody @Validated SectionDTO sectionDTO) throws FixedAssetException {
+        sectionService.updateSection(sectionDTO);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 删除使用单位
+     * @param id
+     * @return
+     */
+    @ControllerEndpoint(exceptionMessage = "删除使用单位失败", operation = "删除使用单位")
+    @RequiresPermissions({"fixedAsset:metadata:section:delete"})
+    @ApiOperation(value = "删除使用单位", notes = "删除使用单位信息，根据使用单位ID")
+    @DeleteMapping("/deleteSection/{id}")
+    public ResponseBean deleteSection(@PathVariable String id) throws FixedAssetException {
+        sectionService.deleteSectionById(id);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 批量删除资产类别
+     * @param sectionIds
+     * @return
+     */
+    @ControllerEndpoint(exceptionMessage = "批量删除使用单位失败", operation = "批量删除使用单位")
+    @RequiresPermissions({"fixedAsset:metadata:section:delete"})
+    @ApiOperation(value = "批量删除使用单位", notes = "批量删除使用单位信息，根据使用单位ID")
+    @DeleteMapping("/deleteSectionByBatchId")
+    public ResponseBean deleteSectionByBatchId(@RequestBody List<String> sectionIds) throws FixedAssetException {
+        sectionService.deleteSectionByBatchId(sectionIds);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 上传导入资产类别
+     * @param request
+     * @return
+     */
+    @ControllerEndpoint(exceptionMessage = "上传导入使用单位失败", operation = "上传导入使用单位")
+    @RequiresPermissions({"fixedAsset:metadata:section:import"})
+    @ApiOperation(value = "上传导入使用单位", notes = "上传导入使用单位")
+    @PostMapping("/importSection")
+    public ResponseBean importSection(HttpServletRequest request) throws FixedAssetException, IOException {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+        sectionService.importSection(fileMap);
         return ResponseBean.success();
     }
 }

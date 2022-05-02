@@ -47,12 +47,8 @@ public class DepreciationMethodConverter {
      * @param depreciationMethodDTO
      * @return
      */
-    public static DepreciationMethod converterToDepreciationMethod(DepreciationMethodDTO depreciationMethodDTO) {
-
-        DepreciationMethod depreciationMethod = new DepreciationMethod();
+    public static void converterToDepreciationMethod(DepreciationMethodDTO depreciationMethodDTO,DepreciationMethod depreciationMethod) {
         BeanUtils.copyProperties(depreciationMethodDTO, depreciationMethod);
-
-        return depreciationMethod;
     }
 
     /**

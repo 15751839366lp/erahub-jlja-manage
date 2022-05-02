@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
@@ -37,6 +38,7 @@ import java.util.*;
 
 
 /**
+ * todo 统计资产数量，类别，导入 删除时判断
  * @Author lipeng
  * @Date 2022/4/21 18:20
  * @Version 1.0
@@ -176,7 +178,8 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
             throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "该折旧方法名称已被占用");
         }
 
-        DepreciationMethod depreciationMethod = depreciationMethodConverter.converterToDepreciationMethod(depreciationMethodDTO);
+        DepreciationMethod depreciationMethod = new DepreciationMethod();
+        depreciationMethodConverter.converterToDepreciationMethod(depreciationMethodDTO, depreciationMethod);
 
         depreciationMethodMapper.insert(depreciationMethod);
     }
@@ -198,9 +201,9 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
             throw new FixedAssetException(FixedAssetCodeEnum.DEPRECIATION_METHOD_NOT_FOUND);
         }
 
-        DepreciationMethod depreciationMethod = depreciationMethodConverter.converterToDepreciationMethod(depreciationMethodDTO);
+        depreciationMethodConverter.converterToDepreciationMethod(depreciationMethodDTO, updateDepreciationMethod);
 
-        depreciationMethodMapper.updateById(depreciationMethod);
+        depreciationMethodMapper.updateById(updateDepreciationMethod);
     }
 
     /**
@@ -283,12 +286,12 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
                 }
 
                 //ID和明细存入map
-                if (idMap.containsKey(depreciationMethodId) ) {
+                if (idMap.containsKey(depreciationMethodId)) {
                     throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
-                }else if (idMap.containsValue(row.getCell(1).getStringCellValue()) ) {
+                } else if (idMap.containsValue(row.getCell(1).getStringCellValue())) {
                     throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复名称");
                 } else {
-                    idMap.put(depreciationMethodId,row.getCell(1).getStringCellValue());
+                    idMap.put(depreciationMethodId, row.getCell(1).getStringCellValue());
                 }
 
                 //数据复值

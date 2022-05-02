@@ -48,17 +48,14 @@ public class FixedAssetCategoryConverter {
      * @param fixedAssetCategoryDTO
      * @return
      */
-    public static FixedAssetCategory converterToFixedAssetCategory(FixedAssetCategoryDTO fixedAssetCategoryDTO) {
+    public static void converterToFixedAssetCategory(FixedAssetCategoryDTO fixedAssetCategoryDTO,FixedAssetCategory fixedAssetCategory) {
 
-        FixedAssetCategory fixedAssetCategory = new FixedAssetCategory();
         BeanUtils.copyProperties(fixedAssetCategoryDTO, fixedAssetCategory);
 
         fixedAssetCategory.setDepreciationPeriod(ArithmeticUtils.mul(fixedAssetCategoryDTO.getDepreciationPeriod().toString(), "100").longValue());
         fixedAssetCategory.setEstimatedTotalWorkload(ArithmeticUtils.mul(fixedAssetCategoryDTO.getEstimatedTotalWorkload().toString(), "100").longValue());
         fixedAssetCategory.setNetResidualValue(ArithmeticUtils.mul(fixedAssetCategoryDTO.getNetResidualValue().toString(), "100").longValue());
         fixedAssetCategory.setCategoryLevel(Long.valueOf(fixedAssetCategoryDTO.getCategoryId().length() / 2));
-
-        return fixedAssetCategory;
     }
 
     /**

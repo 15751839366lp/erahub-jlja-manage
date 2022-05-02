@@ -51,14 +51,9 @@ public class SectionConverter {
      * @param sectionDTO
      * @return
      */
-    public static Section converterToSection(SectionDTO sectionDTO) {
-
-        Section section = new Section();
+    public static void converterToSection(SectionDTO sectionDTO,Section section) {
         BeanUtils.copyProperties(sectionDTO, section);
-
         section.setSectionLevel(Long.valueOf(sectionDTO.getSectionId().length() / 4));
-
-        return section;
     }
 
     /**
