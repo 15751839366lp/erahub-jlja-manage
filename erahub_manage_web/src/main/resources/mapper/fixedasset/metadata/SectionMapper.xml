@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.erahub.fixedasset.metadata.mapper.SectionMapper">
 
-    <select id="selectPageList" resultType="com.erahub.common.model.fixedasset.metadata.Section"
+    <select id="selectSectionPageList" resultType="com.erahub.common.model.fixedasset.metadata.Section"
             parameterType="com.erahub.common.dto.fixedasset.metadata.SectionDTO"
     >
         select fs.*,ffa.fixed_asset_quantity from fa_section as fs left join
@@ -49,7 +49,7 @@
     </select>
 
 
-    <select id="selectAllParentList" resultType="com.erahub.common.model.fixedasset.metadata.Section"
+    <select id="selectAllSectionParentList" resultType="com.erahub.common.model.fixedasset.metadata.Section"
             parameterType="java.util.List"
     >
         select fs.*,ffa.fixed_asset_quantity from fa_section as fs left join
@@ -60,7 +60,7 @@
         </foreach>
     </select>
 
-    <select id="selectChildrenList" resultType="com.erahub.common.model.fixedasset.metadata.Section"
+    <select id="selectSectionChildrenList" resultType="com.erahub.common.model.fixedasset.metadata.Section"
             parameterType="java.lang.String"
     >
         select fs.*,ffa.fixed_asset_quantity from fa_section as fs left join
@@ -69,7 +69,7 @@
         where fs.section_id like '${sectionId}%' and length(fs.section_id) = length(#{sectionId}) + 4
     </select>
 
-    <select id="selectListByIds" resultType="com.erahub.common.model.fixedasset.metadata.Section"
+    <select id="selectSectionListByIds" resultType="com.erahub.common.model.fixedasset.metadata.Section"
             parameterType="java.util.List"
     >
         select fs.*,ffa.fixed_asset_quantity from fa_section as fs left join

@@ -2,80 +2,96 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.erahub.fixedasset.metadata.mapper.FixedAssetCategoryMapper">
 
-    <select id="selectPageList" resultType="com.erahub.common.model.fixedasset.metadata.FixedAssetCategory"
+    <select id="selectFixedAssetCategoryPageList" resultType="com.erahub.common.model.fixedasset.metadata.FixedAssetCategory"
         parameterType="com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO"
     >
+        select ffac.*,ffa.fixed_asset_quantity from (
         select f.*,d.depreciation_method_name from fa_fixed_asset_category as f left join fa_depreciation_method as d
         on f.depreciation_method_id = d.depreciation_method_id
+        ) as ffac left join
+        (select category_id,COUNT(category_id) as fixed_asset_quantity from fa_fixed_asset GROUP BY category_id) as ffa
+        on ffac.category_id = ffa.category_id
         where 1 = 1
         <if test="fixedAssetCategoryDTO.isAccurate != null and fixedAssetCategoryDTO.isAccurate == 0">
             <if test="fixedAssetCategoryDTO.categoryId != null and fixedAssetCategoryDTO.categoryId != ''">
-                and f.category_id = #{fixedAssetCategoryDTO.categoryId}
+                and ffac.category_id = #{fixedAssetCategoryDTO.categoryId}
             </if>
             <if test="fixedAssetCategoryDTO.capacityUnit != null and fixedAssetCategoryDTO.capacityUnit != ''">
-                and f.capacity_unit = #{fixedAssetCategoryDTO.capacityUnit}
+                and ffac.capacity_unit = #{fixedAssetCategoryDTO.capacityUnit}
             </if>
             <if test="fixedAssetCategoryDTO.measureUnit != null and fixedAssetCategoryDTO.measureUnit != ''">
-                and f.measure_unit = #{fixedAssetCategoryDTO.measureUnit}
+                and ffac.measure_unit = #{fixedAssetCategoryDTO.measureUnit}
             </if>
             <if test="fixedAssetCategoryDTO.categoryName != null and fixedAssetCategoryDTO.categoryName != ''">
-                and f.category_name = #{fixedAssetCategoryDTO.categoryName}
+                and ffac.category_name = #{fixedAssetCategoryDTO.categoryName}
             </if>
         </if>
 
         <if test="fixedAssetCategoryDTO.isAccurate != null and fixedAssetCategoryDTO.isAccurate == 1">
             <if test="fixedAssetCategoryDTO.categoryId != null and fixedAssetCategoryDTO.categoryId != ''">
-                and f.category_id like '${fixedAssetCategoryDTO.categoryId}%'
+                and ffac.category_id like '${fixedAssetCategoryDTO.categoryId}%'
             </if>
             <if test="fixedAssetCategoryDTO.capacityUnit != null and fixedAssetCategoryDTO.capacityUnit != ''">
-                and f.capacity_unit like '%${fixedAssetCategoryDTO.capacityUnit}%'
+                and ffac.capacity_unit like '%${fixedAssetCategoryDTO.capacityUnit}%'
             </if>
             <if test="fixedAssetCategoryDTO.measureUnit != null and fixedAssetCategoryDTO.measureUnit != ''">
-                and f.measure_unit like '%${fixedAssetCategoryDTO.measureUnit}%'
+                and ffac.measure_unit like '%${fixedAssetCategoryDTO.measureUnit}%'
             </if>
             <if test="fixedAssetCategoryDTO.categoryName != null and fixedAssetCategoryDTO.categoryName != ''">
-                and f.category_name like '%${fixedAssetCategoryDTO.categoryName}%'
+                and ffac.category_name like '%${fixedAssetCategoryDTO.categoryName}%'
             </if>
         </if>
 
         <if test="fixedAssetCategoryDTO.status != null">
-            and f.status = #{fixedAssetCategoryDTO.status}
+            and ffac.status = #{fixedAssetCategoryDTO.status}
         </if>
         <if test="fixedAssetCategoryDTO.categoryDetailed != null">
-            and f.category_detailed = #{fixedAssetCategoryDTO.categoryDetailed}
+            and ffac.category_detailed = #{fixedAssetCategoryDTO.categoryDetailed}
         </if>
         <if test="fixedAssetCategoryDTO.depreciationMethodId != null">
-            and f.depreciation_method_id = #{fixedAssetCategoryDTO.depreciationMethodId}
+            and ffac.depreciation_method_id = #{fixedAssetCategoryDTO.depreciationMethodId}
         </if>
         <if test="fixedAssetCategoryDTO.depreciationPeriod != null">
-            and f.depreciation_period = #{fixedAssetCategoryDTO.depreciationPeriod}
+            and ffac.depreciation_period = #{fixedAssetCategoryDTO.depreciationPeriod}
         </if>
         <if test="fixedAssetCategoryDTO.netResidualValue != null">
-            and f.net_residual_value = #{fixedAssetCategoryDTO.netResidualValue}
+            and ffac.net_residual_value = #{fixedAssetCategoryDTO.netResidualValue}
         </if>
         <if test="fixedAssetCategoryDTO.estimatedTotalWorkload != null">
-            and f.estimated_total_workload = #{fixedAssetCategoryDTO.estimatedTotalWorkload}
+            and ffac.estimated_total_workload = #{fixedAssetCategoryDTO.estimatedTotalWorkload}
         </if>
 
         <if test="fixedAssetCategoryDTO.startCreateTime != null">
-            and f.create_time &gt;= #{fixedAssetCategoryDTO.startCreateTime}
+            and ffac.create_time &gt;= #{fixedAssetCategoryDTO.startCreateTime}
         </if>
 
         <if test="fixedAssetCategoryDTO.endCreateTime != null">
-            and f.create_time &lt;= #{fixedAssetCategoryDTO.endCreateTime}
+            and ffac.create_time &lt;= #{fixedAssetCategoryDTO.endCreateTime}
         </if>
 
         <if test="fixedAssetCategoryDTO.sortColumn != null and fixedAssetCategoryDTO.sortColumn != ''">
             <if test="fixedAssetCategoryDTO.isAsc != null and fixedAssetCategoryDTO.isAsc">
-                order by f.${fixedAssetCategoryDTO.sortColumn}
+                order by ${fixedAssetCategoryDTO.sortColumn}
             </if>
             <if test="fixedAssetCategoryDTO.isAsc != null and !fixedAssetCategoryDTO.isAsc">
-                order by f.${fixedAssetCategoryDTO.sortColumn} desc
+                order by ${fixedAssetCategoryDTO.sortColumn} desc
             </if>
         </if>
-
-
     </select>
 
+    <select id="selectFixedAssetCategoryListByIds" resultType="com.erahub.common.model.fixedasset.metadata.FixedAssetCategory"
+            parameterType="java.util.List"
+    >
+        select ffac.*,ffa.fixed_asset_quantity from (
+        select f.*,d.depreciation_method_name from fa_fixed_asset_category as f left join fa_depreciation_method as d
+        on f.depreciation_method_id = d.depreciation_method_id
+        ) as ffac left join
+        (select category_id,COUNT(category_id) as fixed_asset_quantity from fa_fixed_asset GROUP BY category_id) as ffa
+        on ffac.category_id = ffa.category_id
+        where ffac.category_id in
+        <foreach item="item" collection="categoryIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

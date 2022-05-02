@@ -35,7 +35,9 @@ public class FixedAssetCategoryConverter {
                 fixedAssetCategoryVO.setDepreciationPeriod(new BigDecimal(ArithmeticUtils.div(fixedAssetCategory.getDepreciationPeriod(), 100, 2)));
                 fixedAssetCategoryVO.setEstimatedTotalWorkload(new BigDecimal(ArithmeticUtils.div(fixedAssetCategory.getEstimatedTotalWorkload(), 100, 2)));
                 fixedAssetCategoryVO.setNetResidualValue(new BigDecimal(ArithmeticUtils.div(fixedAssetCategory.getNetResidualValue(), 100, 2)));
-
+                if(fixedAssetCategory.getFixedAssetQuantity() == null){
+                    fixedAssetCategoryVO.setFixedAssetQuantity(0l);
+                }
                 fixedAssetCategoryVOS.add(fixedAssetCategoryVO);
             }
         }

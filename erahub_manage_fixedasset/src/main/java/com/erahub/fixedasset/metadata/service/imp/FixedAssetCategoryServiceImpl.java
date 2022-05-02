@@ -40,7 +40,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/** todo 统计资产数量，导入 删除时判断
+/**
  * @Author lipeng
  * @Date 2022/4/16 15:15
  * @Version 1.0
@@ -88,7 +88,7 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
         }
 
 
-        fixedAssetCategoryIPage = fixedAssetCategoryMapper.selectPageList(fixedAssetCategoryIPage, fixedAssetCategoryDTO);
+        fixedAssetCategoryIPage = fixedAssetCategoryMapper.selectFixedAssetCategoryPageList(fixedAssetCategoryIPage, fixedAssetCategoryDTO);
         List<FixedAssetCategory> fixedAssetCategoryList = fixedAssetCategoryIPage.getRecords();
         List<FixedAssetCategoryVO> fixedAssetCategoryVOS = fixedAssetCategoryConverter.converterToFixedAssetCategoryVOList(fixedAssetCategoryList);
 
@@ -108,7 +108,7 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
         //临时不分页
         fixedAssetCategoryIPage.setSize(-1l);
 
-        fixedAssetCategoryIPage = fixedAssetCategoryMapper.selectPageList(fixedAssetCategoryIPage, new FixedAssetCategoryDTO());
+        fixedAssetCategoryIPage = fixedAssetCategoryMapper.selectFixedAssetCategoryPageList(fixedAssetCategoryIPage, new FixedAssetCategoryDTO());
         List<FixedAssetCategory> fixedAssetCategoryList = fixedAssetCategoryIPage.getRecords();
         List<FixedAssetCategoryVO> fixedAssetCategoryVOS = fixedAssetCategoryConverter.converterToFixedAssetCategoryVOList(fixedAssetCategoryList);
         ListMapUtils.copyList(fixedAssetCategoryVOS, fixedAssetCategoryExcels, FixedAssetCategoryExcel.class);
@@ -234,11 +234,20 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
     @Transactional
     @Override
     public void deleteFixedAssetCategoryById(String categoryId) throws FixedAssetException {
-        FixedAssetCategory deleteFixedAssetCategory = fixedAssetCategoryMapper.selectById(categoryId);
+        List<FixedAssetCategory> deleteFixedAssetCategories = fixedAssetCategoryMapper.selectFixedAssetCategoryListByIds(Arrays.asList(categoryId));
 
-        if (deleteFixedAssetCategory == null) {
-            throw new FixedAssetException(FixedAssetCodeEnum.FIXED_ASSET_CATEGORY_NOT_FOUND, "要删除的资产类别不存在");
+        if (deleteFixedAssetCategories == null || deleteFixedAssetCategories.size() == 0) {
+            throw new FixedAssetException(FixedAssetCodeEnum.SECTION_NOT_FOUND, "要删除的资产类别不存在");
         }
+        if (deleteFixedAssetCategories.get(0).getCategoryDetailed() != null
+                && deleteFixedAssetCategories.get(0).getCategoryDetailed() == 0) {
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "要删除的资产类别为非明细节点");
+        }
+        if (deleteFixedAssetCategories.get(0).getFixedAssetQuantity() != null
+                && deleteFixedAssetCategories.get(0).getFixedAssetQuantity() > 0) {
+            throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "要删除的资产类别还存在资产");
+        }
+
 
         fixedAssetCategoryMapper.deleteById(categoryId);
     }
@@ -251,10 +260,17 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
     @Transactional
     @Override
     public void deleteFixedAssetCategoryByBatchId(List<String> categoryIds) throws FixedAssetException {
-        List<FixedAssetCategory> fixedAssetCategoryList = fixedAssetCategoryMapper.selectBatchIds(categoryIds);
+        List<FixedAssetCategory> fixedAssetCategoryList = fixedAssetCategoryMapper.selectFixedAssetCategoryListByIds(categoryIds);
 
-        if (fixedAssetCategoryList == null || fixedAssetCategoryList.size() != categoryIds.size()) {
-            throw new FixedAssetException(FixedAssetCodeEnum.FIXED_ASSET_CATEGORY_NOT_FOUND, "要删除的资产类别不存在");
+        if (fixedAssetCategoryList != null && fixedAssetCategoryList.size() > 0) {
+            for (FixedAssetCategory fixedAssetCategory : fixedAssetCategoryList) {
+                if (fixedAssetCategory.getCategoryDetailed() != null && fixedAssetCategory.getCategoryDetailed() == 0) {
+                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "要删除的使用单位非明细节点");
+                }
+                if (fixedAssetCategory.getFixedAssetQuantity() != null && fixedAssetCategory.getFixedAssetQuantity() > 0) {
+                    throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "要删除的使用单位存在资产");
+                }
+            }
         }
 
         fixedAssetCategoryMapper.deleteBatchIds(categoryIds);
@@ -274,7 +290,6 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
         ArrayList<String> pidList = new ArrayList<>();
         HashMap<String, Long> idMap = new HashMap<>();
         DataFormatter dataFormatter = new DataFormatter();
-        DecimalFormat decimalFormat = new DecimalFormat("0");
 
         for (MultipartFile file : fileMap.values()) {
             //判断文件是否存在
@@ -316,28 +331,28 @@ public class FixedAssetCategoryServiceImpl extends ServiceImpl<FixedAssetCategor
                 if (idMap.containsKey(categoryId)) {
                     throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
                 } else {
-                    idMap.put(categoryId, Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
+                    idMap.put(categoryId, Long.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
                 }
 
                 //数据复值
                 fixedAssetCategory.setCategoryId(categoryId.trim());
                 fixedAssetCategory.setCategoryName(row.getCell(1).getStringCellValue().trim());
                 fixedAssetCategory.setCategoryLevel(Long.valueOf(categoryId.length() / 2));
-                fixedAssetCategory.setCategoryDetailed(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
-                fixedAssetCategory.setStatus(Long.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
-                fixedAssetCategory.setDepreciationMethodId(Long.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
-                if (!StringUtils.isEmpty(row.getCell(7))) {
-                    fixedAssetCategory.setMeasureUnit(row.getCell(7).getStringCellValue().trim());
-                }
-
+                fixedAssetCategory.setCategoryDetailed(Long.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
+                fixedAssetCategory.setStatus(Long.valueOf(dataFormatter.formatCellValue(row.getCell(5)).trim()));
+                fixedAssetCategory.setDepreciationMethodId(Long.valueOf(dataFormatter.formatCellValue(row.getCell(6)).trim()));
                 if (!StringUtils.isEmpty(row.getCell(8))) {
-                    fixedAssetCategory.setCapacityUnit(row.getCell(8).getStringCellValue().trim());
+                    fixedAssetCategory.setMeasureUnit(row.getCell(8).getStringCellValue().trim());
                 }
 
-                fixedAssetCategory.setDepreciationPeriod(Long.valueOf(decimalFormat.format(row.getCell(9).getNumericCellValue() * 100)));
-                fixedAssetCategory.setEstimatedTotalWorkload(Long.valueOf(decimalFormat.format(row.getCell(10).getNumericCellValue() * 100)));
-                fixedAssetCategory.setNetResidualValue(Long.valueOf(decimalFormat.format(row.getCell(11).getNumericCellValue() * 100)));
-                fixedAssetCategory.setRemark(row.getCell(14).getStringCellValue().trim());
+                if (!StringUtils.isEmpty(row.getCell(9))) {
+                    fixedAssetCategory.setCapacityUnit(row.getCell(9).getStringCellValue().trim());
+                }
+
+                fixedAssetCategory.setDepreciationPeriod(new BigDecimal(dataFormatter.formatCellValue(row.getCell(10)).trim()).multiply(new BigDecimal(100)).longValue());
+                fixedAssetCategory.setEstimatedTotalWorkload(new BigDecimal(dataFormatter.formatCellValue(row.getCell(11)).trim()).multiply(new BigDecimal(100)).longValue());
+                fixedAssetCategory.setNetResidualValue(new BigDecimal(dataFormatter.formatCellValue(row.getCell(12)).trim()).multiply(new BigDecimal(100)).longValue());
+                fixedAssetCategory.setRemark(row.getCell(15).getStringCellValue().trim());
 
                 fixedAssetCategoryList.add(fixedAssetCategory);
             }

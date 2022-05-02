@@ -21,6 +21,10 @@ public class DepreciationMethodDTO {
 
     private String depreciationMethodName;
 
+    private Long fixedAssetQuantity;
+
+    private Long fixedAssetCategoryQuantity;
+
     private String formula;
 
     private String formulaExplain;

@@ -26,6 +26,12 @@ public class DepreciationMethod implements Serializable {
 
     private String depreciationMethodName;
 
+    @TableField(exist = false)
+    private Long fixedAssetQuantity;
+
+    @TableField(exist = false)
+    private Long fixedAssetCategoryQuantity;
+
     private String formula;
 
     private String formulaExplain;

@@ -50,8 +50,12 @@ public class FixedAssetTest {
             if(row.getCell(9) != null && Long.valueOf(decimalFormat.format(row.getCell(9).getNumericCellValue())) == 1){
                 String fixedAssetId = dataFormatter.formatCellValue(row.getCell(0)).trim();
                 String sectionId = dataFormatter.formatCellValue(row.getCell(1)).trim();
+                String categoryId = dataFormatter.formatCellValue(row.getCell(2)).trim();
+                Long depreciationMethodId = Long.valueOf(dataFormatter.formatCellValue(row.getCell(11)).trim());
                 fixedAsset.setFixedAssetId(fixedAssetId);
                 fixedAsset.setSectionId(sectionId);
+                fixedAsset.setCategoryId(categoryId);
+                fixedAsset.setDepreciationMethodId(depreciationMethodId);
                 fixedAssets.add(fixedAsset);
             }
         }

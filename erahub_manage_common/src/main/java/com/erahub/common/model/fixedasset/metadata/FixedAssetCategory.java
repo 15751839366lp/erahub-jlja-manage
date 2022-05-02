@@ -26,6 +26,9 @@ public class FixedAssetCategory implements Serializable {
 
     private Long categoryLevel;
 
+    @TableField(exist = false)
+    private Long fixedAssetQuantity;
+
     private Long categoryDetailed;
 
     private Long status;

@@ -25,6 +25,14 @@ public class DepreciationMethodExcel {
     private String depreciationMethodName;
 
     @ColumnWidth(20)
+    @ExcelProperty(value = "资产数量")
+    private Long fixedAssetQuantity;
+
+    @ColumnWidth(20)
+    @ExcelProperty(value = "类别数量")
+    private Long fixedAssetCategoryQuantity;
+
+    @ColumnWidth(20)
     @ExcelProperty(value = "状态")
     private Long status;
 

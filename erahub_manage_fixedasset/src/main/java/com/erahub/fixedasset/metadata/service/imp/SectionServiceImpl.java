@@ -89,7 +89,7 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
             isAllList = false;
         }
 
-        sectionVOIPage = sectionMapper.selectPageList(sectionVOIPage, sectionDTO);
+        sectionVOIPage = sectionMapper.selectSectionPageList(sectionVOIPage, sectionDTO);
 
         List<Section> sections = sectionVOIPage.getRecords();
         List<String> sectionIdList = new ArrayList<>();
@@ -99,7 +99,7 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
         if (sections != null && sections.size() > 0) {
             sectionIdList = sections.stream().map(Section::getSectionId).collect(Collectors.toList());
             if (!isAllList) {
-                sections = sectionMapper.selectAllParentList(sectionIdList);
+                sections = sectionMapper.selectAllSectionParentList(sectionIdList);
             }
 
             tree = SectionTreeBuilder.build(sections);
@@ -122,7 +122,7 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
             throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "ID为空");
         }
 
-        List<Section> sections = sectionMapper.selectChildrenList(sectionId);
+        List<Section> sections = sectionMapper.selectSectionChildrenList(sectionId);
         List<SectionVO> sectionVOS = sectionConverter.converterToSectionVOList(sections);
 
         return new PageVO<SectionVO>(sections.size(), sectionVOS);
@@ -137,7 +137,7 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
     public List<SectionExcel> exportSectionExcel() {
         List<SectionExcel> sectionExcels = new ArrayList<>();
         IPage<Section> sectionVOIPage = new Page<>(0, -1);
-        sectionVOIPage = sectionMapper.selectPageList(sectionVOIPage, new SectionDTO());
+        sectionVOIPage = sectionMapper.selectSectionPageList(sectionVOIPage, new SectionDTO());
         List<SectionVO> sectionVOS = sectionConverter.converterToSectionVOList(sectionVOIPage.getRecords());
         ListMapUtils.copyList(sectionVOS, sectionExcels, SectionExcel.class);
 
@@ -234,7 +234,7 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
     @Transactional
     @Override
     public void deleteSectionById(String sectionId) throws FixedAssetException {
-        List<Section> deleteSections = sectionMapper.selectListByIds(Arrays.asList(sectionId));
+        List<Section> deleteSections = sectionMapper.selectSectionListByIds(Arrays.asList(sectionId));
 
         if (deleteSections == null || deleteSections.size() == 0) {
             throw new FixedAssetException(FixedAssetCodeEnum.SECTION_NOT_FOUND, "要删除的使用单位不存在");
@@ -259,7 +259,7 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
     @Transactional
     @Override
     public void deleteSectionByBatchId(List<String> sectionIds) throws FixedAssetException {
-        List<Section> sectionList = sectionMapper.selectListByIds(sectionIds);
+        List<Section> sectionList = sectionMapper.selectSectionListByIds(sectionIds);
 
         if (sectionList != null && sectionList.size() > 0) {
             for (Section section : sectionList) {
@@ -270,7 +270,6 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
                     throw new FixedAssetException(FixedAssetCodeEnum.PARAMETER_ERROR, "要删除的使用单位存在资产");
                 }
             }
-
         }
 
         sectionMapper.deleteBatchIds(sectionIds);

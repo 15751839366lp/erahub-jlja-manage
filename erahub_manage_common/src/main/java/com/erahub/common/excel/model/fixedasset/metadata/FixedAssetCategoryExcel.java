@@ -24,6 +24,10 @@ public class FixedAssetCategoryExcel {
     @ExcelProperty(value = "类别名称")
     private String categoryName;
 
+    @ColumnWidth(20)
+    @ExcelProperty(value = "资产数量")
+    private Long fixedAssetQuantity;
+
     @ColumnWidth(10)
     @ExcelProperty(value = "类别等级")
     private Long categoryLevel;

@@ -17,4 +17,8 @@ public class FixedAsset {
     private String fixedAssetId;
 
     private String sectionId;
+
+    private Long depreciationMethodId;
+
+    private String categoryId;
 }

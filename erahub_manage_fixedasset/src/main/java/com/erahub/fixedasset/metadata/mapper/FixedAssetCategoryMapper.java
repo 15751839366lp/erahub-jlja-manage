@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.erahub.common.dto.fixedasset.metadata.FixedAssetCategoryDTO;
 import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
+import com.erahub.common.model.fixedasset.metadata.Section;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @Author lipeng
@@ -13,6 +16,8 @@ import org.apache.ibatis.annotations.Param;
  **/
 public interface FixedAssetCategoryMapper extends BaseMapper<FixedAssetCategory> {
 
-    IPage<FixedAssetCategory> selectPageList(IPage<FixedAssetCategory> fixedAssetCategoryIPage,
+    IPage<FixedAssetCategory> selectFixedAssetCategoryPageList(IPage<FixedAssetCategory> fixedAssetCategoryIPage,
                                              @Param("fixedAssetCategoryDTO") FixedAssetCategoryDTO fixedAssetCategoryDTO);
+
+    List<FixedAssetCategory> selectFixedAssetCategoryListByIds(@Param("categoryIds") List<String> sectionIds);
 }

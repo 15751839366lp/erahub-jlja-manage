@@ -34,7 +34,12 @@ public class DepreciationMethodConverter {
             for (DepreciationMethod depreciationMethod : depreciationMethods) {
                 DepreciationMethodVO depreciationMethodVO = new DepreciationMethodVO();
                 BeanUtils.copyProperties(depreciationMethod, depreciationMethodVO);
-
+                if(depreciationMethod.getFixedAssetQuantity() == null){
+                    depreciationMethodVO.setFixedAssetQuantity(0l);
+                }
+                if(depreciationMethod.getFixedAssetCategoryQuantity() == null){
+                    depreciationMethodVO.setFixedAssetCategoryQuantity(0l);
+                }
                 depreciationMethodVOS.add(depreciationMethodVO);
             }
         }

@@ -19,6 +19,7 @@ import com.erahub.fixedasset.metadata.mapper.DepreciationMethodMapper;
 import com.erahub.fixedasset.metadata.service.DepreciationMethodService;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -38,7 +39,6 @@ import java.util.*;
 
 
 /**
- * todo 统计资产数量，类别，导入 删除时判断
  * @Author lipeng
  * @Date 2022/4/21 18:20
  * @Version 1.0
@@ -64,49 +64,8 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
     public PageVO<DepreciationMethodVO> getDepreciationMethodList(DepreciationMethodDTO depreciationMethodDTO) {
 
         IPage<DepreciationMethod> depreciationMethodIPage = new Page<>(depreciationMethodDTO.getPageNum(), depreciationMethodDTO.getPageSize());
-        QueryWrapper<DepreciationMethod> depreciationMethodQueryWrapper = new QueryWrapper<>();
 
-        Integer isAccurate = depreciationMethodDTO.getIsAccurate();
-        Long depreciationMethodId = depreciationMethodDTO.getDepreciationMethodId();
-        String depreciationMethodName = depreciationMethodDTO.getDepreciationMethodName();
-        Long status = depreciationMethodDTO.getStatus();
-        String sortColumn = depreciationMethodDTO.getSortColumn();
-        Boolean isAsc = depreciationMethodDTO.getIsAsc();
-        Date startCreateTime = depreciationMethodDTO.getStartCreateTime();
-        Date endCreateTime = depreciationMethodDTO.getEndCreateTime();
-
-        if (depreciationMethodId != null && RegexUtils.isInteger(String.valueOf(depreciationMethodId))) {
-            if (isAccurate == 0) {
-                depreciationMethodQueryWrapper.eq("depreciation_method_id", depreciationMethodId);
-            } else {
-                depreciationMethodQueryWrapper.like("depreciation_method_id", depreciationMethodId);
-            }
-        }
-        if (depreciationMethodName != null) {
-            if (isAccurate == 0) {
-                depreciationMethodQueryWrapper.eq("depreciation_method_name", depreciationMethodName);
-            } else {
-                depreciationMethodQueryWrapper.like("depreciation_method_name", depreciationMethodName);
-            }
-        }
-        if (status != null) {
-            depreciationMethodQueryWrapper.eq("status", status);
-        }
-        if (!StringUtils.isEmpty(sortColumn)) {
-            if (!isAsc) {
-                depreciationMethodQueryWrapper.orderByDesc(sortColumn);
-            } else {
-                depreciationMethodQueryWrapper.orderByAsc(sortColumn);
-            }
-        }
-        if (startCreateTime != null) {
-            depreciationMethodQueryWrapper.ge("create_time", startCreateTime);
-        }
-        if (endCreateTime != null) {
-            depreciationMethodQueryWrapper.le("create_time", endCreateTime);
-        }
-
-        depreciationMethodIPage = depreciationMethodMapper.selectPage(depreciationMethodIPage, depreciationMethodQueryWrapper);
+        depreciationMethodIPage = depreciationMethodMapper.selectDepreciationMethodPageList(depreciationMethodIPage, depreciationMethodDTO);
         List<DepreciationMethod> depreciationMethodList = depreciationMethodIPage.getRecords();
         List<DepreciationMethodVO> depreciationMethodVOS = depreciationMethodConverter.converterToDepreciationMethodVOList(depreciationMethodList);
 
@@ -126,7 +85,7 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
         //临时不分页
         depreciationMethodIPage.setSize(-1l);
 
-        depreciationMethodIPage = depreciationMethodMapper.selectPage(depreciationMethodIPage, new QueryWrapper<DepreciationMethod>());
+        depreciationMethodIPage = depreciationMethodMapper.selectDepreciationMethodPageList(depreciationMethodIPage, new DepreciationMethodDTO());
         List<DepreciationMethod> depreciationMethodList = depreciationMethodIPage.getRecords();
         List<DepreciationMethodVO> fixedAssetCategoryVOS = depreciationMethodConverter.converterToDepreciationMethodVOList(depreciationMethodList);
         ListMapUtils.copyList(fixedAssetCategoryVOS, depreciationMethodExcels, DepreciationMethodExcel.class);
@@ -253,8 +212,7 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
         ArrayList<DepreciationMethod> depreciationMethodList = new ArrayList<>();
         ArrayList<String> pidList = new ArrayList<>();
         HashMap<Long, String> idMap = new HashMap<>();
-//        DataFormatter dataFormatter = new DataFormatter();
-        DecimalFormat decimalFormat = new DecimalFormat("0");
+        DataFormatter dataFormatter = new DataFormatter();
 
         for (MultipartFile file : fileMap.values()) {
             //判断文件是否存在
@@ -297,16 +255,16 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
                 //数据复值
                 depreciationMethod.setDepreciationMethodId(depreciationMethodId);
                 depreciationMethod.setDepreciationMethodName(row.getCell(1).getStringCellValue());
-                depreciationMethod.setStatus(Long.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
+                depreciationMethod.setStatus(Long.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
 
-                if (!StringUtils.isEmpty(row.getCell(3))) {
-                    depreciationMethod.setFormula(row.getCell(3).getStringCellValue());
+                if (!StringUtils.isEmpty(row.getCell(5))) {
+                    depreciationMethod.setFormula(row.getCell(5).getStringCellValue());
                 }
-                if (!StringUtils.isEmpty(row.getCell(4))) {
-                    depreciationMethod.setFormulaExplain(row.getCell(4).getStringCellValue());
+                if (!StringUtils.isEmpty(row.getCell(6))) {
+                    depreciationMethod.setFormulaExplain(row.getCell(6).getStringCellValue());
                 }
-                if (!StringUtils.isEmpty(row.getCell(7))) {
-                    depreciationMethod.setRemark(row.getCell(7).getStringCellValue());
+                if (!StringUtils.isEmpty(row.getCell(9))) {
+                    depreciationMethod.setRemark(row.getCell(9).getStringCellValue());
                 }
 
                 depreciationMethodList.add(depreciationMethod);

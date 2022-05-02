@@ -18,12 +18,12 @@ import java.util.List;
  **/
 public interface SectionMapper extends BaseMapper<Section> {
 
-    IPage<Section> selectPageList(IPage<Section> sectionIPage,
+    IPage<Section> selectSectionPageList(IPage<Section> sectionIPage,
                                              @Param("sectionDTO") SectionDTO sectionDTO);
 
-    List<Section> selectAllParentList(@Param("sectionIdList") List<String> sectionIdList);
+    List<Section> selectAllSectionParentList(@Param("sectionIdList") List<String> sectionIdList);
 
-    List<Section> selectChildrenList(@Param("sectionId") String sectionId);
+    List<Section> selectSectionChildrenList(@Param("sectionId") String sectionId);
 
-    List<Section> selectListByIds(@Param("sectionIds") List<String> sectionIds);
+    List<Section> selectSectionListByIds(@Param("sectionIds") List<String> sectionIds);
 }
