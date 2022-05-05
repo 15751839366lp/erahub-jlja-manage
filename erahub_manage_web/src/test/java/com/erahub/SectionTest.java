@@ -1,11 +1,9 @@
 package com.erahub;
 
-import com.erahub.common.dto.fixedasset.metadata.SectionDTO;
-import com.erahub.common.model.fixedasset.metadata.FixedAssetCategory;
-import com.erahub.common.model.fixedasset.metadata.Section;
-import com.erahub.common.vo.fixedasset.metadata.SectionVO;
-import com.erahub.fixedasset.metadata.service.SectionService;
-import com.erahub.fixedasset.metadata.utils.SectionTreeBuilder;
+import com.erahub.common.dto.asset.metadata.SectionDTO;
+import com.erahub.common.model.asset.metadata.Section;
+import com.erahub.common.vo.asset.metadata.SectionVO;
+import com.erahub.asset.metadata.service.SectionService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -16,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StringUtils;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -62,8 +59,8 @@ public class SectionTest {
             section.setSectionId(id);
             section.setSectionName(row.getCell(1).getStringCellValue());
             section.setSectionAbbreviation(row.getCell(2).getStringCellValue());
-            section.setSectionLevel(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
-            section.setSectionDetailed(Long.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
+            section.setLevel(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
+            section.setDetailed(Long.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
 //            section.setStatus(Long.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
             section.setStatus(1l);
             if(row.getCell(7) != null && !StringUtils.isEmpty(row.getCell(7).getStringCellValue())){

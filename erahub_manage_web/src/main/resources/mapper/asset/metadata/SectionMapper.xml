@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.SectionMapper">
+
+    <select id="selectSectionPageList" resultType="com.erahub.common.model.asset.metadata.Section"
+            parameterType="com.erahub.common.dto.asset.metadata.SectionDTO"
+    >
+        select ass.*,aa.asset_quantity from as_section as ass left join
+        (select section_id,COUNT(section_id) as asset_quantity from as_asset GROUP BY section_id) as aa
+        on ass.section_id = aa.section_id
+        where 1 = 1
+        <if test="sectionDTO.isAccurate != null and sectionDTO.isAccurate == 0">
+            <if test="sectionDTO.sectionId != null and sectionDTO.sectionId != ''">
+                and ass.section_id like '%${sectionDTO.sectionId}%'
+            </if>
+            <if test="sectionDTO.sectionName != null and sectionDTO.sectionName != ''">
+                and ass.section_name like '%${sectionDTO.sectionName}%'
+            </if>
+            <if test="sectionDTO.sectionAbbreviation != null and sectionDTO.sectionAbbreviation != ''">
+                and ass.section_abbreviation like '%${sectionDTO.sectionAbbreviation}%'
+            </if>
+        </if>
+        <if test="sectionDTO.isAccurate != null and sectionDTO.isAccurate == 1">
+            <if test="sectionDTO.sectionId != null and sectionDTO.sectionId != ''">
+                and ass.section_id = #{sectionDTO.sectionId}
+            </if>
+            <if test="sectionDTO.sectionName != null and sectionDTO.sectionName != ''">
+                and ass.section_name = #{sectionDTO.sectionName}
+            </if>
+            <if test="sectionDTO.sectionAbbreviation != null and sectionDTO.sectionAbbreviation != ''">
+                and ass.section_abbreviation = #{sectionDTO.sectionAbbreviation}
+            </if>
+        </if>
+        <if test="sectionDTO.status != null">
+            and ass.status = #{sectionDTO.status}
+        </if>
+        <if test="sectionDTO.level != null">
+            and ass.level &lt;= #{sectionDTO.level}
+        </if>
+        <if test="sectionDTO.detailed != null">
+            and ass.detailed = #{sectionDTO.detailed}
+        </if>
+        <if test="sectionDTO.startCreateTime != null">
+            and ass.create_time &gt;= #{sectionDTO.startCreateTime}
+        </if>
+        <if test="sectionDTO.endCreateTime != null">
+            and ass.create_time &lt;= #{sectionDTO.endCreateTime}
+        </if>
+    </select>
+
+
+    <select id="selectAllSectionParentList" resultType="com.erahub.common.model.asset.metadata.Section"
+            parameterType="java.util.List"
+    >
+        select ass.*,aa.asset_quantity from as_section as ass left join
+        (select section_id,COUNT(section_id) as asset_quantity from as_asset GROUP BY section_id) as aa
+        on ass.section_id = aa.section_id where
+        <foreach item="item" collection="sectionIdList" separator=" or " index="">
+            instr(#{item},ass.section_id) > 0
+        </foreach>
+    </select>
+
+    <select id="selectSectionChildrenList" resultType="com.erahub.common.model.asset.metadata.Section"
+            parameterType="java.lang.String"
+    >
+        select ass.*,aa.asset_quantity from as_section as ass left join
+        (select section_id,COUNT(section_id) as asset_quantity from as_asset GROUP BY section_id) as aa
+        on ass.section_id = aa.section_id
+        where ass.section_id like '${sectionId}%' and length(ass.section_id) = length(#{sectionId}) + 4
+    </select>
+
+    <select id="selectSectionListByIds" resultType="com.erahub.common.model.asset.metadata.Section"
+            parameterType="java.util.List"
+    >
+        select ass.*,aa.asset_quantity from as_section as ass left join
+        (select section_id,COUNT(section_id) as asset_quantity from as_asset GROUP BY section_id) as aa
+        on ass.section_id = aa.section_id
+        where ass.section_id in
+        <foreach item="item" collection="sectionIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

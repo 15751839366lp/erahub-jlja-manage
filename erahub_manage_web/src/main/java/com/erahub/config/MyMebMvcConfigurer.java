@@ -1,7 +1,7 @@
 package com.erahub.config;
 
 import com.erahub.common.error.business.material.BusinessException;
-import com.erahub.common.error.fixedasset.FixedAssetException;
+import com.erahub.common.error.asset.AssetException;
 import com.erahub.common.error.system.SystemException;
 import com.erahub.common.response.ResponseBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,11 +48,11 @@ public class MyMebMvcConfigurer implements WebMvcConfigurer {
             ResponseBean result;
             HashMap<String, Object> errorData = new HashMap<>();
             logger.info("请求错误，url:{}", httpServletRequest.getRequestURL());
-            if (e instanceof FixedAssetException) {
-                FixedAssetException fixedAssetException = (FixedAssetException) e;
-                logger.info("业务模块-错误码：{},错误信息:{}", fixedAssetException.getErrorCode(), fixedAssetException.getErrorMsg());
-                errorData.put("errorCode", fixedAssetException.getErrorCode());
-                errorData.put("errorMsg", fixedAssetException.getErrorMsg());
+            if (e instanceof AssetException) {
+                AssetException assetException = (AssetException) e;
+                logger.info("业务模块-错误码：{},错误信息:{}", assetException.getErrorCode(), assetException.getErrorMsg());
+                errorData.put("errorCode", assetException.getErrorCode());
+                errorData.put("errorMsg", assetException.getErrorMsg());
             } else if (e instanceof BusinessException) {
                 BusinessException businessException = (BusinessException) e;
                 logger.info("业务模块-错误码：{},错误信息:{}", businessException.getErrorCode(), businessException.getErrorMsg());

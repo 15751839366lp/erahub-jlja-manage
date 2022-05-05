@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.DepreciationMethodMapper">
+
+    <select id="selectDepreciationMethodPageList" resultType="com.erahub.common.model.asset.metadata.DepreciationMethod"
+            parameterType="com.erahub.common.dto.asset.metadata.DepreciationMethodDTO"
+    >
+        select adm.*,aa.asset_quantity,aac.asset_category_quantity from as_depreciation_method as adm left join
+        (select depreciation_method_id,COUNT(depreciation_method_id) as asset_quantity
+        from as_asset GROUP BY depreciation_method_id) as aa
+        on adm.depreciation_method_id = aa.depreciation_method_id left join
+        (select depreciation_method_id,COUNT(depreciation_method_id) as asset_category_quantity
+        from as_asset_category GROUP BY depreciation_method_id) as aac
+        on adm.depreciation_method_id = aac.depreciation_method_id
+        where 1 = 1
+        <if test="depreciationMethodDTO.isAccurate != null and depreciationMethodDTO.isAccurate == 0">
+            <if test="depreciationMethodDTO.depreciationMethodId != null">
+                and adm.depreciation_method_id like '%${depreciationMethodDTO.depreciationMethodId}%'
+            </if>
+            <if test="depreciationMethodDTO.depreciationMethodName != null and depreciationMethodDTO.depreciationMethodName != ''">
+                and adm.depreciation_method_name like '%${depreciationMethodDTO.depreciationMethodName}%'
+            </if>
+        </if>
+        <if test="depreciationMethodDTO.isAccurate != null and depreciationMethodDTO.isAccurate == 1">
+            <if test="depreciationMethodDTO.depreciationMethodId != null">
+                and adm.depreciation_method_id = #{depreciationMethodDTO.depreciationMethodId}
+            </if>
+            <if test="depreciationMethodDTO.depreciationMethodName != null and depreciationMethodDTO.depreciationMethodName != ''">
+                and adm.depreciation_method_name = #{depreciationMethodDTO.depreciationMethodName}
+            </if>
+        </if>
+        <if test="depreciationMethodDTO.status != null">
+            and adm.status = #{depreciationMethodDTO.status}
+        </if>
+        <if test="depreciationMethodDTO.startCreateTime != null">
+            and adm.create_time &gt;= #{depreciationMethodDTO.startCreateTime}
+        </if>
+        <if test="depreciationMethodDTO.endCreateTime != null">
+            and adm.create_time &lt;= #{depreciationMethodDTO.endCreateTime}
+        </if>
+        <if test="depreciationMethodDTO.sortColumn != null and depreciationMethodDTO.sortColumn != ''">
+            <if test="depreciationMethodDTO.isAsc != null and depreciationMethodDTO.isAsc">
+                order by ${depreciationMethodDTO.sortColumn}
+            </if>
+            <if test="depreciationMethodDTO.isAsc != null and !depreciationMethodDTO.isAsc">
+                order by ${depreciationMethodDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectDepreciationMethodListByIds" resultType="com.erahub.common.model.asset.metadata.DepreciationMethod"
+            parameterType="java.util.List"
+    >
+        select adm.*,aa.asset_quantity,aac.asset_category_quantity from as_depreciation_method as adm left join
+        (select depreciation_method_id,COUNT(depreciation_method_id) as asset_quantity
+        from as_asset GROUP BY depreciation_method_id) as aa
+        on adm.depreciation_method_id = aa.depreciation_method_id left join
+        (select depreciation_method_id,COUNT(depreciation_method_id) as asset_category_quantity
+        from as_asset_category GROUP BY depreciation_method_id) as aac
+        on adm.depreciation_method_id = aac.depreciation_method_id
+        where adm.depreciation_method_id in
+        <foreach item="item" collection="depreciationMethodIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

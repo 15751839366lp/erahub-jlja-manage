@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.erahub</groupId>
-            <artifactId>erahub_manage_fixedasset</artifactId>
+            <artifactId>erahub_manage_asset</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

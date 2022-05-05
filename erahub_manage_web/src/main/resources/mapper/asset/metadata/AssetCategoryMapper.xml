@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.AssetCategoryMapper">
+
+    <select id="selectAssetCategoryPageList" resultType="com.erahub.common.model.asset.metadata.AssetCategory"
+        parameterType="com.erahub.common.dto.asset.metadata.AssetCategoryDTO"
+    >
+        select aac.*,aa.asset_quantity from (
+        select aac.*,adm.depreciation_method_name from as_asset_category as aac left join as_depreciation_method as adm
+        on aac.depreciation_method_id = adm.depreciation_method_id
+        ) as aac left join
+        (select asset_category_id,COUNT(asset_category_id) as asset_quantity from as_asset GROUP BY asset_category_id) as aa
+        on aac.asset_category_id = aa.asset_category_id
+        where 1 = 1
+        <if test="assetCategoryDTO.isAccurate != null and assetCategoryDTO.isAccurate == 0">
+            <if test="assetCategoryDTO.assetCategoryId != null and assetCategoryDTO.assetCategoryId != ''">
+                and aac.asset_category_id = #{assetCategoryDTO.assetCategoryId}
+            </if>
+            <if test="assetCategoryDTO.capacityUnit != null and assetCategoryDTO.capacityUnit != ''">
+                and aac.capacity_unit = #{assetCategoryDTO.capacityUnit}
+            </if>
+            <if test="assetCategoryDTO.measureUnit != null and assetCategoryDTO.measureUnit != ''">
+                and aac.measure_unit = #{assetCategoryDTO.measureUnit}
+            </if>
+            <if test="assetCategoryDTO.assetCategoryName != null and assetCategoryDTO.assetCategoryName != ''">
+                and aac.asset_category_name = #{assetCategoryDTO.assetCategoryName}
+            </if>
+        </if>
+
+        <if test="assetCategoryDTO.isAccurate != null and assetCategoryDTO.isAccurate == 1">
+            <if test="assetCategoryDTO.assetCategoryId != null and assetCategoryDTO.assetCategoryId != ''">
+                and aac.asset_category_id like '${assetCategoryDTO.assetCategoryId}%'
+            </if>
+            <if test="assetCategoryDTO.capacityUnit != null and assetCategoryDTO.capacityUnit != ''">
+                and aac.capacity_unit like '%${assetCategoryDTO.capacityUnit}%'
+            </if>
+            <if test="assetCategoryDTO.measureUnit != null and assetCategoryDTO.measureUnit != ''">
+                and aac.measure_unit like '%${assetCategoryDTO.measureUnit}%'
+            </if>
+            <if test="assetCategoryDTO.assetCategoryName != null and assetCategoryDTO.assetCategoryName != ''">
+                and aac.asset_category_name like '%${assetCategoryDTO.assetCategoryName}%'
+            </if>
+        </if>
+
+        <if test="assetCategoryDTO.status != null">
+            and aac.status = #{assetCategoryDTO.status}
+        </if>
+        <if test="assetCategoryDTO.detailed != null">
+            and aac.detailed = #{assetCategoryDTO.detailed}
+        </if>
+        <if test="assetCategoryDTO.depreciationMethodId != null">
+            and aac.depreciation_method_id = #{assetCategoryDTO.depreciationMethodId}
+        </if>
+        <if test="assetCategoryDTO.depreciationPeriod != null">
+            and aac.depreciation_period = #{assetCategoryDTO.depreciationPeriod}
+        </if>
+        <if test="assetCategoryDTO.netResidualValue != null">
+            and aac.net_residual_value = #{assetCategoryDTO.netResidualValue}
+        </if>
+        <if test="assetCategoryDTO.estimatedTotalWorkload != null">
+            and aac.estimated_total_workload = #{assetCategoryDTO.estimatedTotalWorkload}
+        </if>
+
+        <if test="assetCategoryDTO.startCreateTime != null">
+            and aac.create_time &gt;= #{assetCategoryDTO.startCreateTime}
+        </if>
+
+        <if test="assetCategoryDTO.endCreateTime != null">
+            and aac.create_time &lt;= #{assetCategoryDTO.endCreateTime}
+        </if>
+
+        <if test="assetCategoryDTO.sortColumn != null and assetCategoryDTO.sortColumn != ''">
+            <if test="assetCategoryDTO.isAsc != null and assetCategoryDTO.isAsc">
+                order by ${assetCategoryDTO.sortColumn}
+            </if>
+            <if test="assetCategoryDTO.isAsc != null and !assetCategoryDTO.isAsc">
+                order by ${assetCategoryDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectAssetCategoryListByIds" resultType="com.erahub.common.model.asset.metadata.AssetCategory"
+            parameterType="java.util.List"
+    >
+        select aac.*,aa.asset_quantity from (
+        select aac.*,adm.depreciation_method_name from as_asset_category as aac left join as_depreciation_method as adm
+        on aac.depreciation_method_id = adm.depreciation_method_id
+        ) as aac left join
+        (select asset_category_id,COUNT(asset_category_id) as asset_quantity from as_asset GROUP BY asset_category_id) as aa
+        on aac.asset_category_id = aa.asset_category_id
+        where aac.asset_category_id in
+        <foreach item="item" collection="assetCategoryIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,8 +1,8 @@
 package com.erahub;
 
-import com.erahub.common.model.fixedasset.metadata.DepreciationMethod;
-import com.erahub.fixedasset.metadata.mapper.DepreciationMethodMapper;
-import com.erahub.fixedasset.metadata.service.DepreciationMethodService;
+import com.erahub.common.model.asset.metadata.DepreciationMethod;
+import com.erahub.asset.metadata.mapper.DepreciationMethodMapper;
+import com.erahub.asset.metadata.service.DepreciationMethodService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
