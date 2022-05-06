@@ -31,14 +31,14 @@ public class AssetCategoryTest {
 
 
     @Test
-    void fixedAssetCategoryImport() throws IOException {
+    void assetCategoryImport() throws IOException {
         Workbook wookbook = null;
-        wookbook = new XSSFWorkbook(new FileInputStream("E:\\Program\\document\\project\\jlja\\fixed_asset_manage\\固定资产\\文档\\表\\资产类别.xlsx"));//得到工作簿
+        wookbook = new XSSFWorkbook(new FileInputStream("E:\\Program\\document\\project\\jlja\\asset_manage\\固定资产\\文档\\表\\资产类别.xlsx"));//得到工作簿
 
         Sheet sheet = wookbook.getSheetAt(0);
         int lastRowNum = sheet.getLastRowNum();
 
-        ArrayList<AssetCategory> fixedAssetCategories = new ArrayList<>();
+        ArrayList<AssetCategory> assetCategories = new ArrayList<>();
 
         DecimalFormat decimalFormat = new DecimalFormat("0");
 
@@ -72,14 +72,14 @@ public class AssetCategoryTest {
             assetCategory.setRemark(row.getCell(11).getStringCellValue());
 
 
-            fixedAssetCategories.add(assetCategory);
+            assetCategories.add(assetCategory);
         }
 
-        assetCategoryService.saveBatch(fixedAssetCategories);
+        assetCategoryService.saveBatch(assetCategories);
     }
 
     @Test
-    void getfixedAssetCategoryList() {
+    void getAssetCategoryList() {
 
         List<AssetCategory> list = assetCategoryMapper.selectList(new QueryWrapper<AssetCategory>()
                 .orderByAsc("category_id"));
