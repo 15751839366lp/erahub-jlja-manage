@@ -30,10 +30,6 @@ public class AssetCategoryTreeBuilder {
             AssetCategoryVO assetCategoryVo = new AssetCategoryVO();
             BeanUtils.copyProperties(item, assetCategoryVo);
 
-            assetCategoryVo.setDepreciationPeriod(new BigDecimal(ArithmeticUtils.div(item.getDepreciationPeriod(),100,2)));
-            assetCategoryVo.setEstimatedTotalWorkload(new BigDecimal(ArithmeticUtils.div(item.getEstimatedTotalWorkload(),100,2)));
-            assetCategoryVo.setNetResidualValue(new BigDecimal(ArithmeticUtils.div(item.getNetResidualValue(),100,2)));
-
             if (tmpMap.containsKey(length)) {
                 tmpMap.get(length).put(Long.valueOf(item.getAssetCategoryId()), assetCategoryVo);
             } else {

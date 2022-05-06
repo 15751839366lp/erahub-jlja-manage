@@ -347,9 +347,9 @@ public class AssetCategoryServiceImpl extends ServiceImpl<AssetCategoryMapper, A
                     assetCategory.setCapacityUnit(row.getCell(9).getStringCellValue().trim());
                 }
 
-                assetCategory.setDepreciationPeriod(new BigDecimal(dataFormatter.formatCellValue(row.getCell(10)).trim()).multiply(new BigDecimal(100)).longValue());
-                assetCategory.setEstimatedTotalWorkload(new BigDecimal(dataFormatter.formatCellValue(row.getCell(11)).trim()).multiply(new BigDecimal(100)).longValue());
-                assetCategory.setNetResidualValue(new BigDecimal(dataFormatter.formatCellValue(row.getCell(12)).trim()).multiply(new BigDecimal(100)).longValue());
+                assetCategory.setDepreciationPeriod(new BigDecimal(dataFormatter.formatCellValue(row.getCell(10)).trim()));
+                assetCategory.setEstimatedTotalWorkload(new BigDecimal(dataFormatter.formatCellValue(row.getCell(11)).trim()));
+                assetCategory.setNetResidualValue(new BigDecimal(dataFormatter.formatCellValue(row.getCell(12)).trim()));
                 assetCategory.setRemark(row.getCell(15).getStringCellValue().trim());
 
                 assetCategoryList.add(assetCategory);

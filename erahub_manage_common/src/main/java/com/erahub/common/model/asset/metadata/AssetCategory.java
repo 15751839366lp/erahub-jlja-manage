@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -42,11 +43,11 @@ public class AssetCategory implements Serializable {
 
     private String capacityUnit;
 
-    private Long depreciationPeriod;
+    private BigDecimal depreciationPeriod;
 
-    private Long estimatedTotalWorkload;
+    private BigDecimal estimatedTotalWorkload;
 
-    private Long netResidualValue;
+    private BigDecimal netResidualValue;
 
     @TableField(fill = FieldFill.INSERT)
     @DateTimeFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")

@@ -32,9 +32,6 @@ public class AssetCategoryConverter {
                 AssetCategoryVO assetCategoryVO = new AssetCategoryVO();
                 BeanUtils.copyProperties(assetCategory, assetCategoryVO);
 
-                assetCategoryVO.setDepreciationPeriod(new BigDecimal(ArithmeticUtils.div(assetCategory.getDepreciationPeriod(), 100, 2)));
-                assetCategoryVO.setEstimatedTotalWorkload(new BigDecimal(ArithmeticUtils.div(assetCategory.getEstimatedTotalWorkload(), 100, 2)));
-                assetCategoryVO.setNetResidualValue(new BigDecimal(ArithmeticUtils.div(assetCategory.getNetResidualValue(), 100, 2)));
                 if(assetCategory.getAssetQuantity() == null){
                     assetCategoryVO.setAssetQuantity(0l);
                 }
@@ -54,9 +51,6 @@ public class AssetCategoryConverter {
 
         BeanUtils.copyProperties(assetCategoryDTO, assetCategory);
 
-        assetCategory.setDepreciationPeriod(ArithmeticUtils.mul(assetCategoryDTO.getDepreciationPeriod().toString(), "100").longValue());
-        assetCategory.setEstimatedTotalWorkload(ArithmeticUtils.mul(assetCategoryDTO.getEstimatedTotalWorkload().toString(), "100").longValue());
-        assetCategory.setNetResidualValue(ArithmeticUtils.mul(assetCategoryDTO.getNetResidualValue().toString(), "100").longValue());
         assetCategory.setLevel(Long.valueOf(assetCategoryDTO.getAssetCategoryId().length() / 2));
     }
 
@@ -73,9 +67,6 @@ public class AssetCategoryConverter {
                 AssetCategory assetCategory = new AssetCategory();
                 BeanUtils.copyProperties(assetCategoryDTO, assetCategory);
 
-                assetCategory.setDepreciationPeriod(Long.valueOf(ArithmeticUtils.mul(assetCategoryDTO.getDepreciationPeriod().toString(), "100", 2)));
-                assetCategory.setEstimatedTotalWorkload(Long.valueOf(ArithmeticUtils.mul(assetCategoryDTO.getEstimatedTotalWorkload().toString(), "100", 2)));
-                assetCategory.setNetResidualValue(Long.valueOf(ArithmeticUtils.mul(assetCategoryDTO.getNetResidualValue().toString(), "100", 2)));
                 assetCategory.setLevel(Long.valueOf(assetCategoryDTO.getAssetCategoryId().length() / 2));
 
                 assetCategories.add(assetCategory);

@@ -66,9 +66,6 @@ public class AssetCategoryTest {
                 assetCategory.setCapacityUnit(row.getCell(7).getStringCellValue());
             }
 
-            assetCategory.setDepreciationPeriod(Long.valueOf(decimalFormat.format(row.getCell(8).getNumericCellValue() * 100)));
-            assetCategory.setEstimatedTotalWorkload(Long.valueOf(decimalFormat.format(row.getCell(9).getNumericCellValue() * 100)));
-            assetCategory.setNetResidualValue(Long.valueOf(decimalFormat.format(row.getCell(10).getNumericCellValue() * 100)));
             assetCategory.setRemark(row.getCell(11).getStringCellValue());
 
 
