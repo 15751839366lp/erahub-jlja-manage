@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 06/05/2022 18:18:20
+ Date: 06/05/2022 19:31:47
 */
 
 SET NAMES utf8mb4;
@@ -11693,6 +11693,25 @@ INSERT INTO `as_section` VALUES ('59130004', '劳经公司', '劳经公司', 2, 
 INSERT INTO `as_section` VALUES ('59130005', '泰州分公司', '泰州分公司', 2, 1, 1, '2022-05-06 09:15:38', '2022-05-06 09:15:38', '');
 INSERT INTO `as_section` VALUES ('59130006', '青岛分公司', '青岛分公司', 2, 1, 1, '2022-05-06 09:15:38', '2022-05-06 09:15:38', '');
 INSERT INTO `as_section` VALUES ('59130080', '顺达公司', '顺达公司', 2, 1, 1, '2022-05-06 09:15:38', '2022-05-06 09:15:38', '');
+
+-- ----------------------------
+-- Table structure for as_service_condition
+-- ----------------------------
+DROP TABLE IF EXISTS `as_service_condition`;
+CREATE TABLE `as_service_condition`  (
+  `service_condition_id` bigint(0) NOT NULL COMMENT '使用状态编号',
+  `service_condition_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '使用状态名称',
+  `accrual_depreciation` int(0) NOT NULL DEFAULT 1 COMMENT '是否计提折旧    1 是  0 否',
+  `status` int(0) NOT NULL DEFAULT 1 COMMENT '是否使用    1 是  0 否',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
+  PRIMARY KEY (`service_condition_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of as_service_condition
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for biz_consumer
