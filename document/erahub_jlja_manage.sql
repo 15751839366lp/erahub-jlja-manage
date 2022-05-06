@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 06/05/2022 15:53:23
+ Date: 06/05/2022 18:18:20
 */
 
 SET NAMES utf8mb4;
@@ -5081,14 +5081,14 @@ INSERT INTO `as_asset_category` VALUES ('02020519', '防火堤', 4, 1, 1, 1, '�
 INSERT INTO `as_asset_category` VALUES ('02020520', '铁路栈桥', 4, 1, 1, 1, '条', '米', 25.000, 0.000, 0.030, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
 INSERT INTO `as_asset_category` VALUES ('02020599', '其他', 4, 1, 1, 1, '', '', 25.000, 0.000, 0.030, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
 INSERT INTO `as_asset_category` VALUES ('0203', '土地', 2, 0, 1, 1, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
-INSERT INTO `as_asset_category` VALUES ('020301', '生产用地', 3, 1, 1, 0, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
-INSERT INTO `as_asset_category` VALUES ('020302', '交通用地', 3, 1, 1, 0, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
-INSERT INTO `as_asset_category` VALUES ('020303', '办公及业务用地', 3, 1, 1, 0, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
-INSERT INTO `as_asset_category` VALUES ('020304', '市政公用设施用地', 3, 1, 1, 0, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
-INSERT INTO `as_asset_category` VALUES ('020305', '生活及服务业用地', 3, 1, 1, 0, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
-INSERT INTO `as_asset_category` VALUES ('020306', '科学研究用地', 3, 1, 1, 0, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
-INSERT INTO `as_asset_category` VALUES ('020307', '文教、体育及医疗卫生用地', 3, 1, 1, 0, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
-INSERT INTO `as_asset_category` VALUES ('020399', '其他用地', 3, 1, 1, 0, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
+INSERT INTO `as_asset_category` VALUES ('020301', '生产用地', 3, 1, 1, 4, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
+INSERT INTO `as_asset_category` VALUES ('020302', '交通用地', 3, 1, 1, 4, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
+INSERT INTO `as_asset_category` VALUES ('020303', '办公及业务用地', 3, 1, 1, 4, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
+INSERT INTO `as_asset_category` VALUES ('020304', '市政公用设施用地', 3, 1, 1, 4, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
+INSERT INTO `as_asset_category` VALUES ('020305', '生活及服务业用地', 3, 1, 1, 4, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
+INSERT INTO `as_asset_category` VALUES ('020306', '科学研究用地', 3, 1, 1, 4, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
+INSERT INTO `as_asset_category` VALUES ('020307', '文教、体育及医疗卫生用地', 3, 1, 1, 4, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
+INSERT INTO `as_asset_category` VALUES ('020399', '其他用地', 3, 1, 1, 4, '宗', '平方米', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
 INSERT INTO `as_asset_category` VALUES ('03', '油气集输设施', 1, 0, 1, 1, '', '', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
 INSERT INTO `as_asset_category` VALUES ('0301', '长输油气管线', 2, 0, 1, 1, '', '', 0.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
 INSERT INTO `as_asset_category` VALUES ('030101', '原油管线', 3, 1, 1, 1, '条', '千米', 25.000, 0.000, 0.000, '2022-05-06 15:49:49', '2022-05-06 15:49:49', '');
@@ -11590,15 +11590,15 @@ CREATE TABLE `as_depreciation_method`  (
   `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
   PRIMARY KEY (`depreciation_method_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of as_depreciation_method
 -- ----------------------------
-INSERT INTO `as_depreciation_method` VALUES (0, '不提折旧', '0', '0', 1, '2022-05-06 09:15:54', '2022-05-06 09:22:43', '不提折旧');
 INSERT INTO `as_depreciation_method` VALUES (1, '平均年限法', '(GDZCMX_QCYZ*(1-GDZCZC_JCZL)-GDZCMX_QCLJZJ-GDZCZC_SZ05)/(abs(GDZCZC_ZJNX*NKJYS-GDZCMX_SYYS)+1)', '(期初原值*(1-净残值率)-期初累计折旧-减值准备)/(取绝对值(折旧年限*年会计月数-已使用月数)+1)', 1, '2022-05-06 09:15:54', '2022-05-06 09:15:54', '年会计月数：当前会计年度有多少会计月份，一般为12');
 INSERT INTO `as_depreciation_method` VALUES (2, '工作量法', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)/GDZCZC_ZGZL*GDZCMX_BYGZL', '期初原值*(1-净残值率)/预计总工作量*本月工作量', 1, '2022-05-06 09:15:54', '2022-05-06 09:15:54', '');
 INSERT INTO `as_depreciation_method` VALUES (3, '一次摊销', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)', '期初原值*(1-净残值率)', 1, '2022-05-06 09:15:54', '2022-05-06 09:15:54', '用于会计制度规定一次计入费用的资产');
+INSERT INTO `as_depreciation_method` VALUES (4, '不提折旧', '0', '0', 1, '2022-05-06 09:15:54', '2022-05-06 09:22:43', '不提折旧');
 
 -- ----------------------------
 -- Table structure for as_section
@@ -12200,7 +12200,7 @@ CREATE TABLE `tb_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `location` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作地点',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3167 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3224 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_log
@@ -13708,6 +13708,10 @@ INSERT INTO `tb_log` VALUES (3220, 'admin', '上传导入资产类别', 3125, 'c
 INSERT INTO `tb_log` VALUES (3221, 'admin', '导出资产类别excel', 1768, 'com.erahub.controller.asset.metadata.AssetCategoryController.exportAssetCategoryExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@65056333]', '127.0.0.1', '2022-05-06 15:50:14', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (3222, 'admin', '资产类别|禁用/启用', 18, 'com.erahub.controller.asset.metadata.AssetCategoryController.changeAssetCategoryStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[assetCategoryId, status],args:[061002, 0]', '127.0.0.1', '2022-05-06 15:50:45', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (3223, 'admin', '资产类别|禁用/启用', 21, 'com.erahub.controller.asset.metadata.AssetCategoryController.changeAssetCategoryStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[assetCategoryId, status],args:[061002, 1]', '127.0.0.1', '2022-05-06 15:50:46', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3224, 'admin', '导出资产类别excel', 972, 'com.erahub.controller.asset.metadata.AssetCategoryController.exportAssetCategoryExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@2bfd07f4]', '127.0.0.1', '2022-05-06 17:47:50', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3225, 'admin', '导出资产类别excel', 465, 'com.erahub.controller.asset.metadata.AssetCategoryController.exportAssetCategoryExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@1d678127]', '127.0.0.1', '2022-05-06 17:47:57', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3226, 'admin', '导出折旧方法excel', 31, 'com.erahub.controller.asset.metadata.DepreciationMethodController.exportDepreciationMethodExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@d98c5ed]', '127.0.0.1', '2022-05-06 17:48:00', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3227, 'admin', '导出使用单位excel', 39, 'com.erahub.controller.asset.metadata.SectionController.exportSectionExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@71aa5d31]', '127.0.0.1', '2022-05-06 17:48:02', '内网IP|0|0|内网IP|内网IP');
 
 -- ----------------------------
 -- Table structure for tb_login_log
@@ -13722,7 +13726,7 @@ CREATE TABLE `tb_login_log`  (
   `user_system` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作系统',
   `user_browser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '浏览器',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1857 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1860 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_login_log
@@ -14632,7 +14636,7 @@ CREATE TABLE `tb_role_menu`  (
   `role_id` bigint(0) NOT NULL COMMENT '角色ID',
   `menu_id` bigint(0) NOT NULL COMMENT '菜单/按钮ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 943 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1147 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_role_menu
