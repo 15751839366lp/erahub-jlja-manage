@@ -12,7 +12,7 @@
         (select asset_category_id,COUNT(asset_category_id) as asset_quantity from as_asset GROUP BY asset_category_id) as aa
         on aac.asset_category_id = aa.asset_category_id
         where 1 = 1
-        <if test="assetCategoryDTO.isAccurate != null and assetCategoryDTO.isAccurate == 0">
+        <if test="assetCategoryDTO.isAccurate != null and assetCategoryDTO.isAccurate == 1">
             <if test="assetCategoryDTO.assetCategoryId != null and assetCategoryDTO.assetCategoryId != ''">
                 and aac.asset_category_id = #{assetCategoryDTO.assetCategoryId}
             </if>
@@ -27,7 +27,7 @@
             </if>
         </if>
 
-        <if test="assetCategoryDTO.isAccurate != null and assetCategoryDTO.isAccurate == 1">
+        <if test="assetCategoryDTO.isAccurate != null and assetCategoryDTO.isAccurate == 0">
             <if test="assetCategoryDTO.assetCategoryId != null and assetCategoryDTO.assetCategoryId != ''">
                 and aac.asset_category_id like '${assetCategoryDTO.assetCategoryId}%'
             </if>

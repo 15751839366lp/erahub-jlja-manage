@@ -21,4 +21,6 @@ public class Asset {
     private Long depreciationMethodId;
 
     private String assetCategoryId;
+
+    private Long serviceConditionId;
 }

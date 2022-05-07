@@ -69,22 +69,10 @@ public class AssetCategoryServiceImpl extends ServiceImpl<AssetCategoryMapper, A
         IPage<AssetCategory> assetCategoryIPage = new Page<>(assetCategoryDTO.getPageNum(), assetCategoryDTO.getPageSize());
 
         String assetCategoryId = assetCategoryDTO.getAssetCategoryId();
-        BigDecimal depreciationPeriod = assetCategoryDTO.getDepreciationPeriod();
-        BigDecimal estimatedTotalWorkload = assetCategoryDTO.getEstimatedTotalWorkload();
-        BigDecimal netResidualValue = assetCategoryDTO.getNetResidualValue();
+
         if (!StringUtils.isEmpty(assetCategoryId) && assetCategoryId.length() % 2 != 0) {
             assetCategoryDTO.setAssetCategoryId("0" + assetCategoryDTO.getAssetCategoryId());
         }
-        if (depreciationPeriod != null) {
-            assetCategoryDTO.setDepreciationPeriod(ArithmeticUtils.mul(depreciationPeriod.toString(), "100"));
-        }
-        if (estimatedTotalWorkload != null) {
-            assetCategoryDTO.setEstimatedTotalWorkload(ArithmeticUtils.mul(estimatedTotalWorkload.toString(), "100"));
-        }
-        if (netResidualValue != null) {
-            assetCategoryDTO.setNetResidualValue(ArithmeticUtils.mul(netResidualValue.toString(), "100"));
-        }
-
 
         assetCategoryIPage = assetCategoryMapper.selectAssetCategoryPageList(assetCategoryIPage, assetCategoryDTO);
         List<AssetCategory> assetCategoryList = assetCategoryIPage.getRecords();

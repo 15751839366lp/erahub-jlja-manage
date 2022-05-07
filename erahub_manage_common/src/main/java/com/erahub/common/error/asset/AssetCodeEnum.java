@@ -32,7 +32,10 @@ public enum AssetCodeEnum implements BaseError {
     DEPRECIATION_METHOD_NOT_FOUND(40201, "折旧方法不存在!"),
 
     //单位模块
-    SECTION_NOT_FOUND(40301, "单位不存在!");
+    SECTION_NOT_FOUND(40301, "单位不存在!"),
+
+    //使用状态模块
+    SERVICE_CONDITION_NOT_FOUND(40301, "使用单位不存在!");
 
     /** 错误码 */
     private int errorCode;

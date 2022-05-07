@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.ServiceConditionMapper">
+
+    <select id="selectServiceConditionPageList" resultType="com.erahub.common.model.asset.metadata.ServiceCondition"
+            parameterType="com.erahub.common.dto.asset.metadata.ServiceConditionDTO"
+    >
+        select assc.*,aa.asset_quantity from as_service_condition as assc left join
+        (select service_condition_id,COUNT(service_condition_id) as asset_quantity from as_asset GROUP BY service_condition_id) as aa
+        on assc.service_condition_id = aa.service_condition_id
+        where 1 = 1
+        <if test="serviceConditionDTO.isAccurate != null and serviceConditionDTO.isAccurate == 1">
+            <if test="serviceConditionDTO.serviceConditionId != null">
+                and assc.service_condition_id = #{serviceConditionDTO.serviceConditionId}
+            </if>
+            <if test="serviceConditionDTO.serviceConditionName != null and serviceConditionDTO.serviceConditionName != ''">
+                and assc.service_condition_name = #{serviceConditionDTO.serviceConditionName}
+            </if>
+        </if>
+
+        <if test="serviceConditionDTO.isAccurate != null and serviceConditionDTO.isAccurate == 0">
+            <if test="serviceConditionDTO.serviceConditionId != null">
+                and assc.service_condition_id like '${serviceConditionDTO.serviceConditionId}%'
+            </if>
+            <if test="serviceConditionDTO.serviceConditionName != null and serviceConditionDTO.serviceConditionName != ''">
+                and assc.service_condition_name like '%${serviceConditionDTO.serviceConditionName}%'
+            </if>
+        </if>
+
+        <if test="serviceConditionDTO.status != null">
+            and assc.status = #{serviceConditionDTO.status}
+        </if>
+        <if test="serviceConditionDTO.accrualDepreciation != null">
+            and assc.accrual_depreciation = #{serviceConditionDTO.accrualDepreciation}
+        </if>
+        <if test="serviceConditionDTO.startCreateTime != null">
+            and assc.create_time &gt;= #{serviceConditionDTO.startCreateTime}
+        </if>
+
+        <if test="serviceConditionDTO.endCreateTime != null">
+            and assc.create_time &lt;= #{serviceConditionDTO.endCreateTime}
+        </if>
+
+        <if test="serviceConditionDTO.sortColumn != null and serviceConditionDTO.sortColumn != ''">
+            <if test="serviceConditionDTO.isAsc != null and serviceConditionDTO.isAsc">
+                order by ${serviceConditionDTO.sortColumn}
+            </if>
+            <if test="serviceConditionDTO.isAsc != null and !serviceConditionDTO.isAsc">
+                order by ${serviceConditionDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectServiceConditionListByIds" resultType="com.erahub.common.model.asset.metadata.ServiceCondition"
+            parameterType="java.util.List"
+    >
+        select assc.*,aa.asset_quantity from as_service_condition as assc left join
+        (select service_condition_id,COUNT(service_condition_id) as asset_quantity from as_asset GROUP BY service_condition_id) as aa
+        on assc.service_condition_id = aa.service_condition_id
+        where assc.service_condition_id in
+        <foreach item="item" collection="serviceConditionIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>
