@@ -85,7 +85,7 @@ public class ServiceConditionController {
     @ApiOperation(value = "使用状态", notes = "禁用和启用这两种状态")
     @RequiresPermissions({"asset:metadata:serviceCondition:edit"})
     @PutMapping("/changeServiceConditionStatus/{serviceConditionId}/{status}")
-    public ResponseBean changeServiceConditionStatus(@PathVariable Long serviceConditionId, @PathVariable Long status) throws AssetException {
+    public ResponseBean changeServiceConditionStatus(@PathVariable Long serviceConditionId, @PathVariable Integer status) throws AssetException {
         serviceConditionService.changeServiceConditionStatus(serviceConditionId,status);
         return ResponseBean.success();
     }

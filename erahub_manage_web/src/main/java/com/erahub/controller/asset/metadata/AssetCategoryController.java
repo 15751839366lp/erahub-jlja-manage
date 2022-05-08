@@ -81,7 +81,7 @@ public class AssetCategoryController {
     @ApiOperation(value = "资产类别", notes = "禁用和启用这两种状态")
     @RequiresPermissions({"asset:metadata:assetCategory:edit"})
     @PutMapping("/changeAssetCategoryStatus/{assetCategoryId}/{status}")
-    public ResponseBean changeAssetCategoryStatus(@PathVariable String assetCategoryId, @PathVariable Long status) throws AssetException {
+    public ResponseBean changeAssetCategoryStatus(@PathVariable String assetCategoryId, @PathVariable Integer status) throws AssetException {
         assetCategoryService.changeAssetCategoryStatus(assetCategoryId,status);
         return ResponseBean.success();
     }

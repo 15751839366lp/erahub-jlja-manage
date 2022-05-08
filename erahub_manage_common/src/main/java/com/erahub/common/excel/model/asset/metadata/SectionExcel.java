@@ -34,15 +34,15 @@ public class SectionExcel {
 
     @ColumnWidth(10)
     @ExcelProperty(value = "单位等级")
-    private Long level;
+    private Integer level;
 
     @ColumnWidth(10)
     @ExcelProperty(value = "明细")
-    private Long detailed;
+    private Integer detailed;
 
     @ColumnWidth(10)
     @ExcelProperty(value = "状态")
-    private Long status;
+    private Integer status;
 
     @ColumnWidth(30)
     @ExcelProperty(value = "创建时间")

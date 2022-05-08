@@ -34,7 +34,7 @@ public class ServiceConditionExcel {
 
     @ColumnWidth(10)
     @ExcelProperty(value = "状态")
-    private Long status;
+    private Integer status;
 
     @ColumnWidth(30)
     @ExcelProperty(value = "创建时间")

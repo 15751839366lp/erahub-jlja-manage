@@ -94,7 +94,7 @@ public class SectionController {
     @ApiOperation(value = "使用单位", notes = "禁用和启用这两种状态")
     @RequiresPermissions({"asset:metadata:section:edit"})
     @PutMapping("/changeSectionStatus/{sectionId}/{status}")
-    public ResponseBean changeSectionStatus(@PathVariable String sectionId, @PathVariable Long status) throws AssetException {
+    public ResponseBean changeSectionStatus(@PathVariable String sectionId, @PathVariable Integer status) throws AssetException {
         sectionService.changeSectionStatus(sectionId,status);
         return ResponseBean.success();
     }

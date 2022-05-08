@@ -30,15 +30,15 @@ public class AssetCategoryExcel {
 
     @ColumnWidth(10)
     @ExcelProperty(value = "类别等级")
-    private Long level;
+    private Integer level;
 
     @ColumnWidth(10)
     @ExcelProperty(value = "明细")
-    private Long detailed;
+    private Integer detailed;
 
     @ColumnWidth(10)
     @ExcelProperty(value = "状态")
-    private Long status;
+    private Integer status;
 
     @ColumnWidth(10)
     @ExcelProperty(value = "折旧方法id")

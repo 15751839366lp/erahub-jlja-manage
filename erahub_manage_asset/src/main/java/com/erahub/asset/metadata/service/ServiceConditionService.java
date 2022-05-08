@@ -32,7 +32,7 @@ public interface ServiceConditionService extends IService<ServiceCondition> {
      * @param serviceConditionId
      * @param status
      */
-    void changeServiceConditionStatus(Long serviceConditionId, Long status) throws AssetException;
+    void changeServiceConditionStatus(Long serviceConditionId, Integer status) throws AssetException;
 
     /**
      * 导出excel

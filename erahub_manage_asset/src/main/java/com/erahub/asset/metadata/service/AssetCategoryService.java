@@ -32,7 +32,7 @@ public interface AssetCategoryService extends IService<AssetCategory> {
      * @param assetCategoryId
      * @param status
      */
-    void changeAssetCategoryStatus(String assetCategoryId, Long status) throws AssetException;
+    void changeAssetCategoryStatus(String assetCategoryId, Integer status) throws AssetException;
 
     /**
      * 导出excel

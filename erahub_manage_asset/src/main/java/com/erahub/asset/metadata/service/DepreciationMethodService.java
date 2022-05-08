@@ -38,7 +38,7 @@ public interface DepreciationMethodService extends IService<DepreciationMethod> 
      * @param depreciationMethodId
      * @param status
      */
-    void changeDepreciationMethodStatus(Long depreciationMethodId, Long status) throws AssetException;
+    void changeDepreciationMethodStatus(Long depreciationMethodId, Integer status) throws AssetException;
 
     /**
      * 添加折旧方法

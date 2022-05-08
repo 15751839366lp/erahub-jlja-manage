@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 /**
+ * 使用状态
  * @Author lipeng
  * @Date 2022/5/7 9:14
  * @Version 1.0
@@ -29,7 +30,7 @@ public class ServiceCondition {
 
     private Long accrualDepreciation;
 
-    private Long status;
+    private Integer status;
 
     @TableField(fill = FieldFill.INSERT)
     @DateTimeFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")

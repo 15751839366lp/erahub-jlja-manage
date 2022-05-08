@@ -51,7 +51,7 @@ public class AssetCategoryConverter {
 
         BeanUtils.copyProperties(assetCategoryDTO, assetCategory);
 
-        assetCategory.setLevel(Long.valueOf(assetCategoryDTO.getAssetCategoryId().length() / 2));
+        assetCategory.setLevel(Integer.valueOf(assetCategoryDTO.getAssetCategoryId().length() / 2));
     }
 
     /**
@@ -67,7 +67,7 @@ public class AssetCategoryConverter {
                 AssetCategory assetCategory = new AssetCategory();
                 BeanUtils.copyProperties(assetCategoryDTO, assetCategory);
 
-                assetCategory.setLevel(Long.valueOf(assetCategoryDTO.getAssetCategoryId().length() / 2));
+                assetCategory.setLevel(Integer.valueOf(assetCategoryDTO.getAssetCategoryId().length() / 2));
 
                 assetCategories.add(assetCategory);
             }

@@ -109,7 +109,7 @@ public class AssetCategoryServiceImpl extends ServiceImpl<AssetCategoryMapper, A
      * @param status
      */
     @Override
-    public void changeAssetCategoryStatus(String assetCategoryId, Long status) throws AssetException {
+    public void changeAssetCategoryStatus(String assetCategoryId, Integer status) throws AssetException {
         AssetCategory dbAssetCategory = assetCategoryMapper.selectById(assetCategoryId);
         if (dbAssetCategory == null) {
             throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "要更新状态的资产类别不存在");
@@ -323,9 +323,9 @@ public class AssetCategoryServiceImpl extends ServiceImpl<AssetCategoryMapper, A
                 //数据复值
                 assetCategory.setAssetCategoryId(categoryId.trim());
                 assetCategory.setAssetCategoryName(row.getCell(1).getStringCellValue().trim());
-                assetCategory.setLevel(Long.valueOf(categoryId.length() / 2));
-                assetCategory.setDetailed(Long.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
-                assetCategory.setStatus(Long.valueOf(dataFormatter.formatCellValue(row.getCell(5)).trim()));
+                assetCategory.setLevel(Integer.valueOf(categoryId.length() / 2));
+                assetCategory.setDetailed(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
+                assetCategory.setStatus(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5)).trim()));
                 assetCategory.setDepreciationMethodId(Long.valueOf(dataFormatter.formatCellValue(row.getCell(6)).trim()));
                 if (!StringUtils.isEmpty(row.getCell(8))) {
                     assetCategory.setMeasureUnit(row.getCell(8).getStringCellValue().trim());

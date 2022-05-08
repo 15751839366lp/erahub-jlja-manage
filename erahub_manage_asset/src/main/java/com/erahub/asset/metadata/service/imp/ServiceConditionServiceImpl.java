@@ -96,7 +96,7 @@ public class ServiceConditionServiceImpl extends ServiceImpl<ServiceConditionMap
      * @param status
      */
     @Override
-    public void changeServiceConditionStatus(Long serviceConditionId, Long status) throws AssetException {
+    public void changeServiceConditionStatus(Long serviceConditionId, Integer status) throws AssetException {
         ServiceCondition dbServiceCondition = serviceConditionMapper.selectById(serviceConditionId);
         if (dbServiceCondition == null) {
             throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "要更新状态的使用状态不存在");
@@ -260,7 +260,7 @@ public class ServiceConditionServiceImpl extends ServiceImpl<ServiceConditionMap
                     serviceCondition.setServiceConditionId(serviceConditionId);
                     serviceCondition.setServiceConditionName(dataFormatter.formatCellValue(row.getCell(1)).trim());
                     serviceCondition.setAccrualDepreciation(Long.valueOf(dataFormatter.formatCellValue(row.getCell(3)).trim()));
-                    serviceCondition.setStatus(Long.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
+                    serviceCondition.setStatus(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
                     serviceCondition.setRemark(dataFormatter.formatCellValue(row.getCell(7)).trim());
 
                     serviceConditionList.add(serviceCondition);

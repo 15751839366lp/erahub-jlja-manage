@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.ReduceReasonMapper">
+    <select id="selectReduceReasonPageList" resultType="com.erahub.common.model.asset.metadata.ReduceReason"
+            parameterType="com.erahub.common.dto.asset.metadata.ReduceReasonDTO"
+    >
+        select arr.*,aa.asset_quantity from as_reduce_reason as arr left join
+        (select reduce_reason_id,COUNT(reduce_reason_id) as asset_quantity from as_asset GROUP BY reduce_reason_id) as aa
+        on arr.reduce_reason_id = aa.reduce_reason_id
+        where 1 = 1
+        <if test="reduceReasonDTO.isAccurate != null and reduceReasonDTO.isAccurate == 1">
+            <if test="reduceReasonDTO.reduceReasonId != null">
+                and arr.reduce_reason_id = #{reduceReasonDTO.reduceReasonId}
+            </if>
+            <if test="reduceReasonDTO.reduceReasonName != null and reduceReasonDTO.reduceReasonName != ''">
+                and arr.reduce_reason_name = #{reduceReasonDTO.reduceReasonName}
+            </if>
+        </if>
+
+        <if test="reduceReasonDTO.isAccurate != null and reduceReasonDTO.isAccurate == 0">
+            <if test="reduceReasonDTO.reduceReasonId != null">
+                and arr.reduce_reason_id like '${reduceReasonDTO.reduceReasonId}%'
+            </if>
+            <if test="reduceReasonDTO.reduceReasonName != null and reduceReasonDTO.reduceReasonName != ''">
+                and arr.reduce_reason_name like '%${reduceReasonDTO.reduceReasonName}%'
+            </if>
+        </if>
+
+        <if test="reduceReasonDTO.status != null">
+            and arr.status = #{reduceReasonDTO.status}
+        </if>
+        <if test="reduceReasonDTO.startCreateTime != null">
+            and arr.create_time &gt;= #{reduceReasonDTO.startCreateTime}
+        </if>
+
+        <if test="reduceReasonDTO.endCreateTime != null">
+            and arr.create_time &lt;= #{reduceReasonDTO.endCreateTime}
+        </if>
+
+        <if test="reduceReasonDTO.sortColumn != null and reduceReasonDTO.sortColumn != ''">
+            <if test="reduceReasonDTO.isAsc != null and reduceReasonDTO.isAsc">
+                order by ${reduceReasonDTO.sortColumn}
+            </if>
+            <if test="reduceReasonDTO.isAsc != null and !reduceReasonDTO.isAsc">
+                order by ${reduceReasonDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectReduceReasonListByIds" resultType="com.erahub.common.model.asset.metadata.ReduceReason"
+            parameterType="java.util.List"
+    >
+        select arr.*,aa.asset_quantity from as_reduce_reason as arr left join
+        (select reduce_reason_id,COUNT(reduce_reason_id) as asset_quantity from as_asset GROUP BY reduce_reason_id) as aa
+        on arr.reduce_reason_id = aa.reduce_reason_id
+        where arr.reduce_reason_id in
+        <foreach item="item" collection="reduceReasonIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

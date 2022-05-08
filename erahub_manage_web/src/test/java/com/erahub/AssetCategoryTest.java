@@ -54,9 +54,9 @@ public class AssetCategoryTest {
             }
             assetCategory.setAssetCategoryId(categoryId);
             assetCategory.setAssetCategoryName(row.getCell(1).getStringCellValue());
-            assetCategory.setLevel(Long.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
-            assetCategory.setDetailed(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
-            assetCategory.setStatus(Long.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
+            assetCategory.setLevel(Integer.valueOf(decimalFormat.format(row.getCell(2).getNumericCellValue())));
+            assetCategory.setDetailed(Integer.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
+            assetCategory.setStatus(Integer.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
             assetCategory.setDepreciationMethodId(Long.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
             if (!StringUtils.isEmpty(row.getCell(6))) {
                 assetCategory.setMeasureUnit(row.getCell(6).getStringCellValue());

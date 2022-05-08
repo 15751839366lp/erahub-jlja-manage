@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.TechnicalConditionMapper">
+    <select id="selectTechnicalConditionPageList" resultType="com.erahub.common.model.asset.metadata.TechnicalCondition"
+            parameterType="com.erahub.common.dto.asset.metadata.TechnicalConditionDTO"
+    >
+        select atc.*,aa.asset_quantity from as_technical_condition as atc left join
+        (select technical_condition_id,COUNT(technical_condition_id) as asset_quantity from as_asset GROUP BY technical_condition_id) as aa
+        on atc.technical_condition_id = aa.technical_condition_id
+        where 1 = 1
+        <if test="technicalConditionDTO.isAccurate != null and technicalConditionDTO.isAccurate == 1">
+            <if test="technicalConditionDTO.technicalConditionId != null">
+                and atc.technical_condition_id = #{technicalConditionDTO.technicalConditionId}
+            </if>
+            <if test="technicalConditionDTO.technicalConditionName != null and technicalConditionDTO.technicalConditionName != ''">
+                and atc.technical_condition_name = #{technicalConditionDTO.technicalConditionName}
+            </if>
+        </if>
+
+        <if test="technicalConditionDTO.isAccurate != null and technicalConditionDTO.isAccurate == 0">
+            <if test="technicalConditionDTO.technicalConditionId != null">
+                and atc.technical_condition_id like '${technicalConditionDTO.technicalConditionId}%'
+            </if>
+            <if test="technicalConditionDTO.technicalConditionName != null and technicalConditionDTO.technicalConditionName != ''">
+                and atc.technical_condition_name like '%${technicalConditionDTO.technicalConditionName}%'
+            </if>
+        </if>
+
+        <if test="technicalConditionDTO.status != null">
+            and atc.status = #{technicalConditionDTO.status}
+        </if>
+        <if test="technicalConditionDTO.startCreateTime != null">
+            and atc.create_time &gt;= #{technicalConditionDTO.startCreateTime}
+        </if>
+
+        <if test="technicalConditionDTO.endCreateTime != null">
+            and atc.create_time &lt;= #{technicalConditionDTO.endCreateTime}
+        </if>
+
+        <if test="technicalConditionDTO.sortColumn != null and technicalConditionDTO.sortColumn != ''">
+            <if test="technicalConditionDTO.isAsc != null and technicalConditionDTO.isAsc">
+                order by ${technicalConditionDTO.sortColumn}
+            </if>
+            <if test="technicalConditionDTO.isAsc != null and !technicalConditionDTO.isAsc">
+                order by ${technicalConditionDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectTechnicalConditionListByIds" resultType="com.erahub.common.model.asset.metadata.TechnicalCondition"
+            parameterType="java.util.List"
+    >
+        select atc.*,aa.asset_quantity from as_technical_condition as atc left join
+        (select technical_condition_id,COUNT(technical_condition_id) as asset_quantity from as_asset GROUP BY technical_condition_id) as aa
+        on atc.technical_condition_id = aa.technical_condition_id
+        where atc.technical_condition_id in
+        <foreach item="item" collection="technicalConditionIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

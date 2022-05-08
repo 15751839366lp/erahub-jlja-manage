@@ -104,9 +104,9 @@ public class SectionTreeBuilder {
             noParentSection.setSectionId("9999");
             noParentSection.setSectionName("其他单位");
             noParentSection.setSectionAbbreviation("其他");
-            noParentSection.setLevel(1l);
-            noParentSection.setDetailed(0l);
-            noParentSection.setStatus(1l);
+            noParentSection.setLevel(1);
+            noParentSection.setDetailed(0);
+            noParentSection.setStatus(1);
             noParentSection.setChildren(noParentNodes);
 
             tree.add(noParentSection);

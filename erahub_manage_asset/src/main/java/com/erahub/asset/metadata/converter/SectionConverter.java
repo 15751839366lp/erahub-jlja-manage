@@ -51,7 +51,7 @@ public class SectionConverter {
      */
     public static void converterToSection(SectionDTO sectionDTO,Section section) {
         BeanUtils.copyProperties(sectionDTO, section);
-        section.setLevel(Long.valueOf(sectionDTO.getSectionId().length() / 4));
+        section.setLevel(Integer.valueOf(sectionDTO.getSectionId().length() / 4));
     }
 
     /**
@@ -67,7 +67,7 @@ public class SectionConverter {
                 Section section = new Section();
                 BeanUtils.copyProperties(sectionDTO, section);
 
-                section.setLevel(Long.valueOf(sectionDTO.getSectionId().length() / 4));
+                section.setLevel(Integer.valueOf(sectionDTO.getSectionId().length() / 4));
 
                 sections.add(section);
             }

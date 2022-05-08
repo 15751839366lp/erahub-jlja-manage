@@ -18,13 +18,13 @@ public class AssetCategoryDTO {
 
     private String assetCategoryName;
 
-    private Long level;
+    private Integer level;
 
     private Long assetQuantity;
 
-    private Long detailed;
+    private Integer detailed;
 
-    private Long status;
+    private Integer status;
 
     private Long depreciationMethodId;
 

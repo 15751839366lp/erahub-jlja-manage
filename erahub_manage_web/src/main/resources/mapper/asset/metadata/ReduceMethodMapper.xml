@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.ReduceMethodMapper">
+    <select id="selectReduceMethodPageList" resultType="com.erahub.common.model.asset.metadata.ReduceMethod"
+            parameterType="com.erahub.common.dto.asset.metadata.ReduceMethodDTO"
+    >
+        select arm.*,aa.asset_quantity from as_reduce_method as arm left join
+        (select reduce_method_id,COUNT(reduce_method_id) as asset_quantity from as_asset GROUP BY reduce_method_id) as aa
+        on arm.reduce_method_id = aa.reduce_method_id
+        where 1 = 1
+        <if test="reduceMethodDTO.isAccurate != null and reduceMethodDTO.isAccurate == 1">
+            <if test="reduceMethodDTO.reduceMethodId != null">
+                and arm.reduce_method_id = #{reduceMethodDTO.reduceMethodId}
+            </if>
+            <if test="reduceMethodDTO.reduceMethodName != null and reduceMethodDTO.reduceMethodName != ''">
+                and arm.reduce_method_name = #{reduceMethodDTO.reduceMethodName}
+            </if>
+        </if>
+
+        <if test="reduceMethodDTO.isAccurate != null and reduceMethodDTO.isAccurate == 0">
+            <if test="reduceMethodDTO.reduceMethodId != null">
+                and arm.reduce_method_id like '${reduceMethodDTO.reduceMethodId}%'
+            </if>
+            <if test="reduceMethodDTO.reduceMethodName != null and reduceMethodDTO.reduceMethodName != ''">
+                and arm.reduce_method_name like '%${reduceMethodDTO.reduceMethodName}%'
+            </if>
+        </if>
+
+        <if test="reduceMethodDTO.methodMark != null and reduceMethodDTO.methodMark != ''">
+            and arm.method_mark = #{reduceMethodDTO.methodMark}
+        </if>
+        <if test="reduceMethodDTO.status != null">
+            and arm.status = #{reduceMethodDTO.status}
+        </if>
+        <if test="reduceMethodDTO.startCreateTime != null">
+            and arm.create_time &gt;= #{reduceMethodDTO.startCreateTime}
+        </if>
+
+        <if test="reduceMethodDTO.endCreateTime != null">
+            and arm.create_time &lt;= #{reduceMethodDTO.endCreateTime}
+        </if>
+
+        <if test="reduceMethodDTO.sortColumn != null and reduceMethodDTO.sortColumn != ''">
+            <if test="reduceMethodDTO.isAsc != null and reduceMethodDTO.isAsc">
+                order by ${reduceMethodDTO.sortColumn}
+            </if>
+            <if test="reduceMethodDTO.isAsc != null and !reduceMethodDTO.isAsc">
+                order by ${reduceMethodDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectReduceMethodListByIds" resultType="com.erahub.common.model.asset.metadata.ReduceMethod"
+            parameterType="java.util.List"
+    >
+        select arm.*,aa.asset_quantity from as_reduce_method as arm left join
+        (select reduce_method_id,COUNT(reduce_method_id) as asset_quantity from as_asset GROUP BY reduce_method_id) as aa
+        on arm.reduce_method_id = aa.reduce_method_id
+        where arm.reduce_method_id in
+        <foreach item="item" collection="reduceMethodIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.AssetSourceMapper">
+    <select id="selectAssetSourcePageList" resultType="com.erahub.common.model.asset.metadata.AssetSource"
+            parameterType="com.erahub.common.dto.asset.metadata.AssetSourceDTO"
+    >
+        select aas.*,aa.asset_quantity from as_asset_source as aas left join
+        (select asset_source_id,COUNT(asset_source_id) as asset_quantity from as_asset GROUP BY asset_source_id) as aa
+        on aas.asset_source_id = aa.asset_source_id
+        where 1 = 1
+        <if test="assetSourceDTO.isAccurate != null and assetSourceDTO.isAccurate == 1">
+            <if test="assetSourceDTO.assetSourceId != null">
+                and aas.asset_source_id = #{assetSourceDTO.assetSourceId}
+            </if>
+            <if test="assetSourceDTO.assetSourceName != null and assetSourceDTO.assetSourceName != ''">
+                and aas.asset_source_name = #{assetSourceDTO.assetSourceName}
+            </if>
+        </if>
+
+        <if test="assetSourceDTO.isAccurate != null and assetSourceDTO.isAccurate == 0">
+            <if test="assetSourceDTO.assetSourceId != null">
+                and aas.asset_source_id like '${assetSourceDTO.assetSourceId}%'
+            </if>
+            <if test="assetSourceDTO.assetSourceName != null and assetSourceDTO.assetSourceName != ''">
+                and aas.sasset_source_name like '%${assetSourceDTO.assetSourceName}%'
+            </if>
+        </if>
+
+        <if test="assetSourceDTO.sourceMark != null and assetSourceDTO.sourceMark != ''">
+            and aas.source_mark = #{assetSourceDTO.sourceMark}
+        </if>
+        <if test="assetSourceDTO.status != null">
+            and aas.status = #{assetSourceDTO.status}
+        </if>
+        <if test="assetSourceDTO.startCreateTime != null">
+            and aas.create_time &gt;= #{assetSourceDTO.startCreateTime}
+        </if>
+
+        <if test="assetSourceDTO.endCreateTime != null">
+            and aas.create_time &lt;= #{assetSourceDTO.endCreateTime}
+        </if>
+
+        <if test="assetSourceDTO.sortColumn != null and assetSourceDTO.sortColumn != ''">
+            <if test="assetSourceDTO.isAsc != null and assetSourceDTO.isAsc">
+                order by ${assetSourceDTO.sortColumn}
+            </if>
+            <if test="assetSourceDTO.isAsc != null and !assetSourceDTO.isAsc">
+                order by ${assetSourceDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectAssetSourceListByIds" resultType="com.erahub.common.model.asset.metadata.AssetSource"
+            parameterType="java.util.List"
+    >
+        select aas.*,aa.asset_quantity from as_asset_source as aas left join
+        (select asset_source_id,COUNT(asset_source_id) as asset_quantity from as_asset GROUP BY asset_source_id) as aa
+        on aas.asset_source_id = aa.asset_source_id
+        where aas.asset_source_id in
+        <foreach item="item" collection="assetSourceIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

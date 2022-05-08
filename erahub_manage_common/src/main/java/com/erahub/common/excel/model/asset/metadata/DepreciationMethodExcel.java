@@ -33,7 +33,7 @@ public class DepreciationMethodExcel {
 
     @ColumnWidth(20)
     @ExcelProperty(value = "状态")
-    private Long status;
+    private Integer status;
 
     @ColumnWidth(100)
     @ExcelProperty(value = "计算公式")

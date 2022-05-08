@@ -36,7 +36,7 @@ public interface SectionService extends IService<Section> {
      * @param status
      * @return
      */
-    void changeSectionStatus(String sectionId, Long status) throws AssetException;
+    void changeSectionStatus(String sectionId, Integer status) throws AssetException;
     /**
      * 添加使用单位
      * @param sectionDTO

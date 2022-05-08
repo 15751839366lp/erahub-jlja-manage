@@ -92,7 +92,7 @@ public class DepreciationMethodController {
     @ApiOperation(value = "资产折旧方法", notes = "禁用和启用这两种状态")
     @RequiresPermissions({"asset:metadata:depreciationMethod:edit"})
     @PutMapping("/changeDepreciationMethodStatus/{depreciationMethodId}/{status}")
-    public ResponseBean changeDepreciationMethodStatus(@PathVariable Long depreciationMethodId, @PathVariable Long status) throws AssetException {
+    public ResponseBean changeDepreciationMethodStatus(@PathVariable Long depreciationMethodId, @PathVariable Integer status) throws AssetException {
         depreciationMethodService.changeDepreciationMethodStatus(depreciationMethodId,status);
         return ResponseBean.success();
     }

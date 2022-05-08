@@ -59,10 +59,10 @@ public class SectionTest {
             section.setSectionId(id);
             section.setSectionName(row.getCell(1).getStringCellValue());
             section.setSectionAbbreviation(row.getCell(2).getStringCellValue());
-            section.setLevel(Long.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
-            section.setDetailed(Long.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
-//            section.setStatus(Long.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
-            section.setStatus(1l);
+            section.setLevel(Integer.valueOf(decimalFormat.format(row.getCell(3).getNumericCellValue())));
+            section.setDetailed(Integer.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
+//            section.setStatus(Integer.valueOf(decimalFormat.format(row.getCell(4).getNumericCellValue())));
+            section.setStatus(1);
             if(row.getCell(7) != null && !StringUtils.isEmpty(row.getCell(7).getStringCellValue())){
                 section.setRemark(row.getCell(7).getStringCellValue());
             }

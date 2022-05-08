@@ -99,7 +99,7 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
      * @param status
      */
     @Override
-    public void changeDepreciationMethodStatus(Long depreciationMethodId, Long status) throws AssetException {
+    public void changeDepreciationMethodStatus(Long depreciationMethodId, Integer status) throws AssetException {
         DepreciationMethod dbDepreciationMethod = depreciationMethodMapper.selectById(depreciationMethodId);
         if (dbDepreciationMethod == null) {
             throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "要更新状态的折旧方法不存在");
@@ -254,7 +254,7 @@ public class DepreciationMethodServiceImpl extends ServiceImpl<DepreciationMetho
                 //数据复值
                 depreciationMethod.setDepreciationMethodId(depreciationMethodId);
                 depreciationMethod.setDepreciationMethodName(row.getCell(1).getStringCellValue());
-                depreciationMethod.setStatus(Long.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
+                depreciationMethod.setStatus(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
 
                 if (!StringUtils.isEmpty(row.getCell(5))) {
                     depreciationMethod.setFormula(row.getCell(5).getStringCellValue());

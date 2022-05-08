@@ -28,11 +28,11 @@ public class AssetCategory implements Serializable {
     @TableField(exist = false)
     private Long assetQuantity;
 
-    private Long level;
+    private Integer level;
 
-    private Long detailed;
+    private Integer detailed;
 
-    private Long status;
+    private Integer status;
 
     private Long depreciationMethodId;
 

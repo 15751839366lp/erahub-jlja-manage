@@ -141,7 +141,7 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
      * @param status
      */
     @Override
-    public void changeSectionStatus(String sectionId, Long status) throws AssetException {
+    public void changeSectionStatus(String sectionId, Integer status) throws AssetException {
         Section dbSection = sectionMapper.selectById(sectionId);
         if (dbSection == null) {
             throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "要更新状态的使用不存在");
@@ -325,9 +325,9 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
                 section.setSectionId(sectionId.trim());
                 section.setSectionName(row.getCell(1).getStringCellValue().trim());
                 section.setSectionAbbreviation(row.getCell(2).getStringCellValue().trim());
-                section.setLevel(Long.valueOf(sectionId.length() / 4));
-                section.setDetailed(Long.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
-                section.setStatus(Long.valueOf(decimalFormat.format(row.getCell(6).getNumericCellValue())));
+                section.setLevel(Integer.valueOf(sectionId.length() / 4));
+                section.setDetailed(Integer.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
+                section.setStatus(Integer.valueOf(decimalFormat.format(row.getCell(6).getNumericCellValue())));
                 section.setRemark(row.getCell(9).getStringCellValue().trim());
 
                 sectionList.add(section);

@@ -29,7 +29,7 @@ public class AssetTest {
     @Test
     void importList() throws IOException {
         Workbook wookbook = null;
-        wookbook = new HSSFWorkbook(new FileInputStream("E:\\Program\\document\\project\\jlja\\fixed_asset_manage\\固定资产\\文档\\表\\ZJ202204.XLS"));//得到工作簿
+        wookbook = new HSSFWorkbook(new FileInputStream("E:\\Program\\document\\project\\jlja\\asset_manage\\固定资产\\文档\\ZJ202204.XLS"));//得到工作簿
 
         Sheet sheet = wookbook.getSheetAt(0);
         int lastRowNum = sheet.getLastRowNum();

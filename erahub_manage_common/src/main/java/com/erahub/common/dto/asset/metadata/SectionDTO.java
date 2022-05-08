@@ -21,11 +21,11 @@ public class SectionDTO {
 
     private Long assetQuantity;
 
-    private Long level;
+    private Integer level;
 
-    private Long detailed;
+    private Integer detailed;
 
-    private Long status;
+    private Integer status;
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;

@@ -72,7 +72,7 @@ public class CodeGenerator {
         /**
          * 修改模块
          */
-        pc.setParent("com.erahub.jlja.authoritymanage");
+        pc.setParent("com.erahub.generator");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -98,8 +98,8 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/resources/mapper/authoritymanage/"
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return projectPath + "/src/main/resources/"
+                        + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
 
@@ -123,7 +123,7 @@ public class CodeGenerator {
         /**
          * 修改表前缀
          */
-        strategy.setTablePrefix("tb_");
+        strategy.setTablePrefix("as_");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();

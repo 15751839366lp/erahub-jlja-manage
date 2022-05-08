@@ -25,7 +25,7 @@ public class DepreciationMethodDTO {
 
     private String formulaExplain;
 
-    private Long status;
+    private Integer status;
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;

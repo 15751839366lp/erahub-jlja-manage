@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 使用单位
  * @Author lipeng
  * @Date 2022/4/28 17:56
  * @Version 1.0
@@ -30,11 +31,11 @@ public class Section implements Serializable {
     @TableField(exist = false)
     private Long assetQuantity;
 
-    private Long level;
+    private Integer level;
 
-    private Long detailed;
+    private Integer detailed;
 
-    private Long status;
+    private Integer status;
 
     @TableField(fill = FieldFill.INSERT)
     @DateTimeFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
