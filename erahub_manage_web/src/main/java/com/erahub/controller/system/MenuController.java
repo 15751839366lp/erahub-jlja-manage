@@ -1,9 +1,13 @@
 package com.erahub.controller.system;
 
+import com.alibaba.excel.EasyExcel;
 import com.erahub.common.annotation.ControllerEndpoint;
 import com.erahub.common.error.system.SystemException;
+import com.erahub.common.excel.model.system.MenuExcel;
+import com.erahub.common.excel.model.system.UserExcel;
 import com.erahub.common.model.system.Menu;
 import com.erahub.common.response.ResponseBean;
+import com.erahub.common.utils.ListMapUtils;
 import com.erahub.common.vo.system.MenuNodeVO;
 import com.erahub.common.vo.system.MenuVO;
 import com.erahub.system.service.MenuService;
@@ -16,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -123,9 +128,18 @@ public class MenuController {
     @PostMapping("excel")
     @RequiresPermissions("menu:export")
     @ControllerEndpoint(exceptionMessage = "导出Excel失败",operation = "导出菜单excel")
-    public void export(HttpServletResponse response) {
+    public void export(HttpServletResponse response) throws IOException {
         List<Menu> menus = this.menuService.findAll();
-        ExcelKit.$Export(Menu.class, response).downXlsx(menus, false);
+        List<MenuExcel> menuExcels = new ArrayList<>();
+        ListMapUtils.copyList(menus,menuExcels,MenuExcel.class);
+
+        // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setCharacterEncoding("utf-8");
+        // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+//        String fileName = URLEncoder.encode("测试", "UTF-8").replaceAll("\\+", "%20");
+        response.setHeader("Content-disposition", "attachment;filename*=utf-8''菜单列表.xlsx");
+        EasyExcel.write(response.getOutputStream(), MenuExcel.class).sheet("菜单列表").doWrite(menuExcels);
     }
 
 }
