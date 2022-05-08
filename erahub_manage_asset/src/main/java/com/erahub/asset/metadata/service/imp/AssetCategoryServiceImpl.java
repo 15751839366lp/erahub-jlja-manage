@@ -277,71 +277,76 @@ public class AssetCategoryServiceImpl extends ServiceImpl<AssetCategoryMapper, A
         HashMap<String, Long> idMap = new HashMap<>();
         DataFormatter dataFormatter = new DataFormatter();
 
-        for (MultipartFile file : fileMap.values()) {
-            //判断文件是否存在
-            if (file == null || file.getName() == null) {
-                throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "文件有误");
-            }
-            String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            //判断文件类型
-            if (".xls".equals(fileType)) {
-                workbook = new HSSFWorkbook(file.getInputStream());
-                sheet = workbook.getSheetAt(0);
-            } else if (".xlsx".equals(fileType)) {
-                workbook = new XSSFWorkbook(file.getInputStream());
-                sheet = workbook.getSheetAt(0);
-            } else {
-                throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
-            }
-
-            int lastRowNum = sheet.getLastRowNum();
-
-            for (int i = 1; i <= lastRowNum; i++) {
-                AssetCategory assetCategory = new AssetCategory();
-                Row row = sheet.getRow(i);
-
-                String categoryId = dataFormatter.formatCellValue(row.getCell(0)).trim();
-                //判断ID格式
-                if (!RegexUtils.isStringInteger(categoryId)) {
-                    throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "ID格式有误");
+        try {
+            for (MultipartFile file : fileMap.values()) {
+                //判断文件是否存在
+                if (file == null || file.getName() == null) {
+                    throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "文件有误");
                 }
-                //判断ID是否省略前缀
-                if (!StringUtils.isEmpty(categoryId) && categoryId.length() % 2 != 0) {
-                    categoryId = "0" + categoryId;
-                }
-                //父节点存入list
-                if (categoryId.length() > 2 && !pidList.contains(categoryId.substring(0, categoryId.length() - 2))) {
-                    pidList.add(categoryId.substring(0, categoryId.length() - 2));
-                }
-                //ID和明细存入map
-                if (idMap.containsKey(categoryId)) {
-                    throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
+                String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+                //判断文件类型
+                if (".xls".equals(fileType)) {
+                    workbook = new HSSFWorkbook(file.getInputStream());
+                    sheet = workbook.getSheetAt(0);
+                } else if (".xlsx".equals(fileType)) {
+                    workbook = new XSSFWorkbook(file.getInputStream());
+                    sheet = workbook.getSheetAt(0);
                 } else {
-                    idMap.put(categoryId, Long.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
+                    throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
                 }
 
-                //数据复值
-                assetCategory.setAssetCategoryId(categoryId.trim());
-                assetCategory.setAssetCategoryName(row.getCell(1).getStringCellValue().trim());
-                assetCategory.setLevel(Integer.valueOf(categoryId.length() / 2));
-                assetCategory.setDetailed(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
-                assetCategory.setStatus(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5)).trim()));
-                assetCategory.setDepreciationMethodId(Long.valueOf(dataFormatter.formatCellValue(row.getCell(6)).trim()));
-                if (!StringUtils.isEmpty(row.getCell(8))) {
-                    assetCategory.setMeasureUnit(row.getCell(8).getStringCellValue().trim());
+                int lastRowNum = sheet.getLastRowNum();
+
+                for (int i = 1; i <= lastRowNum; i++) {
+                    AssetCategory assetCategory = new AssetCategory();
+                    Row row = sheet.getRow(i);
+
+                    String categoryId = dataFormatter.formatCellValue(row.getCell(0)).trim();
+                    //判断ID格式
+                    if (!RegexUtils.isStringInteger(categoryId)) {
+                        throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "ID格式有误");
+                    }
+                    //判断ID是否省略前缀
+                    if (!StringUtils.isEmpty(categoryId) && categoryId.length() % 2 != 0) {
+                        categoryId = "0" + categoryId;
+                    }
+                    //父节点存入list
+                    if (categoryId.length() > 2 && !pidList.contains(categoryId.substring(0, categoryId.length() - 2))) {
+                        pidList.add(categoryId.substring(0, categoryId.length() - 2));
+                    }
+                    //ID和明细存入map
+                    if (idMap.containsKey(categoryId)) {
+                        throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
+                    } else {
+                        idMap.put(categoryId, Long.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
+                    }
+
+                    //数据复值
+                    assetCategory.setAssetCategoryId(categoryId.trim());
+                    assetCategory.setAssetCategoryName(row.getCell(1).getStringCellValue().trim());
+                    assetCategory.setLevel(Integer.valueOf(categoryId.length() / 2));
+                    assetCategory.setDetailed(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(4)).trim()));
+                    assetCategory.setStatus(Integer.valueOf(dataFormatter.formatCellValue(row.getCell(5)).trim()));
+                    assetCategory.setDepreciationMethodId(Long.valueOf(dataFormatter.formatCellValue(row.getCell(6)).trim()));
+                    if (!StringUtils.isEmpty(row.getCell(8))) {
+                        assetCategory.setMeasureUnit(row.getCell(8).getStringCellValue().trim());
+                    }
+
+                    if (!StringUtils.isEmpty(row.getCell(9))) {
+                        assetCategory.setCapacityUnit(row.getCell(9).getStringCellValue().trim());
+                    }
+
+                    assetCategory.setDepreciationPeriod(new BigDecimal(dataFormatter.formatCellValue(row.getCell(10)).trim()));
+                    assetCategory.setEstimatedTotalWorkload(new BigDecimal(dataFormatter.formatCellValue(row.getCell(11)).trim()));
+                    assetCategory.setNetResidualValue(new BigDecimal(dataFormatter.formatCellValue(row.getCell(12)).trim()));
+                    assetCategory.setRemark(row.getCell(15).getStringCellValue().trim());
+
+                    assetCategoryList.add(assetCategory);
                 }
-
-                if (!StringUtils.isEmpty(row.getCell(9))) {
-                    assetCategory.setCapacityUnit(row.getCell(9).getStringCellValue().trim());
-                }
-
-                assetCategory.setDepreciationPeriod(new BigDecimal(dataFormatter.formatCellValue(row.getCell(10)).trim()));
-                assetCategory.setEstimatedTotalWorkload(new BigDecimal(dataFormatter.formatCellValue(row.getCell(11)).trim()));
-                assetCategory.setNetResidualValue(new BigDecimal(dataFormatter.formatCellValue(row.getCell(12)).trim()));
-                assetCategory.setRemark(row.getCell(15).getStringCellValue().trim());
-
-                assetCategoryList.add(assetCategory);
             }
+
+        } catch (Exception e) {
+            throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, e.getMessage());
         }
 
         //查询表中是否存在数据父节点为明细节点

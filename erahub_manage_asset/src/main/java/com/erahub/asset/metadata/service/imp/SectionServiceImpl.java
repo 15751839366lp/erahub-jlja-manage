@@ -281,57 +281,62 @@ public class SectionServiceImpl extends ServiceImpl<SectionMapper, Section> impl
         DataFormatter dataFormatter = new DataFormatter();
         DecimalFormat decimalFormat = new DecimalFormat("0");
 
-        for (MultipartFile file : fileMap.values()) {
-            //判断文件是否存在
-            if (file == null || file.getName() == null) {
-                throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "文件有误");
-            }
-            String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            //判断文件类型
-            if (".xls".equals(fileType)) {
-                workbook = new HSSFWorkbook(file.getInputStream());
-                sheet = workbook.getSheetAt(0);
-            } else if (".xlsx".equals(fileType)) {
-                workbook = new XSSFWorkbook(file.getInputStream());
-                sheet = workbook.getSheetAt(0);
-            } else {
-                throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
-            }
-
-            int lastRowNum = sheet.getLastRowNum();
-
-            for (int i = 1; i <= lastRowNum; i++) {
-                Section section = new Section();
-                Row row = sheet.getRow(i);
-
-                String sectionId = dataFormatter.formatCellValue(row.getCell(0)).trim();
-                //判断ID格式
-                if (!RegexUtils.isStringInteger(sectionId)) {
-                    throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "ID格式有误");
+        try {
+            for (MultipartFile file : fileMap.values()) {
+                //判断文件是否存在
+                if (file == null || file.getName() == null) {
+                    throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "文件有误");
                 }
-
-                //父节点存入list
-                if (sectionId.length() > 4 && !pidList.contains(sectionId.substring(0, sectionId.length() - 4))) {
-                    pidList.add(sectionId.substring(0, sectionId.length() - 4));
-                }
-                //ID和明细存入map
-                if (idMap.containsKey(sectionId)) {
-                    throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
+                String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+                //判断文件类型
+                if (".xls".equals(fileType)) {
+                    workbook = new HSSFWorkbook(file.getInputStream());
+                    sheet = workbook.getSheetAt(0);
+                } else if (".xlsx".equals(fileType)) {
+                    workbook = new XSSFWorkbook(file.getInputStream());
+                    sheet = workbook.getSheetAt(0);
                 } else {
-                    idMap.put(sectionId, Long.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
+                    throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "文件类型错误");
                 }
 
-                //数据复值
-                section.setSectionId(sectionId.trim());
-                section.setSectionName(row.getCell(1).getStringCellValue().trim());
-                section.setSectionAbbreviation(row.getCell(2).getStringCellValue().trim());
-                section.setLevel(Integer.valueOf(sectionId.length() / 4));
-                section.setDetailed(Integer.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
-                section.setStatus(Integer.valueOf(decimalFormat.format(row.getCell(6).getNumericCellValue())));
-                section.setRemark(row.getCell(9).getStringCellValue().trim());
+                int lastRowNum = sheet.getLastRowNum();
 
-                sectionList.add(section);
+                for (int i = 1; i <= lastRowNum; i++) {
+                    Section section = new Section();
+                    Row row = sheet.getRow(i);
+
+                    String sectionId = dataFormatter.formatCellValue(row.getCell(0)).trim();
+                    //判断ID格式
+                    if (!RegexUtils.isStringInteger(sectionId)) {
+                        throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "ID格式有误");
+                    }
+
+                    //父节点存入list
+                    if (sectionId.length() > 4 && !pidList.contains(sectionId.substring(0, sectionId.length() - 4))) {
+                        pidList.add(sectionId.substring(0, sectionId.length() - 4));
+                    }
+                    //ID和明细存入map
+                    if (idMap.containsKey(sectionId)) {
+                        throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, "存在重复ID");
+                    } else {
+                        idMap.put(sectionId, Long.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
+                    }
+
+                    //数据复值
+                    section.setSectionId(sectionId.trim());
+                    section.setSectionName(row.getCell(1).getStringCellValue().trim());
+                    section.setSectionAbbreviation(row.getCell(2).getStringCellValue().trim());
+                    section.setLevel(Integer.valueOf(sectionId.length() / 4));
+                    section.setDetailed(Integer.valueOf(decimalFormat.format(row.getCell(5).getNumericCellValue())));
+                    section.setStatus(Integer.valueOf(decimalFormat.format(row.getCell(6).getNumericCellValue())));
+                    section.setRemark(row.getCell(9).getStringCellValue().trim());
+
+                    sectionList.add(section);
+                }
             }
+
+        } catch (Exception e) {
+            throw new AssetException(AssetCodeEnum.PARAMETER_ERROR, e.getMessage());
         }
 
         //查询表中是否存在数据父节点为明细节点
