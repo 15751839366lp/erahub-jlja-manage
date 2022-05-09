@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.AssetEconomicUseMapper">
+
+    <select id="selectAssetEconomicUsePageList" resultType="com.erahub.common.model.asset.metadata.AssetEconomicUse"
+            parameterType="com.erahub.common.dto.asset.metadata.AssetEconomicUseDTO"
+    >
+        select aaeu.*,aa.asset_quantity from as_asset_economic_use as aaeu left join
+        (select asset_economic_use_id,COUNT(asset_economic_use_id) as asset_quantity from as_asset GROUP BY asset_economic_use_id) as aa
+        on aaeu.asset_economic_use_id = aa.asset_economic_use_id
+        where 1 = 1
+        <if test="assetEconomicUseDTO.isAccurate != null and assetEconomicUseDTO.isAccurate == 1">
+            <if test="assetEconomicUseDTO.assetEconomicUseId != null">
+                and aaeu.asset_economic_use_id = #{assetEconomicUseDTO.assetEconomicUseId}
+            </if>
+            <if test="assetEconomicUseDTO.assetEconomicUseName != null and assetEconomicUseDTO.assetEconomicUseName != ''">
+                and aaeu.asset_economic_use_name = #{assetEconomicUseDTO.assetEconomicUseName}
+            </if>
+        </if>
+
+        <if test="assetEconomicUseDTO.isAccurate != null and assetEconomicUseDTO.isAccurate == 0">
+            <if test="assetEconomicUseDTO.assetEconomicUseId != null">
+                and aaeu.asset_economic_use_id like '${assetEconomicUseDTO.assetEconomicUseId}%'
+            </if>
+            <if test="assetEconomicUseDTO.assetEconomicUseName != null and assetEconomicUseDTO.assetEconomicUseName != ''">
+                and aaeu.asset_economic_use_name like '%${assetEconomicUseDTO.assetEconomicUseName}%'
+            </if>
+        </if>
+
+        <if test="assetEconomicUseDTO.status != null">
+            and aaeu.status = #{assetEconomicUseDTO.status}
+        </if>
+        <if test="assetEconomicUseDTO.startCreateTime != null">
+            and aaeu.create_time &gt;= #{assetEconomicUseDTO.startCreateTime}
+        </if>
+
+        <if test="assetEconomicUseDTO.endCreateTime != null">
+            and aaeu.create_time &lt;= #{assetEconomicUseDTO.endCreateTime}
+        </if>
+
+        <if test="assetEconomicUseDTO.sortColumn != null and assetEconomicUseDTO.sortColumn != ''">
+            <if test="assetEconomicUseDTO.isAsc != null and assetEconomicUseDTO.isAsc">
+                order by ${assetEconomicUseDTO.sortColumn}
+            </if>
+            <if test="assetEconomicUseDTO.isAsc != null and !assetEconomicUseDTO.isAsc">
+                order by ${assetEconomicUseDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectAssetEconomicUseListByIds" resultType="com.erahub.common.model.asset.metadata.AssetEconomicUse"
+            parameterType="java.util.List"
+    >
+        select aaeu.*,aa.asset_quantity from as_asset_economic_use as aaeu left join
+        (select asset_economic_use_id,COUNT(asset_economic_use_id) as asset_quantity from as_asset GROUP BY asset_economic_use_id) as aa
+        on aaeu.asset_economic_use_id = aa.asset_economic_use_id
+        where aaeu.asset_economic_use_id in
+        <foreach item="item" collection="assetEconomicUseIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.AssetOwnershipMapper">
+
+    <select id="selectAssetOwnershipPageList" resultType="com.erahub.common.model.asset.metadata.AssetOwnership"
+            parameterType="com.erahub.common.dto.asset.metadata.AssetOwnershipDTO"
+    >
+        select aao.*,aa.asset_quantity from as_asset_ownership as aao left join
+        (select asset_ownership_id,COUNT(asset_ownership_id) as asset_quantity from as_asset GROUP BY asset_ownership_id) as aa
+        on aao.asset_ownership_id = aa.asset_ownership_id
+        where 1 = 1
+        <if test="assetOwnershipDTO.isAccurate != null and assetOwnershipDTO.isAccurate == 1">
+            <if test="assetOwnershipDTO.assetOwnershipId != null">
+                and aao.asset_ownership_id = #{assetOwnershipDTO.assetOwnershipId}
+            </if>
+            <if test="assetOwnershipDTO.assetOwnershipName != null and assetOwnershipDTO.assetOwnershipName != ''">
+                and aao.asset_ownership_name = #{assetOwnershipDTO.assetOwnershipName}
+            </if>
+        </if>
+
+        <if test="assetOwnershipDTO.isAccurate != null and assetOwnershipDTO.isAccurate == 0">
+            <if test="assetOwnershipDTO.assetOwnershipId != null">
+                and aao.asset_ownership_id like '${assetOwnershipDTO.assetOwnershipId}%'
+            </if>
+            <if test="assetOwnershipDTO.assetOwnershipName != null and assetOwnershipDTO.assetOwnershipName != ''">
+                and aao.asset_ownership_name like '%${assetOwnershipDTO.assetOwnershipName}%'
+            </if>
+        </if>
+
+        <if test="assetOwnershipDTO.status != null">
+            and aao.status = #{assetOwnershipDTO.status}
+        </if>
+        <if test="assetOwnershipDTO.startCreateTime != null">
+            and aao.create_time &gt;= #{assetOwnershipDTO.startCreateTime}
+        </if>
+
+        <if test="assetOwnershipDTO.endCreateTime != null">
+            and aao.create_time &lt;= #{assetOwnershipDTO.endCreateTime}
+        </if>
+
+        <if test="assetOwnershipDTO.sortColumn != null and assetOwnershipDTO.sortColumn != ''">
+            <if test="assetOwnershipDTO.isAsc != null and assetOwnershipDTO.isAsc">
+                order by ${assetOwnershipDTO.sortColumn}
+            </if>
+            <if test="assetOwnershipDTO.isAsc != null and !assetOwnershipDTO.isAsc">
+                order by ${assetOwnershipDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectAssetOwnershipListByIds" resultType="com.erahub.common.model.asset.metadata.AssetOwnership"
+            parameterType="java.util.List"
+    >
+        select aao.*,aa.asset_quantity from as_asset_ownership as aao left join
+        (select asset_ownership_id,COUNT(asset_ownership_id) as asset_quantity from as_asset GROUP BY asset_ownership_id) as aa
+        on aao.asset_ownership_id = aa.asset_ownership_id
+        where aao.asset_ownership_id in
+        <foreach item="item" collection="assetOwnershipIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

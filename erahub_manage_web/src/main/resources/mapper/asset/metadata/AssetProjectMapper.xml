@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.AssetProjectMapper">
+
+    <select id="selectAssetProjectPageList" resultType="com.erahub.common.model.asset.metadata.AssetProject"
+            parameterType="com.erahub.common.dto.asset.metadata.AssetProjectDTO"
+    >
+        select aap.*,aa.asset_quantity from as_asset_project as aap left join
+        (select asset_project_id,COUNT(asset_project_id) as asset_quantity from as_asset GROUP BY asset_project_id) as aa
+        on aap.asset_project_id = aa.asset_project_id
+        where 1 = 1
+        <if test="assetProjectDTO.isAccurate != null and assetProjectDTO.isAccurate == 1">
+            <if test="assetProjectDTO.assetProjectId != null">
+                and aap.asset_project_id = #{assetProjectDTO.assetProjectId}
+            </if>
+            <if test="assetProjectDTO.assetProjectName != null and assetProjectDTO.assetProjectName != ''">
+                and aap.asset_project_name = #{assetProjectDTO.assetProjectName}
+            </if>
+        </if>
+
+        <if test="assetProjectDTO.isAccurate != null and assetProjectDTO.isAccurate == 0">
+            <if test="assetProjectDTO.assetProjectId != null">
+                and aap.asset_project_id like '${assetProjectDTO.assetProjectId}%'
+            </if>
+            <if test="assetProjectDTO.assetProjectName != null and assetProjectDTO.assetProjectName != ''">
+                and aap.asset_project_name like '%${assetProjectDTO.assetProjectName}%'
+            </if>
+        </if>
+
+        <if test="assetProjectDTO.status != null">
+            and aap.status = #{assetProjectDTO.status}
+        </if>
+        <if test="assetProjectDTO.startCreateTime != null">
+            and aap.create_time &gt;= #{assetProjectDTO.startCreateTime}
+        </if>
+
+        <if test="assetProjectDTO.endCreateTime != null">
+            and aap.create_time &lt;= #{assetProjectDTO.endCreateTime}
+        </if>
+
+        <if test="assetProjectDTO.sortColumn != null and assetProjectDTO.sortColumn != ''">
+            <if test="assetProjectDTO.isAsc != null and assetProjectDTO.isAsc">
+                order by ${assetProjectDTO.sortColumn}
+            </if>
+            <if test="assetProjectDTO.isAsc != null and !assetProjectDTO.isAsc">
+                order by ${assetProjectDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectAssetProjectListByIds" resultType="com.erahub.common.model.asset.metadata.AssetProject"
+            parameterType="java.util.List"
+    >
+        select aap.*,aa.asset_quantity from as_asset_project as aap left join
+        (select asset_project_id,COUNT(asset_project_id) as asset_quantity from as_asset GROUP BY asset_project_id) as aa
+        on aap.asset_project_id = aa.asset_project_id
+        where aap.asset_project_id in
+        <foreach item="item" collection="assetProjectIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

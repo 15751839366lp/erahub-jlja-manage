@@ -161,7 +161,7 @@ public class DecreaseReasonServiceImpl extends ServiceImpl<DecreaseReasonMapper,
                 .selectList(new QueryWrapper<DecreaseReason>().like("decrease_reason_id", decreaseReasonId));
 
         if (updateDecreaseReasonList == null || updateDecreaseReasonList.size() == 0) {
-            throw new AssetException(AssetCodeEnum.SERVICE_CONDITION_NOT_FOUND);
+            throw new AssetException(AssetCodeEnum.DECREASE_REASON_NOT_FOUND);
         }
 
         DecreaseReason updateDecreaseReason = updateDecreaseReasonList.get(0);
@@ -181,7 +181,7 @@ public class DecreaseReasonServiceImpl extends ServiceImpl<DecreaseReasonMapper,
         List<DecreaseReason> deleteDecreaseReasons = decreaseReasonMapper.selectDecreaseReasonListByIds(Arrays.asList(decreaseReasonId));
 
         if (deleteDecreaseReasons == null || deleteDecreaseReasons.size() == 0) {
-            throw new AssetException(AssetCodeEnum.SERVICE_CONDITION_NOT_FOUND, "要删除的减少原因不存在");
+            throw new AssetException(AssetCodeEnum.DECREASE_REASON_NOT_FOUND, "要删除的减少原因不存在");
         }
 
         if (deleteDecreaseReasons.get(0).getAssetQuantity() != null

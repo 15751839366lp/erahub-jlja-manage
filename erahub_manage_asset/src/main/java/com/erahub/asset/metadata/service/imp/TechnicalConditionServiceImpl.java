@@ -163,7 +163,7 @@ public class TechnicalConditionServiceImpl extends ServiceImpl<TechnicalConditio
                 .selectList(new QueryWrapper<TechnicalCondition>().like("technical_condition_id", technicalConditionId));
 
         if (updateTechnicalConditionList == null || updateTechnicalConditionList.size() == 0) {
-            throw new AssetException(AssetCodeEnum.SERVICE_CONDITION_NOT_FOUND);
+            throw new AssetException(AssetCodeEnum.TECHNICAL_CONDITION_NOT_FOUND);
         }
 
         TechnicalCondition updateTechnicalCondition = updateTechnicalConditionList.get(0);
@@ -183,7 +183,7 @@ public class TechnicalConditionServiceImpl extends ServiceImpl<TechnicalConditio
         List<TechnicalCondition> deleteTechnicalConditions = technicalConditionMapper.selectTechnicalConditionListByIds(Arrays.asList(technicalConditionId));
 
         if (deleteTechnicalConditions == null || deleteTechnicalConditions.size() == 0) {
-            throw new AssetException(AssetCodeEnum.SERVICE_CONDITION_NOT_FOUND, "要删除的技术状态不存在");
+            throw new AssetException(AssetCodeEnum.TECHNICAL_CONDITION_NOT_FOUND, "要删除的技术状态不存在");
         }
 
         if (deleteTechnicalConditions.get(0).getAssetQuantity() != null

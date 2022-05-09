@@ -162,7 +162,7 @@ public class AssetSourceServiceImpl extends ServiceImpl<AssetSourceMapper, Asset
                 .selectList(new QueryWrapper<AssetSource>().like("asset_source_id", assetSourceId));
 
         if (updateAssetSourceList == null || updateAssetSourceList.size() == 0) {
-            throw new AssetException(AssetCodeEnum.SERVICE_CONDITION_NOT_FOUND);
+            throw new AssetException(AssetCodeEnum.ASSET_SOURCE_NOT_FOUND);
         }
 
         AssetSource updateAssetSource = updateAssetSourceList.get(0);
@@ -182,7 +182,7 @@ public class AssetSourceServiceImpl extends ServiceImpl<AssetSourceMapper, Asset
         List<AssetSource> deleteAssetSources = assetSourceMapper.selectAssetSourceListByIds(Arrays.asList(assetSourceId));
 
         if (deleteAssetSources == null || deleteAssetSources.size() == 0) {
-            throw new AssetException(AssetCodeEnum.SERVICE_CONDITION_NOT_FOUND, "要删除的资产来源不存在");
+            throw new AssetException(AssetCodeEnum.ASSET_SOURCE_NOT_FOUND, "要删除的资产来源不存在");
         }
 
         if (deleteAssetSources.get(0).getAssetQuantity() != null

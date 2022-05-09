@@ -47,7 +47,16 @@ public enum AssetCodeEnum implements BaseError {
     DECREASE_REASON_NOT_FOUND(40701, "减少原因不存在!"),
 
     //技术状态模块
-    TECHNICAL_CONDITION_NOT_FOUND(40801, "技术状态不存在!");
+    TECHNICAL_CONDITION_NOT_FOUND(40801, "技术状态不存在!"),
+
+    //经济用途模块
+    ASSET_ECONOMIC_USE_NOT_FOUND(40901, "经济用途不存在!"),
+
+    //产权归属模块
+    ASSET_OWNERSHIP_NOT_FOUND(41001, "产权归属不存在!"),
+
+    //工程项目模块
+    ASSET_PROJECT_NOT_FOUND(41101, "工程项目不存在!");
 
     /** 错误码 */
     private int errorCode;

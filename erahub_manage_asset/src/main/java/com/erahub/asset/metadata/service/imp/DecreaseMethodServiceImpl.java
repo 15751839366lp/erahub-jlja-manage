@@ -160,7 +160,7 @@ public class DecreaseMethodServiceImpl extends ServiceImpl<DecreaseMethodMapper,
                 .selectList(new QueryWrapper<DecreaseMethod>().like("decrease_method_id", decreaseMethodId));
 
         if (updateDecreaseMethodList == null || updateDecreaseMethodList.size() == 0) {
-            throw new AssetException(AssetCodeEnum.SERVICE_CONDITION_NOT_FOUND);
+            throw new AssetException(AssetCodeEnum.DECREASE_METHOD_NOT_FOUND);
         }
 
         DecreaseMethod updateDecreaseMethod = updateDecreaseMethodList.get(0);
@@ -180,7 +180,7 @@ public class DecreaseMethodServiceImpl extends ServiceImpl<DecreaseMethodMapper,
         List<DecreaseMethod> deleteDecreaseMethods = decreaseMethodMapper.selectDecreaseMethodListByIds(Arrays.asList(decreaseMethodId));
 
         if (deleteDecreaseMethods == null || deleteDecreaseMethods.size() == 0) {
-            throw new AssetException(AssetCodeEnum.SERVICE_CONDITION_NOT_FOUND, "要删除的减少方式不存在");
+            throw new AssetException(AssetCodeEnum.DECREASE_METHOD_NOT_FOUND, "要删除的减少方式不存在");
         }
 
         if (deleteDecreaseMethods.get(0).getAssetQuantity() != null
