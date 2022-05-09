@@ -11,13 +11,11 @@ import java.util.Date;
  * @Version 1.0
  **/
 @Data
-public class ReduceMethodDTO {
+public class DecreaseReasonDTO {
 
-    private Long reduceMethodId;
+    private Long decreaseReasonId;
 
-    private String reduceMethodName;
-
-    private String methodMark;
+    private String decreaseReasonName;
 
     private Long assetQuantity;
 

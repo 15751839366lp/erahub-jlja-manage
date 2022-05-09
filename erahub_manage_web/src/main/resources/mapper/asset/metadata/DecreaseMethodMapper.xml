@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.DecreaseMethodMapper">
+    <select id="selectDecreaseMethodPageList" resultType="com.erahub.common.model.asset.metadata.DecreaseMethod"
+            parameterType="com.erahub.common.dto.asset.metadata.DecreaseMethodDTO"
+    >
+        select adm.*,aa.asset_quantity from as_decrease_method as adm left join
+        (select decrease_method_id,COUNT(decrease_method_id) as asset_quantity from as_asset GROUP BY decrease_method_id) as aa
+        on adm.decrease_method_id = aa.decrease_method_id
+        where 1 = 1
+        <if test="decreaseMethodDTO.isAccurate != null and decreaseMethodDTO.isAccurate == 1">
+            <if test="decreaseMethodDTO.decreaseMethodId != null">
+                and adm.decrease_method_id = #{decreaseMethodDTO.decreaseMethodId}
+            </if>
+            <if test="decreaseMethodDTO.decreaseMethodName != null and decreaseMethodDTO.decreaseMethodName != ''">
+                and adm.decrease_method_name = #{decreaseMethodDTO.decreaseMethodName}
+            </if>
+        </if>
+
+        <if test="decreaseMethodDTO.isAccurate != null and decreaseMethodDTO.isAccurate == 0">
+            <if test="decreaseMethodDTO.decreaseMethodId != null">
+                and adm.decrease_method_id like '${decreaseMethodDTO.decreaseMethodId}%'
+            </if>
+            <if test="decreaseMethodDTO.decreaseMethodName != null and decreaseMethodDTO.decreaseMethodName != ''">
+                and adm.decrease_method_name like '%${decreaseMethodDTO.decreaseMethodName}%'
+            </if>
+        </if>
+
+        <if test="decreaseMethodDTO.methodMark != null and decreaseMethodDTO.methodMark != ''">
+            and adm.method_mark = #{decreaseMethodDTO.methodMark}
+        </if>
+        <if test="decreaseMethodDTO.status != null">
+            and adm.status = #{decreaseMethodDTO.status}
+        </if>
+        <if test="decreaseMethodDTO.startCreateTime != null">
+            and adm.create_time &gt;= #{decreaseMethodDTO.startCreateTime}
+        </if>
+
+        <if test="decreaseMethodDTO.endCreateTime != null">
+            and adm.create_time &lt;= #{decreaseMethodDTO.endCreateTime}
+        </if>
+
+        <if test="decreaseMethodDTO.sortColumn != null and decreaseMethodDTO.sortColumn != ''">
+            <if test="decreaseMethodDTO.isAsc != null and decreaseMethodDTO.isAsc">
+                order by ${decreaseMethodDTO.sortColumn}
+            </if>
+            <if test="decreaseMethodDTO.isAsc != null and !decreaseMethodDTO.isAsc">
+                order by ${decreaseMethodDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectDecreaseMethodListByIds" resultType="com.erahub.common.model.asset.metadata.DecreaseMethod"
+            parameterType="java.util.List"
+    >
+        select adm.*,aa.asset_quantity from as_decrease_method as adm left join
+        (select decrease_method_id,COUNT(decrease_method_id) as asset_quantity from as_asset GROUP BY decrease_method_id) as aa
+        on adm.decrease_method_id = aa.decrease_method_id
+        where adm.decrease_method_id in
+        <foreach item="item" collection="decreaseMethodIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

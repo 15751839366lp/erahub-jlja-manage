@@ -23,8 +23,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("as_reduce_method")
-public class ReduceMethod implements Serializable {
+@TableName("as_decrease_method")
+public class DecreaseMethod implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,12 +32,12 @@ public class ReduceMethod implements Serializable {
      * 减少方式编号
      */
     @TableId
-    private Long reduceMethodId;
+    private Long decreaseMethodId;
 
     /**
      * 减少方式名称
      */
-    private String reduceMethodName;
+    private String decreaseMethodName;
 
     /**
      * ‘0’一般 ‘3’ 盘亏 ‘5’调出 ‘9’评估

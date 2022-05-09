@@ -41,10 +41,10 @@ public enum AssetCodeEnum implements BaseError {
     ASSET_SOURCE_NOT_FOUND(40501, "资产来源不存在!"),
 
     //减少方式模块
-    REDUCE_METHOD_NOT_FOUND(40601, "减少方式不存在!"),
+    DECREASE_METHOD_NOT_FOUND(40601, "减少方式不存在!"),
 
     //减少原因模块
-    REDUCE_REASON_NOT_FOUND(40701, "减少原因不存在!"),
+    DECREASE_REASON_NOT_FOUND(40701, "减少原因不存在!"),
 
     //技术状态模块
     TECHNICAL_CONDITION_NOT_FOUND(40801, "技术状态不存在!");

@@ -13,15 +13,15 @@ import java.util.Date;
  * @Version 1.0
  **/
 @Data
-public class ReduceReasonExcel {
+public class DecreaseReasonExcel {
 
     @ColumnWidth(10)
     @ExcelProperty(value = "减少原因编号")
-    private Long reduceReasonId;
+    private Long decreaseReasonId;
 
     @ColumnWidth(20)
     @ExcelProperty(value = "减少原因名称")
-    private String reduceReasonName;
+    private String decreaseReasonName;
 
     @ColumnWidth(20)
     @ExcelProperty(value = "资产数量")

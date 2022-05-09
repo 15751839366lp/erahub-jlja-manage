@@ -7,17 +7,15 @@ import java.util.Date;
 
 /**
  * @Author lipeng
- * @Date 2022/5/8 9:29
+ * @Date 2022/5/8 9:30
  * @Version 1.0
  **/
 @Data
-public class ReduceMethodVO {
+public class DecreaseReasonVO {
 
-    private Long reduceMethodId;
+    private Long decreaseReasonId;
 
-    private String reduceMethodName;
-
-    private String methodMark;
+    private String decreaseReasonName;
 
     private Long assetQuantity;
 

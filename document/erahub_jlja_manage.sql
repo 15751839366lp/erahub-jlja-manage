@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 08/05/2022 11:44:10
+ Date: 09/05/2022 15:34:09
 */
 
 SET NAMES utf8mb4;
@@ -28,8 +28,8 @@ CREATE TABLE `as_asset`  (
   `asset_category_id` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '类别编号',
   `service_condition_id` bigint(0) NOT NULL DEFAULT 1 COMMENT '使用状态编号',
   `asset_source_id` bigint(0) NOT NULL DEFAULT 1 COMMENT '资产来源编号',
-  `reduce_method_id` bigint(0) NULL DEFAULT NULL COMMENT '减少方法编号',
-  `reduce_reason_id` bigint(0) NULL DEFAULT NULL COMMENT '减少原因编号',
+  `decrease_method_id` bigint(0) NULL DEFAULT NULL COMMENT '减少方法编号',
+  `decrease_reason_id` bigint(0) NULL DEFAULT NULL COMMENT '减少原因编号',
   `technical_condition_id` bigint(0) NOT NULL DEFAULT 1 COMMENT '技术状态编号',
   PRIMARY KEY (`asset_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
@@ -11599,19 +11599,74 @@ CREATE TABLE `as_asset_source`  (
 -- ----------------------------
 -- Records of as_asset_source
 -- ----------------------------
-INSERT INTO `as_asset_source` VALUES (1, '购置', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '');
-INSERT INTO `as_asset_source` VALUES (2, '自行建造', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '');
-INSERT INTO `as_asset_source` VALUES (3, '投资转入', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:55', '');
-INSERT INTO `as_asset_source` VALUES (4, '融资租入', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '');
-INSERT INTO `as_asset_source` VALUES (5, '调入', '5', 1, '2022-05-08 11:19:13', '2022-05-08 11:26:38', '分子公司内部单位调入');
-INSERT INTO `as_asset_source` VALUES (6, '盘盈', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '');
-INSERT INTO `as_asset_source` VALUES (7, '接受捐赠', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '');
-INSERT INTO `as_asset_source` VALUES (8, '改扩建', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '');
-INSERT INTO `as_asset_source` VALUES (9, '评估增值', '9', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '');
-INSERT INTO `as_asset_source` VALUES (10, '无偿拨入', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '分子公司之间或总公司无偿调拨');
-INSERT INTO `as_asset_source` VALUES (11, '非货币交易', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '');
-INSERT INTO `as_asset_source` VALUES (12, '有偿拨入', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '分子公司之间或总公司有偿调拨');
-INSERT INTO `as_asset_source` VALUES (99, '其他来源', '0', 1, '2022-05-08 11:19:13', '2022-05-08 11:19:13', '');
+INSERT INTO `as_asset_source` VALUES (1, '购置', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+INSERT INTO `as_asset_source` VALUES (2, '自行建造', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+INSERT INTO `as_asset_source` VALUES (3, '投资转入', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+INSERT INTO `as_asset_source` VALUES (4, '融资租入', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+INSERT INTO `as_asset_source` VALUES (5, '调入', '5', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '分子公司内部单位调入');
+INSERT INTO `as_asset_source` VALUES (6, '盘盈', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+INSERT INTO `as_asset_source` VALUES (7, '接受捐赠', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+INSERT INTO `as_asset_source` VALUES (8, '改扩建', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+INSERT INTO `as_asset_source` VALUES (9, '评估增值', '9', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+INSERT INTO `as_asset_source` VALUES (10, '无偿拨入', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '分子公司之间或总公司无偿调拨');
+INSERT INTO `as_asset_source` VALUES (11, '非货币交易', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+INSERT INTO `as_asset_source` VALUES (12, '有偿拨入', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '分子公司之间或总公司有偿调拨');
+INSERT INTO `as_asset_source` VALUES (99, '其他来源', '0', 1, '2022-05-09 15:19:31', '2022-05-09 15:19:31', '');
+
+-- ----------------------------
+-- Table structure for as_decrease_method
+-- ----------------------------
+DROP TABLE IF EXISTS `as_decrease_method`;
+CREATE TABLE `as_decrease_method`  (
+  `decrease_method_id` bigint(0) NOT NULL COMMENT '减少方式编号',
+  `decrease_method_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '减少方式名称',
+  `method_mark` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0' COMMENT '‘0’一般 ‘3’ 盘亏 ‘5’调出 ‘9’评估\r\n“调出”标记用以自动处理资产调拨，“盘亏”用于处理资产盘点时盘亏资产的自动判断，“评估”标记处理评估减值\r\n',
+  `status` int(0) NOT NULL DEFAULT 1 COMMENT '是否使用    1 是  0 否',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
+  PRIMARY KEY (`decrease_method_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of as_decrease_method
+-- ----------------------------
+INSERT INTO `as_decrease_method` VALUES (1, '报废', '0', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '');
+INSERT INTO `as_decrease_method` VALUES (2, '毁损', '0', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '');
+INSERT INTO `as_decrease_method` VALUES (3, '盘亏', '0', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '');
+INSERT INTO `as_decrease_method` VALUES (4, '出售', '0', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '');
+INSERT INTO `as_decrease_method` VALUES (5, '调出', '5', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '分子公司内部单位调出');
+INSERT INTO `as_decrease_method` VALUES (6, '投资转出', '0', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '');
+INSERT INTO `as_decrease_method` VALUES (7, '捐出', '0', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '');
+INSERT INTO `as_decrease_method` VALUES (9, '评估减值', '9', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '');
+INSERT INTO `as_decrease_method` VALUES (10, '无偿拨出', '0', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '分子公司之间或总公司无偿调拨');
+INSERT INTO `as_decrease_method` VALUES (11, '有偿拨出', '0', 1, '2022-05-09 15:19:48', '2022-05-09 15:19:48', '分子公司之间或总公司有偿调拨');
+INSERT INTO `as_decrease_method` VALUES (99, '其他减少', '0', 1, '2022-05-09 15:19:48', '2022-05-09 15:31:56', '');
+
+-- ----------------------------
+-- Table structure for as_decrease_reason
+-- ----------------------------
+DROP TABLE IF EXISTS `as_decrease_reason`;
+CREATE TABLE `as_decrease_reason`  (
+  `decrease_reason_id` bigint(0) NOT NULL COMMENT '减少原因编号',
+  `decrease_reason_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '减少原因名称',
+  `status` int(0) NOT NULL DEFAULT 1 COMMENT '是否使用    1 是  0 否',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
+  PRIMARY KEY (`decrease_reason_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of as_decrease_reason
+-- ----------------------------
+INSERT INTO `as_decrease_reason` VALUES (1, '逾龄', 1, '2022-05-09 15:20:19', '2022-05-09 15:20:19', '');
+INSERT INTO `as_decrease_reason` VALUES (2, '责任事故', 1, '2022-05-09 15:20:19', '2022-05-09 15:20:19', '');
+INSERT INTO `as_decrease_reason` VALUES (3, '自然灾害', 1, '2022-05-09 15:20:19', '2022-05-09 15:20:19', '');
+INSERT INTO `as_decrease_reason` VALUES (4, '国家强制淘汰', 1, '2022-05-09 15:20:19', '2022-05-09 15:20:19', '');
+INSERT INTO `as_decrease_reason` VALUES (5, '技术淘汰', 1, '2022-05-09 15:20:19', '2022-05-09 15:20:19', '');
+INSERT INTO `as_decrease_reason` VALUES (6, '国家限制使用', 1, '2022-05-09 15:20:19', '2022-05-09 15:20:19', '');
+INSERT INTO `as_decrease_reason` VALUES (99, '其他原因', 1, '2022-05-09 15:20:19', '2022-05-09 15:20:19', '');
 
 -- ----------------------------
 -- Table structure for as_depreciation_method
@@ -11632,65 +11687,10 @@ CREATE TABLE `as_depreciation_method`  (
 -- ----------------------------
 -- Records of as_depreciation_method
 -- ----------------------------
-INSERT INTO `as_depreciation_method` VALUES (1, '平均年限法', '(GDZCMX_QCYZ*(1-GDZCZC_JCZL)-GDZCMX_QCLJZJ-GDZCZC_SZ05)/(abs(GDZCZC_ZJNX*NKJYS-GDZCMX_SYYS)+1)', '(期初原值*(1-净残值率)-期初累计折旧-减值准备)/(取绝对值(折旧年限*年会计月数-已使用月数)+1)', 1, '2022-05-06 09:15:54', '2022-05-08 10:25:50', '年会计月数：当前会计年度有多少会计月份，一般为12');
+INSERT INTO `as_depreciation_method` VALUES (1, '平均年限法', '(GDZCMX_QCYZ*(1-GDZCZC_JCZL)-GDZCMX_QCLJZJ-GDZCZC_SZ05)/(abs(GDZCZC_ZJNX*NKJYS-GDZCMX_SYYS)+1)', '(期初原值*(1-净残值率)-期初累计折旧-减值准备)/(取绝对值(折旧年限*年会计月数-已使用月数)+1)', 1, '2022-05-06 09:15:54', '2022-05-09 15:23:40', '年会计月数：当前会计年度有多少会计月份，一般为12');
 INSERT INTO `as_depreciation_method` VALUES (2, '工作量法', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)/GDZCZC_ZGZL*GDZCMX_BYGZL', '期初原值*(1-净残值率)/预计总工作量*本月工作量', 1, '2022-05-06 09:15:54', '2022-05-06 09:15:54', '');
 INSERT INTO `as_depreciation_method` VALUES (3, '一次摊销', 'GDZCMX_QCYZ*(1-GDZCZC_JCZL)', '期初原值*(1-净残值率)', 1, '2022-05-06 09:15:54', '2022-05-06 09:15:54', '用于会计制度规定一次计入费用的资产');
 INSERT INTO `as_depreciation_method` VALUES (4, '不提折旧', '0', '0', 1, '2022-05-06 09:15:54', '2022-05-06 09:22:43', '不提折旧');
-
--- ----------------------------
--- Table structure for as_reduce_method
--- ----------------------------
-DROP TABLE IF EXISTS `as_reduce_method`;
-CREATE TABLE `as_reduce_method`  (
-  `reduce_method_id` bigint(0) NOT NULL COMMENT '减少方式编号',
-  `reduce_method_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '减少方式名称',
-  `method_mark` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0' COMMENT '‘0’一般 ‘3’ 盘亏 ‘5’调出 ‘9’评估\r\n“调出”标记用以自动处理资产调拨，“盘亏”用于处理资产盘点时盘亏资产的自动判断，“评估”标记处理评估减值\r\n',
-  `status` int(0) NOT NULL DEFAULT 1 COMMENT '是否使用    1 是  0 否',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
-  PRIMARY KEY (`reduce_method_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of as_reduce_method
--- ----------------------------
-INSERT INTO `as_reduce_method` VALUES (1, '报废', '0', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '');
-INSERT INTO `as_reduce_method` VALUES (2, '毁损', '0', 1, '2022-05-08 11:19:31', '2022-05-08 11:23:37', '');
-INSERT INTO `as_reduce_method` VALUES (3, '盘亏', '0', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '');
-INSERT INTO `as_reduce_method` VALUES (4, '出售', '0', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '');
-INSERT INTO `as_reduce_method` VALUES (5, '调出', '5', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '分子公司内部单位调出');
-INSERT INTO `as_reduce_method` VALUES (6, '投资转出', '0', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '');
-INSERT INTO `as_reduce_method` VALUES (7, '捐出', '0', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '');
-INSERT INTO `as_reduce_method` VALUES (9, '评估减值', '9', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '');
-INSERT INTO `as_reduce_method` VALUES (10, '无偿拨出', '0', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '分子公司之间或总公司无偿调拨');
-INSERT INTO `as_reduce_method` VALUES (11, '有偿拨出', '0', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '分子公司之间或总公司有偿调拨');
-INSERT INTO `as_reduce_method` VALUES (99, '其他减少', '0', 1, '2022-05-08 11:19:31', '2022-05-08 11:19:31', '');
-
--- ----------------------------
--- Table structure for as_reduce_reason
--- ----------------------------
-DROP TABLE IF EXISTS `as_reduce_reason`;
-CREATE TABLE `as_reduce_reason`  (
-  `reduce_reason_id` bigint(0) NOT NULL COMMENT '减少原因编号',
-  `reduce_reason_name` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '减少原因名称',
-  `status` int(0) NOT NULL DEFAULT 1 COMMENT '是否使用    1 是  0 否',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `modified_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '备注',
-  PRIMARY KEY (`reduce_reason_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of as_reduce_reason
--- ----------------------------
-INSERT INTO `as_reduce_reason` VALUES (1, '逾龄', 1, '2022-05-08 11:20:19', '2022-05-08 11:20:19', '');
-INSERT INTO `as_reduce_reason` VALUES (2, '责任事故', 1, '2022-05-08 11:20:19', '2022-05-08 11:20:19', '');
-INSERT INTO `as_reduce_reason` VALUES (3, '自然灾害', 1, '2022-05-08 11:20:19', '2022-05-08 11:20:19', '');
-INSERT INTO `as_reduce_reason` VALUES (4, '国家强制淘汰', 1, '2022-05-08 11:20:19', '2022-05-08 11:20:19', '');
-INSERT INTO `as_reduce_reason` VALUES (5, '技术淘汰', 1, '2022-05-08 11:20:19', '2022-05-08 11:20:19', '');
-INSERT INTO `as_reduce_reason` VALUES (6, '国家限制使用', 1, '2022-05-08 11:20:19', '2022-05-08 11:20:19', '');
-INSERT INTO `as_reduce_reason` VALUES (99, '其他原因', 1, '2022-05-08 11:20:19', '2022-05-08 11:20:24', '');
 
 -- ----------------------------
 -- Table structure for as_section
@@ -11804,7 +11804,7 @@ CREATE TABLE `as_service_condition`  (
 -- ----------------------------
 -- Records of as_service_condition
 -- ----------------------------
-INSERT INTO `as_service_condition` VALUES (1, '在用', 1, 1, '2022-05-07 14:37:02', '2022-05-08 10:27:26', '');
+INSERT INTO `as_service_condition` VALUES (1, '在用', 1, 1, '2022-05-07 14:37:02', '2022-05-09 10:25:53', '');
 INSERT INTO `as_service_condition` VALUES (2, '未使用', 0, 1, '2022-05-07 14:37:02', '2022-05-07 14:37:02', '');
 INSERT INTO `as_service_condition` VALUES (3, '不需用', 0, 1, '2022-05-07 14:37:02', '2022-05-07 14:37:02', '');
 INSERT INTO `as_service_condition` VALUES (4, '租出', 1, 1, '2022-05-07 14:37:02', '2022-05-07 14:37:31', '');
@@ -11826,15 +11826,15 @@ CREATE TABLE `as_technical_condition`  (
 -- ----------------------------
 -- Records of as_technical_condition
 -- ----------------------------
-INSERT INTO `as_technical_condition` VALUES (1, '完好运行', 1, '2022-05-08 11:20:34', '2022-05-08 11:20:34', '');
-INSERT INTO `as_technical_condition` VALUES (2, '带病运行', 1, '2022-05-08 11:20:34', '2022-05-08 11:20:34', '');
-INSERT INTO `as_technical_condition` VALUES (3, '待修', 1, '2022-05-08 11:20:34', '2022-05-08 11:20:34', '');
-INSERT INTO `as_technical_condition` VALUES (4, '在修', 1, '2022-05-08 11:20:34', '2022-05-08 11:20:34', '');
-INSERT INTO `as_technical_condition` VALUES (5, '封存', 1, '2022-05-08 11:20:34', '2022-05-08 11:20:34', '');
-INSERT INTO `as_technical_condition` VALUES (6, '闲置', 1, '2022-05-08 11:20:34', '2022-05-08 11:20:34', '');
-INSERT INTO `as_technical_condition` VALUES (7, '租出', 1, '2022-05-08 11:20:34', '2022-05-08 11:20:34', '');
-INSERT INTO `as_technical_condition` VALUES (8, '备用', 1, '2022-05-08 11:20:34', '2022-05-08 11:20:34', '');
-INSERT INTO `as_technical_condition` VALUES (9, '待报废', 1, '2022-05-08 11:20:34', '2022-05-08 11:20:34', '');
+INSERT INTO `as_technical_condition` VALUES (1, '完好运行', 1, '2022-05-09 15:20:31', '2022-05-09 15:20:31', '');
+INSERT INTO `as_technical_condition` VALUES (2, '带病运行', 1, '2022-05-09 15:20:31', '2022-05-09 15:20:31', '');
+INSERT INTO `as_technical_condition` VALUES (3, '待修', 1, '2022-05-09 15:20:31', '2022-05-09 15:20:31', '');
+INSERT INTO `as_technical_condition` VALUES (4, '在修', 1, '2022-05-09 15:20:31', '2022-05-09 15:20:31', '');
+INSERT INTO `as_technical_condition` VALUES (5, '封存', 1, '2022-05-09 15:20:31', '2022-05-09 15:20:31', '');
+INSERT INTO `as_technical_condition` VALUES (6, '闲置', 1, '2022-05-09 15:20:31', '2022-05-09 15:20:31', '');
+INSERT INTO `as_technical_condition` VALUES (7, '租出', 1, '2022-05-09 15:20:31', '2022-05-09 15:20:31', '');
+INSERT INTO `as_technical_condition` VALUES (8, '备用', 1, '2022-05-09 15:20:31', '2022-05-09 15:20:31', '');
+INSERT INTO `as_technical_condition` VALUES (9, '待报废', 1, '2022-05-09 15:20:31', '2022-05-09 15:20:42', '');
 
 -- ----------------------------
 -- Table structure for biz_consumer
@@ -11940,7 +11940,7 @@ INSERT INTO `biz_in_stock` VALUES (92, 'c2054c39-a88b-4f47-9f9e-5c57f9e6', 1, '�
 INSERT INTO `biz_in_stock` VALUES (93, '08a51486-49e9-402e-a10e-3e6a45df', 1, '系统测试人员', '2020-05-18 11:01:16', '2020-05-18 11:01:09', 4, 15, '2222222', 0);
 INSERT INTO `biz_in_stock` VALUES (99, 'bb5de246-bd56-4987-b027-8fbcf3c3', 2, '系统测试人员', '2020-05-18 12:21:41', '2020-05-18 11:43:49', 6, 19, '33333', 0);
 INSERT INTO `biz_in_stock` VALUES (101, '03fbc3b3-e28b-418c-a457-87c376c3', 1, '系统测试人员', '2020-05-18 13:16:38', '2020-05-18 13:16:28', 12, 21, '454545454545', 0);
-INSERT INTO `biz_in_stock` VALUES (102, 'd83621b8-b5c7-4499-a8a0-56af2849', 1, '系统测试人员', '2020-05-18 13:18:51', '2020-05-18 13:18:41', 18, 17, '33333', 0);
+INSERT INTO `biz_in_stock` VALUES (102, 'd83621b8-b5c7-4499-a8a0-56af2849', 1, '系统测试人员', '2020-05-18 13:18:51', '2020-05-18 13:18:41', 18, 17, '33333', 1);
 INSERT INTO `biz_in_stock` VALUES (104, 'c96eaa3e-22ee-4f6b-98bd-87d34372', 1, 'zhangyukang', '2020-05-24 21:46:16', '2020-05-24 21:46:06', 6, 15, '432424', 1);
 INSERT INTO `biz_in_stock` VALUES (105, '5ad278ed-ce30-4f0d-bb67-7f9070fc', 1, 'zhangyukang', '2020-05-25 11:45:10', '2020-05-25 10:27:06', 6, 15, '32432424', 0);
 INSERT INTO `biz_in_stock` VALUES (106, 'efeef1d2-b8c9-4eb5-8ea2-b0695fb9', 1, 'zhangyukang', '2020-05-26 09:35:23', '2020-05-26 09:35:17', 10, 17, '2342424', 0);
@@ -11949,6 +11949,7 @@ INSERT INTO `biz_in_stock` VALUES (108, '69edf117b8dd478abc37d33bca41', 2, 'admi
 INSERT INTO `biz_in_stock` VALUES (109, '5e69ad91b41a439b8b4a809e84b4', 4, 'admin', '2020-12-17 19:30:42', '2020-12-17 19:30:28', 9, 14, '232323', 0);
 INSERT INTO `biz_in_stock` VALUES (111, '74419caa498840b9a1f60209ac10', 3, 'admin', '2021-10-07 16:13:55', '2021-10-07 10:14:28', 2, 14, '121221', 0);
 INSERT INTO `biz_in_stock` VALUES (112, '5c41c8a8a1a845ea93bffd1d20e3', 3, 'admin', '2022-05-02 13:23:06', '2022-05-02 13:20:44', 2, 14, '225555', 0);
+INSERT INTO `biz_in_stock` VALUES (113, '9450a767baa548e899bb19333f6e', 1, 'admin', '2022-05-09 14:13:38', '2022-05-09 14:13:38', 2, 19, 'xxxddd', 2);
 
 -- ----------------------------
 -- Table structure for biz_in_stock_info
@@ -12039,6 +12040,7 @@ INSERT INTO `biz_in_stock_info` VALUES (372, '5e69ad91b41a439b8b4a809e84b4', 'be
 INSERT INTO `biz_in_stock_info` VALUES (375, '74419caa498840b9a1f60209ac10', '3DFC8EA0-6', 1, '2021-10-07 10:14:28', '2021-10-07 10:14:28');
 INSERT INTO `biz_in_stock_info` VALUES (376, '74419caa498840b9a1f60209ac10', '2C15F1B6-1', 1, '2021-10-07 10:14:28', '2021-10-07 10:14:28');
 INSERT INTO `biz_in_stock_info` VALUES (377, '5c41c8a8a1a845ea93bffd1d20e3', '3DFC8EA0-6', 2, '2022-05-02 13:20:44', '2022-05-02 13:20:44');
+INSERT INTO `biz_in_stock_info` VALUES (378, '9450a767baa548e899bb19333f6e', '3DFC8EA0-6', 2, '2022-05-09 14:13:38', '2022-05-09 14:13:38');
 
 -- ----------------------------
 -- Table structure for biz_out_stock
@@ -12342,7 +12344,7 @@ CREATE TABLE `tb_log`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `location` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作地点',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3278 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3324 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_log
@@ -13950,6 +13952,29 @@ INSERT INTO `tb_log` VALUES (3320, 'admin', '导出减少原因excel', 30, 'com.
 INSERT INTO `tb_log` VALUES (3321, 'admin', '导出技术状态excel', 35, 'com.erahub.controller.asset.metadata.TechnicalConditionController.exportTechnicalConditionExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@4be4c618]', '127.0.0.1', '2022-05-08 11:27:00', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (3322, 'admin', '角色授权', 161, 'com.erahub.controller.system.RoleController.authority()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, mids],args:[154, [Ljava.lang.Long;@4ef580a5]', '127.0.0.1', '2022-05-08 11:42:28', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `tb_log` VALUES (3323, 'LiPeng', '角色授权', 187, 'com.erahub.controller.system.RoleController.authority()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, mids],args:[154, [Ljava.lang.Long;@7b3c4fa8]', '127.0.0.1', '2022-05-08 11:43:19', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3324, 'admin', '修改使用状态', 260, 'com.erahub.controller.asset.metadata.ServiceConditionController.updateServiceCondition()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[serviceConditionDTO],args:[ServiceConditionDTO(serviceConditionId=1, serviceConditionName=在用, assetQuantity=4378, accrualDepreciation=0, status=1, createTime=Sat May 07 14:37:02 CST 2022, startCreateTime=null, endCreateTime=null, modifiedTime=Sun May 08 10:27:26 CST 2022, remark=, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-05-09 10:25:46', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3325, 'admin', '修改使用状态', 12, 'com.erahub.controller.asset.metadata.ServiceConditionController.updateServiceCondition()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[serviceConditionDTO],args:[ServiceConditionDTO(serviceConditionId=1, serviceConditionName=在用, assetQuantity=4378, accrualDepreciation=1, status=1, createTime=Sat May 07 14:37:02 CST 2022, startCreateTime=null, endCreateTime=null, modifiedTime=Mon May 09 10:25:46 CST 2022, remark=, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-05-09 10:25:53', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3326, 'admin', '入库单申请', 282, 'com.erahub.controller.business.material.InStockController.addIntoStock()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[inStockVO],args:[InStockVO(id=null, inNum=null, type=1, operator=null, supplierId=19, supplierName=null, createTime=null, modified=null, productNumber=null, remark=xxxddd, products=[{productId=17, productNumber=2}], status=null, startTime=null, endTime=null, name=null, address=undefined/undefined/undefined, email=null, phone=null, sort=null, contact=null)]', '127.0.0.1', '2022-05-09 14:13:38', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3327, 'admin', '入库单回收', 30, 'com.erahub.controller.business.material.InStockController.remove()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id],args:[102]', '127.0.0.1', '2022-05-09 14:19:44', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3328, 'admin', '减少方式|禁用/启用', 273, 'com.erahub.controller.asset.metadata.DecreaseMethodController.changeDecreaseMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[decreaseMethodId, status],args:[1, 0]', '127.0.0.1', '2022-05-09 15:16:53', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3329, 'admin', '减少方式|禁用/启用', 22, 'com.erahub.controller.asset.metadata.DecreaseMethodController.changeDecreaseMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[decreaseMethodId, status],args:[1, 1]', '127.0.0.1', '2022-05-09 15:16:53', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3330, 'admin', '修改减少方式', 33, 'com.erahub.controller.asset.metadata.DecreaseMethodController.updateDecreaseMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[decreaseMethodDTO],args:[DecreaseMethodDTO(decreaseMethodId=1, decreaseMethodName=报废, methodMark=0, assetQuantity=2, status=0, createTime=Sun May 08 11:19:31 CST 2022, startCreateTime=null, endCreateTime=null, modifiedTime=Sun May 08 11:19:31 CST 2022, remark=, pageNum=null, pageSize=null, isAccurate=null, sortColumn=null, isAsc=null)]', '127.0.0.1', '2022-05-09 15:16:59', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3331, 'admin', '减少方式|禁用/启用', 13, 'com.erahub.controller.asset.metadata.DecreaseMethodController.changeDecreaseMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[decreaseMethodId, status],args:[1, 1]', '127.0.0.1', '2022-05-09 15:17:05', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3332, 'admin', '上传导入资产来源', 1379, 'com.erahub.controller.asset.metadata.AssetSourceController.importAssetSource()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[request],args:[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@549f89a]', '127.0.0.1', '2022-05-09 15:19:31', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3333, 'admin', '上传导入减少方式', 121, 'com.erahub.controller.asset.metadata.DecreaseMethodController.importDecreaseMethod()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[request],args:[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@45d44aa]', '127.0.0.1', '2022-05-09 15:19:48', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3334, 'admin', '导出减少方式excel', 1199, 'com.erahub.controller.asset.metadata.DecreaseMethodController.exportDecreaseMethodExcel()\n\nresponse:', 'paramName:[response],args:[com.alibaba.druid.support.http.WebStatFilter$StatHttpServletResponseWrapper@3589eebc]', '127.0.0.1', '2022-05-09 15:19:55', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3335, 'admin', '上传导入减少原因', 106, 'com.erahub.controller.asset.metadata.DecreaseReasonController.importDecreaseReason()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[request],args:[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@1b7a5e54]', '127.0.0.1', '2022-05-09 15:20:19', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3336, 'admin', '上传导入技术状态', 102, 'com.erahub.controller.asset.metadata.TechnicalConditionController.importTechnicalCondition()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[request],args:[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@2278b839]', '127.0.0.1', '2022-05-09 15:20:31', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3337, 'admin', '技术状态|禁用/启用', 19, 'com.erahub.controller.asset.metadata.TechnicalConditionController.changeTechnicalConditionStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[technicalConditionId, status],args:[9, 0]', '127.0.0.1', '2022-05-09 15:20:41', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3338, 'admin', '技术状态|禁用/启用', 19, 'com.erahub.controller.asset.metadata.TechnicalConditionController.changeTechnicalConditionStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[technicalConditionId, status],args:[9, 1]', '127.0.0.1', '2022-05-09 15:20:42', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3339, 'admin', '角色授权', 133, 'com.erahub.controller.system.RoleController.authority()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, mids],args:[155, [Ljava.lang.Long;@271a82f]', '127.0.0.1', '2022-05-09 15:22:43', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3340, 'admin', '分配角色', 25, 'com.erahub.controller.system.UserController.assignRoles()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, rids],args:[221, [Ljava.lang.Long;@3c6d89e2]', '127.0.0.1', '2022-05-09 15:22:50', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3341, 'admin', '修改用户密码', 28, 'com.erahub.controller.system.UserController.changeUserPassword()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[paramMap],args:[{id=221, username=test01, password=123456, rePassword=123456}]', '127.0.0.1', '2022-05-09 15:23:04', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3342, 'test01', '折旧方法|禁用/启用', 10, 'com.erahub.controller.asset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[1, 0]', '127.0.0.1', '2022-05-09 15:23:39', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3343, 'test01', '折旧方法|禁用/启用', 19, 'com.erahub.controller.asset.metadata.DepreciationMethodController.changeDepreciationMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[depreciationMethodId, status],args:[1, 1]', '127.0.0.1', '2022-05-09 15:23:40', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3344, 'LiPeng', '角色授权', 140, 'com.erahub.controller.system.RoleController.authority()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[id, mids],args:[155, [Ljava.lang.Long;@45150ff6]', '127.0.0.1', '2022-05-09 15:30:02', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3345, 'LiPeng', '减少方式|禁用/启用', 17, 'com.erahub.controller.asset.metadata.DecreaseMethodController.changeDecreaseMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[decreaseMethodId, status],args:[99, 0]', '127.0.0.1', '2022-05-09 15:31:55', '内网IP|0|0|内网IP|内网IP');
+INSERT INTO `tb_log` VALUES (3346, 'LiPeng', '减少方式|禁用/启用', 18, 'com.erahub.controller.asset.metadata.DecreaseMethodController.changeDecreaseMethodStatus()\n\nresponse:{\"code\":0,\"success\":true}', 'paramName:[decreaseMethodId, status],args:[99, 1]', '127.0.0.1', '2022-05-09 15:31:56', '内网IP|0|0|内网IP|内网IP');
 
 -- ----------------------------
 -- Table structure for tb_login_log
@@ -13964,7 +13989,7 @@ CREATE TABLE `tb_login_log`  (
   `user_system` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作系统',
   `user_browser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '浏览器',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1862 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1864 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_login_log
@@ -14716,6 +14741,8 @@ INSERT INTO `tb_login_log` VALUES (1860, 'LiPeng', '2022-05-07 14:45:07', '内�
 INSERT INTO `tb_login_log` VALUES (1861, 'admin', '2022-05-07 15:13:14', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
 INSERT INTO `tb_login_log` VALUES (1862, 'LiPeng', '2022-05-08 11:42:52', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
 INSERT INTO `tb_login_log` VALUES (1863, 'admin', '2022-05-08 11:43:41', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
+INSERT INTO `tb_login_log` VALUES (1864, 'test01', '2022-05-09 15:23:31', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
+INSERT INTO `tb_login_log` VALUES (1865, 'LiPeng', '2022-05-09 15:29:44', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Windows 10', 'Chrome 10');
 
 -- ----------------------------
 -- Table structure for tb_menu
@@ -14735,7 +14762,7 @@ CREATE TABLE `tb_menu`  (
   `available` int(0) NULL DEFAULT 1 COMMENT '0：不可用，1：可用',
   `open` int(0) NULL DEFAULT 1 COMMENT '0:不展开，1：展开',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 401 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 426 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_menu
@@ -14855,8 +14882,8 @@ INSERT INTO `tb_menu` VALUES (395, 391, '删除使用状态', NULL, 'asset:metad
 INSERT INTO `tb_menu` VALUES (396, 391, '导入使用状态', NULL, 'asset:metadata:serviceCondition:import', 'el-icon-upload', '1', 5, '2022-05-07 14:43:28', '2022-05-07 14:43:52', 1, 0);
 INSERT INTO `tb_menu` VALUES (397, 391, '导出使用状态', NULL, 'asset:metadata:serviceCondition:export', 'el-icon-download', '1', 5, '2022-05-07 14:44:32', '2022-05-07 14:44:32', 1, 0);
 INSERT INTO `tb_menu` VALUES (398, 355, '资产来源', '/asset/metadata/assetSource', '', 'el-icon-circle-plus', '0', 5, '2022-05-07 14:52:41', '2022-05-07 14:55:24', 1, 0);
-INSERT INTO `tb_menu` VALUES (399, 355, '减少方式', '/asset/metadata/reduceMethod', '', 'el-icon-remove', '0', 6, '2022-05-07 14:58:12', '2022-05-07 15:00:24', 1, 0);
-INSERT INTO `tb_menu` VALUES (400, 355, '减少原因', '/asset/metadata/reduceReason', '', 'el-icon-remove-outline', '0', 7, '2022-05-07 14:59:39', '2022-05-07 14:59:57', 1, 0);
+INSERT INTO `tb_menu` VALUES (399, 355, '减少方式', '/asset/metadata/decreaseMethod', '', 'el-icon-remove', '0', 6, '2022-05-07 14:58:12', '2022-05-07 15:00:24', 1, 0);
+INSERT INTO `tb_menu` VALUES (400, 355, '减少原因', '/asset/metadata/decreaseReason', '', 'el-icon-remove-outline', '0', 7, '2022-05-07 14:59:39', '2022-05-07 14:59:57', 1, 0);
 INSERT INTO `tb_menu` VALUES (401, 355, '技术状态', '/asset/metadata/technicalCondition', NULL, 'el-icon-eleme', '0', 8, '2022-05-07 19:26:19', '2022-05-07 19:30:08', 1, 0);
 INSERT INTO `tb_menu` VALUES (402, 398, '查询资产来源', '', 'asset:metadata:assetSource:select', 'el-icon-more', '1', 1, '2022-05-07 14:39:46', '2022-05-07 14:39:46', 1, 0);
 INSERT INTO `tb_menu` VALUES (403, 398, '添加资产来源', '', 'asset:metadata:assetSource:add', 'el-icon-plus', '1', 2, '2022-05-07 14:40:57', '2022-05-07 14:40:57', 1, 0);
@@ -14864,18 +14891,18 @@ INSERT INTO `tb_menu` VALUES (404, 398, '编辑资产来源', NULL, 'asset:metad
 INSERT INTO `tb_menu` VALUES (405, 398, '删除资产来源', NULL, 'asset:metadata:assetSource:delete', 'el-icon-delete', '1', 4, '2022-05-07 14:42:26', '2022-05-07 14:42:26', 1, 0);
 INSERT INTO `tb_menu` VALUES (406, 398, '导入资产来源', NULL, 'asset:metadata:assetSource:import', 'el-icon-upload', '1', 5, '2022-05-07 14:43:28', '2022-05-07 14:43:52', 1, 0);
 INSERT INTO `tb_menu` VALUES (407, 398, '导出资产来源', NULL, 'asset:metadata:assetSource:export', 'el-icon-download', '1', 6, '2022-05-07 14:44:32', '2022-05-07 14:44:32', 1, 0);
-INSERT INTO `tb_menu` VALUES (408, 399, '查询减少方式', '', 'asset:metadata:reduceMethod:select', 'el-icon-more', '1', 1, '2022-05-07 14:39:46', '2022-05-07 14:39:46', 1, 0);
-INSERT INTO `tb_menu` VALUES (409, 399, '添加减少方式', '', 'asset:metadata:reduceMethod:add', 'el-icon-plus', '1', 2, '2022-05-07 14:40:57', '2022-05-07 14:40:57', 1, 0);
-INSERT INTO `tb_menu` VALUES (410, 399, '编辑减少方式', NULL, 'asset:metadata:reduceMethod:edit', 'el-icon-edit', '1', 3, '2022-05-07 14:41:42', '2022-05-07 14:41:42', 1, 0);
-INSERT INTO `tb_menu` VALUES (411, 399, '删除减少方式', NULL, 'asset:metadata:reduceMethod:delete', 'el-icon-delete', '1', 4, '2022-05-07 14:42:26', '2022-05-07 14:42:26', 1, 0);
-INSERT INTO `tb_menu` VALUES (412, 399, '导入减少方式', NULL, 'asset:metadata:reduceMethod:import', 'el-icon-upload', '1', 5, '2022-05-07 14:43:28', '2022-05-07 14:43:52', 1, 0);
-INSERT INTO `tb_menu` VALUES (413, 399, '导出减少方式', NULL, 'asset:metadata:reduceMethod:export', 'el-icon-download', '1', 6, '2022-05-07 14:44:32', '2022-05-07 14:44:32', 1, 0);
-INSERT INTO `tb_menu` VALUES (414, 400, '查询减少原因', NULL, 'asset:metadata:reduceReason:select', 'el-icon-more', '1', 1, '2022-05-07 14:39:46', '2022-05-07 14:39:46', 1, 0);
-INSERT INTO `tb_menu` VALUES (415, 400, '添加减少原因', NULL, 'asset:metadata:reduceReason:add', 'el-icon-plus', '1', 2, '2022-05-07 14:40:57', '2022-05-07 14:40:57', 1, 0);
-INSERT INTO `tb_menu` VALUES (416, 400, '编辑减少原因', NULL, 'asset:metadata:reduceReason:edit', 'el-icon-edit', '1', 3, '2022-05-07 14:41:42', '2022-05-07 14:41:42', 1, 0);
-INSERT INTO `tb_menu` VALUES (417, 400, '删除减少原因', NULL, 'asset:metadata:reduceReason:delete', 'el-icon-delete', '1', 4, '2022-05-07 14:42:26', '2022-05-07 14:42:26', 1, 0);
-INSERT INTO `tb_menu` VALUES (418, 400, '导入减少原因', NULL, 'asset:metadata:reduceReason:import', 'el-icon-upload', '1', 5, '2022-05-07 14:43:28', '2022-05-07 14:43:52', 1, 0);
-INSERT INTO `tb_menu` VALUES (419, 400, '导出减少原因', NULL, 'asset:metadata:reduceReason:export', 'el-icon-download', '1', 6, '2022-05-07 14:44:32', '2022-05-07 14:44:32', 1, 0);
+INSERT INTO `tb_menu` VALUES (408, 399, '查询减少方式', '', 'asset:metadata:decreaseMethod:select', 'el-icon-more', '1', 1, '2022-05-07 14:39:46', '2022-05-07 14:39:46', 1, 0);
+INSERT INTO `tb_menu` VALUES (409, 399, '添加减少方式', '', 'asset:metadata:decreaseMethod:add', 'el-icon-plus', '1', 2, '2022-05-07 14:40:57', '2022-05-07 14:40:57', 1, 0);
+INSERT INTO `tb_menu` VALUES (410, 399, '编辑减少方式', NULL, 'asset:metadata:decreaseMethod:edit', 'el-icon-edit', '1', 3, '2022-05-07 14:41:42', '2022-05-07 14:41:42', 1, 0);
+INSERT INTO `tb_menu` VALUES (411, 399, '删除减少方式', NULL, 'asset:metadata:decreaseMethod:delete', 'el-icon-delete', '1', 4, '2022-05-07 14:42:26', '2022-05-07 14:42:26', 1, 0);
+INSERT INTO `tb_menu` VALUES (412, 399, '导入减少方式', NULL, 'asset:metadata:decreaseMethod:import', 'el-icon-upload', '1', 5, '2022-05-07 14:43:28', '2022-05-07 14:43:52', 1, 0);
+INSERT INTO `tb_menu` VALUES (413, 399, '导出减少方式', NULL, 'asset:metadata:decreaseMethod:export', 'el-icon-download', '1', 6, '2022-05-07 14:44:32', '2022-05-07 14:44:32', 1, 0);
+INSERT INTO `tb_menu` VALUES (414, 400, '查询减少原因', NULL, 'asset:metadata:decreaseReason:select', 'el-icon-more', '1', 1, '2022-05-07 14:39:46', '2022-05-07 14:39:46', 1, 0);
+INSERT INTO `tb_menu` VALUES (415, 400, '添加减少原因', NULL, 'asset:metadata:decreaseReason:add', 'el-icon-plus', '1', 2, '2022-05-07 14:40:57', '2022-05-07 14:40:57', 1, 0);
+INSERT INTO `tb_menu` VALUES (416, 400, '编辑减少原因', NULL, 'asset:metadata:decreaseReason:edit', 'el-icon-edit', '1', 3, '2022-05-07 14:41:42', '2022-05-07 14:41:42', 1, 0);
+INSERT INTO `tb_menu` VALUES (417, 400, '删除减少原因', NULL, 'asset:metadata:decreaseReason:delete', 'el-icon-delete', '1', 4, '2022-05-07 14:42:26', '2022-05-07 14:42:26', 1, 0);
+INSERT INTO `tb_menu` VALUES (418, 400, '导入减少原因', NULL, 'asset:metadata:decreaseReason:import', 'el-icon-upload', '1', 5, '2022-05-07 14:43:28', '2022-05-07 14:43:52', 1, 0);
+INSERT INTO `tb_menu` VALUES (419, 400, '导出减少原因', NULL, 'asset:metadata:decreaseReason:export', 'el-icon-download', '1', 6, '2022-05-07 14:44:32', '2022-05-07 14:44:32', 1, 0);
 INSERT INTO `tb_menu` VALUES (420, 401, '查询技术状态', NULL, 'asset:metadata:technicalCondition:select', 'el-icon-more', '1', 1, '2022-05-07 14:39:46', '2022-05-07 14:39:46', 1, 0);
 INSERT INTO `tb_menu` VALUES (421, 401, '添加技术状态', NULL, 'asset:metadata:technicalCondition:add', 'el-icon-plus', '1', 2, '2022-05-07 14:40:57', '2022-05-07 14:40:57', 1, 0);
 INSERT INTO `tb_menu` VALUES (422, 401, '编辑技术状态', NULL, 'asset:metadata:technicalCondition:edit', 'el-icon-edit', '1', 3, '2022-05-07 14:41:42', '2022-05-07 14:41:42', 1, 0);
@@ -14913,7 +14940,7 @@ CREATE TABLE `tb_role_menu`  (
   `role_id` bigint(0) NOT NULL COMMENT '角色ID',
   `menu_id` bigint(0) NOT NULL COMMENT '菜单/按钮ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1370 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1752 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_role_menu
@@ -14955,50 +14982,6 @@ INSERT INTO `tb_role_menu` VALUES (34, 156, 270);
 INSERT INTO `tb_role_menu` VALUES (35, 156, 316);
 INSERT INTO `tb_role_menu` VALUES (36, 156, 1);
 INSERT INTO `tb_role_menu` VALUES (37, 156, 312);
-INSERT INTO `tb_role_menu` VALUES (590, 155, 253);
-INSERT INTO `tb_role_menu` VALUES (591, 155, 234);
-INSERT INTO `tb_role_menu` VALUES (592, 155, 239);
-INSERT INTO `tb_role_menu` VALUES (593, 155, 256);
-INSERT INTO `tb_role_menu` VALUES (594, 155, 258);
-INSERT INTO `tb_role_menu` VALUES (595, 155, 317);
-INSERT INTO `tb_role_menu` VALUES (596, 155, 254);
-INSERT INTO `tb_role_menu` VALUES (597, 155, 4);
-INSERT INTO `tb_role_menu` VALUES (598, 155, 247);
-INSERT INTO `tb_role_menu` VALUES (599, 155, 301);
-INSERT INTO `tb_role_menu` VALUES (600, 155, 329);
-INSERT INTO `tb_role_menu` VALUES (601, 155, 249);
-INSERT INTO `tb_role_menu` VALUES (602, 155, 250);
-INSERT INTO `tb_role_menu` VALUES (603, 155, 235);
-INSERT INTO `tb_role_menu` VALUES (604, 155, 251);
-INSERT INTO `tb_role_menu` VALUES (605, 155, 255);
-INSERT INTO `tb_role_menu` VALUES (606, 155, 259);
-INSERT INTO `tb_role_menu` VALUES (607, 155, 260);
-INSERT INTO `tb_role_menu` VALUES (608, 155, 241);
-INSERT INTO `tb_role_menu` VALUES (609, 155, 242);
-INSERT INTO `tb_role_menu` VALUES (610, 155, 261);
-INSERT INTO `tb_role_menu` VALUES (611, 155, 262);
-INSERT INTO `tb_role_menu` VALUES (612, 155, 263);
-INSERT INTO `tb_role_menu` VALUES (613, 155, 264);
-INSERT INTO `tb_role_menu` VALUES (614, 155, 265);
-INSERT INTO `tb_role_menu` VALUES (615, 155, 318);
-INSERT INTO `tb_role_menu` VALUES (616, 155, 321);
-INSERT INTO `tb_role_menu` VALUES (617, 155, 356);
-INSERT INTO `tb_role_menu` VALUES (618, 155, 376);
-INSERT INTO `tb_role_menu` VALUES (619, 155, 371);
-INSERT INTO `tb_role_menu` VALUES (620, 155, 5);
-INSERT INTO `tb_role_menu` VALUES (621, 155, 271);
-INSERT INTO `tb_role_menu` VALUES (622, 155, 299);
-INSERT INTO `tb_role_menu` VALUES (623, 155, 300);
-INSERT INTO `tb_role_menu` VALUES (624, 155, 307);
-INSERT INTO `tb_role_menu` VALUES (625, 155, 308);
-INSERT INTO `tb_role_menu` VALUES (626, 155, 309);
-INSERT INTO `tb_role_menu` VALUES (627, 155, 298);
-INSERT INTO `tb_role_menu` VALUES (628, 155, 344);
-INSERT INTO `tb_role_menu` VALUES (629, 155, 1);
-INSERT INTO `tb_role_menu` VALUES (630, 155, 226);
-INSERT INTO `tb_role_menu` VALUES (631, 155, 354);
-INSERT INTO `tb_role_menu` VALUES (632, 155, 355);
-INSERT INTO `tb_role_menu` VALUES (633, 155, 369);
 INSERT INTO `tb_role_menu` VALUES (1610, 154, 1);
 INSERT INTO `tb_role_menu` VALUES (1611, 154, 253);
 INSERT INTO `tb_role_menu` VALUES (1612, 154, 226);
@@ -15141,6 +15124,72 @@ INSERT INTO `tb_role_menu` VALUES (1748, 154, 382);
 INSERT INTO `tb_role_menu` VALUES (1749, 154, 309);
 INSERT INTO `tb_role_menu` VALUES (1750, 154, 298);
 INSERT INTO `tb_role_menu` VALUES (1751, 154, 344);
+INSERT INTO `tb_role_menu` VALUES (1813, 155, 1);
+INSERT INTO `tb_role_menu` VALUES (1814, 155, 253);
+INSERT INTO `tb_role_menu` VALUES (1815, 155, 226);
+INSERT INTO `tb_role_menu` VALUES (1816, 155, 234);
+INSERT INTO `tb_role_menu` VALUES (1817, 155, 239);
+INSERT INTO `tb_role_menu` VALUES (1818, 155, 240);
+INSERT INTO `tb_role_menu` VALUES (1819, 155, 256);
+INSERT INTO `tb_role_menu` VALUES (1820, 155, 258);
+INSERT INTO `tb_role_menu` VALUES (1821, 155, 317);
+INSERT INTO `tb_role_menu` VALUES (1822, 155, 377);
+INSERT INTO `tb_role_menu` VALUES (1823, 155, 254);
+INSERT INTO `tb_role_menu` VALUES (1824, 155, 4);
+INSERT INTO `tb_role_menu` VALUES (1825, 155, 247);
+INSERT INTO `tb_role_menu` VALUES (1826, 155, 301);
+INSERT INTO `tb_role_menu` VALUES (1827, 155, 329);
+INSERT INTO `tb_role_menu` VALUES (1828, 155, 378);
+INSERT INTO `tb_role_menu` VALUES (1829, 155, 249);
+INSERT INTO `tb_role_menu` VALUES (1830, 155, 250);
+INSERT INTO `tb_role_menu` VALUES (1831, 155, 235);
+INSERT INTO `tb_role_menu` VALUES (1832, 155, 251);
+INSERT INTO `tb_role_menu` VALUES (1833, 155, 255);
+INSERT INTO `tb_role_menu` VALUES (1834, 155, 259);
+INSERT INTO `tb_role_menu` VALUES (1835, 155, 260);
+INSERT INTO `tb_role_menu` VALUES (1836, 155, 379);
+INSERT INTO `tb_role_menu` VALUES (1837, 155, 241);
+INSERT INTO `tb_role_menu` VALUES (1838, 155, 242);
+INSERT INTO `tb_role_menu` VALUES (1839, 155, 261);
+INSERT INTO `tb_role_menu` VALUES (1840, 155, 262);
+INSERT INTO `tb_role_menu` VALUES (1841, 155, 263);
+INSERT INTO `tb_role_menu` VALUES (1842, 155, 264);
+INSERT INTO `tb_role_menu` VALUES (1843, 155, 265);
+INSERT INTO `tb_role_menu` VALUES (1844, 155, 380);
+INSERT INTO `tb_role_menu` VALUES (1845, 155, 318);
+INSERT INTO `tb_role_menu` VALUES (1846, 155, 321);
+INSERT INTO `tb_role_menu` VALUES (1847, 155, 356);
+INSERT INTO `tb_role_menu` VALUES (1848, 155, 376);
+INSERT INTO `tb_role_menu` VALUES (1849, 155, 364);
+INSERT INTO `tb_role_menu` VALUES (1850, 155, 369);
+INSERT INTO `tb_role_menu` VALUES (1851, 155, 375);
+INSERT INTO `tb_role_menu` VALUES (1852, 155, 371);
+INSERT INTO `tb_role_menu` VALUES (1853, 155, 383);
+INSERT INTO `tb_role_menu` VALUES (1854, 155, 384);
+INSERT INTO `tb_role_menu` VALUES (1855, 155, 388);
+INSERT INTO `tb_role_menu` VALUES (1856, 155, 391);
+INSERT INTO `tb_role_menu` VALUES (1857, 155, 392);
+INSERT INTO `tb_role_menu` VALUES (1858, 155, 396);
+INSERT INTO `tb_role_menu` VALUES (1859, 155, 398);
+INSERT INTO `tb_role_menu` VALUES (1860, 155, 402);
+INSERT INTO `tb_role_menu` VALUES (1861, 155, 407);
+INSERT INTO `tb_role_menu` VALUES (1862, 155, 399);
+INSERT INTO `tb_role_menu` VALUES (1863, 155, 412);
+INSERT INTO `tb_role_menu` VALUES (1864, 155, 413);
+INSERT INTO `tb_role_menu` VALUES (1865, 155, 400);
+INSERT INTO `tb_role_menu` VALUES (1866, 155, 415);
+INSERT INTO `tb_role_menu` VALUES (1867, 155, 416);
+INSERT INTO `tb_role_menu` VALUES (1868, 155, 5);
+INSERT INTO `tb_role_menu` VALUES (1869, 155, 271);
+INSERT INTO `tb_role_menu` VALUES (1870, 155, 299);
+INSERT INTO `tb_role_menu` VALUES (1871, 155, 300);
+INSERT INTO `tb_role_menu` VALUES (1872, 155, 307);
+INSERT INTO `tb_role_menu` VALUES (1873, 155, 308);
+INSERT INTO `tb_role_menu` VALUES (1874, 155, 309);
+INSERT INTO `tb_role_menu` VALUES (1875, 155, 298);
+INSERT INTO `tb_role_menu` VALUES (1876, 155, 344);
+INSERT INTO `tb_role_menu` VALUES (1877, 155, 354);
+INSERT INTO `tb_role_menu` VALUES (1878, 155, 355);
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -15170,7 +15219,7 @@ CREATE TABLE `tb_user`  (
 -- ----------------------------
 INSERT INTO `tb_user` VALUES (5, 'admin', '李彭', 'Jana@126.com', '../assets/test01.webp', '17744444444', 1, '2019-06-14 21:12:16', '2020-03-19 04:20:40', 0, '48c958ca-2307-43c8-9bb6-e3dbe7d8', 0, 'eb1f68e13b37a95c2ee58e515539a503', '2020-03-27', 14);
 INSERT INTO `tb_user` VALUES (200, 'LiPeng', 'LiPeng', '123456@163.com', '../assets/test01.webp', '13845678912', 1, '2021-09-27 18:26:10', '2022-04-03 15:04:10', 1, '48c958ca-2307-43c8-9bb6-e3dbe7d8', 1, 'eb1f68e13b37a95c2ee58e515539a503', '2021-09-02', 14);
-INSERT INTO `tb_user` VALUES (221, 'test01', '', '', '../assets/test01.webp', '', 1, '2021-10-17 10:03:42', '2022-04-24 14:15:42', 0, 'ad034c4d-09a7-468b-9638-5b84161f', 1, '0e884d32b39e43d99247c5e3d640f8cf', '2021-09-21', 12);
+INSERT INTO `tb_user` VALUES (221, 'test01', '', '', '../assets/test01.webp', '', 1, '2021-10-17 10:03:42', '2022-05-09 15:23:04', 0, 'fa8c7790-e7f9-45c8-ae40-3b58fe3f', 1, '2fa43b15c129315fed4103931b4ceb85', '2021-09-21', 12);
 INSERT INTO `tb_user` VALUES (225, 'test02', '', '', '../assets/test01.webp', '', 1, '2021-12-04 20:05:24', '2021-12-04 20:05:24', 0, '12602d40-33f1-4cb4-8823-d10bb16f', 1, '6e6e15cb7697b899bd02c6deb9193bd6', NULL, 15);
 
 -- ----------------------------
@@ -15191,6 +15240,6 @@ INSERT INTO `tb_user_role` VALUES (4, 200, 154);
 INSERT INTO `tb_user_role` VALUES (6, 225, 156);
 INSERT INTO `tb_user_role` VALUES (7, 225, 155);
 INSERT INTO `tb_user_role` VALUES (8, 225, 161);
-INSERT INTO `tb_user_role` VALUES (9, 221, 155);
+INSERT INTO `tb_user_role` VALUES (10, 221, 155);
 
 SET FOREIGN_KEY_CHECKS = 1;

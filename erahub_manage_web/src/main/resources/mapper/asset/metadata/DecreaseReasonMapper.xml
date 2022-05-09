@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.erahub.asset.metadata.mapper.DecreaseReasonMapper">
+    <select id="selectDecreaseReasonPageList" resultType="com.erahub.common.model.asset.metadata.DecreaseReason"
+            parameterType="com.erahub.common.dto.asset.metadata.DecreaseReasonDTO"
+    >
+        select adr.*,aa.asset_quantity from as_decrease_reason as adr left join
+        (select decrease_reason_id,COUNT(decrease_reason_id) as asset_quantity from as_asset GROUP BY decrease_reason_id) as aa
+        on adr.decrease_reason_id = aa.decrease_reason_id
+        where 1 = 1
+        <if test="decreaseReasonDTO.isAccurate != null and decreaseReasonDTO.isAccurate == 1">
+            <if test="decreaseReasonDTO.decreaseReasonId != null">
+                and adr.decrease_reason_id = #{decreaseReasonDTO.decreaseReasonId}
+            </if>
+            <if test="decreaseReasonDTO.decreaseReasonName != null and decreaseReasonDTO.decreaseReasonName != ''">
+                and adr.decrease_reason_name = #{decreaseReasonDTO.decreaseReasonName}
+            </if>
+        </if>
+
+        <if test="decreaseReasonDTO.isAccurate != null and decreaseReasonDTO.isAccurate == 0">
+            <if test="decreaseReasonDTO.decreaseReasonId != null">
+                and adr.decrease_reason_id like '${decreaseReasonDTO.decreaseReasonId}%'
+            </if>
+            <if test="decreaseReasonDTO.decreaseReasonName != null and decreaseReasonDTO.decreaseReasonName != ''">
+                and adr.decrease_reason_name like '%${decreaseReasonDTO.decreaseReasonName}%'
+            </if>
+        </if>
+
+        <if test="decreaseReasonDTO.status != null">
+            and adr.status = #{decreaseReasonDTO.status}
+        </if>
+        <if test="decreaseReasonDTO.startCreateTime != null">
+            and adr.create_time &gt;= #{decreaseReasonDTO.startCreateTime}
+        </if>
+
+        <if test="decreaseReasonDTO.endCreateTime != null">
+            and adr.create_time &lt;= #{decreaseReasonDTO.endCreateTime}
+        </if>
+
+        <if test="decreaseReasonDTO.sortColumn != null and decreaseReasonDTO.sortColumn != ''">
+            <if test="decreaseReasonDTO.isAsc != null and decreaseReasonDTO.isAsc">
+                order by ${decreaseReasonDTO.sortColumn}
+            </if>
+            <if test="decreaseReasonDTO.isAsc != null and !decreaseReasonDTO.isAsc">
+                order by ${decreaseReasonDTO.sortColumn} desc
+            </if>
+        </if>
+    </select>
+
+    <select id="selectDecreaseReasonListByIds" resultType="com.erahub.common.model.asset.metadata.DecreaseReason"
+            parameterType="java.util.List"
+    >
+        select adr.*,aa.asset_quantity from as_decrease_reason as adr left join
+        (select decrease_reason_id,COUNT(decrease_reason_id) as asset_quantity from as_asset GROUP BY decrease_reason_id) as aa
+        on adr.decrease_reason_id = aa.decrease_reason_id
+        where adr.decrease_reason_id in
+        <foreach item="item" collection="decreaseReasonIds" open="(" close=")" separator="," index="">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

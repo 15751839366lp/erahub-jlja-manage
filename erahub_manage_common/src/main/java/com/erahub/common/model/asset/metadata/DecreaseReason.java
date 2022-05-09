@@ -23,8 +23,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("as_reduce_reason")
-public class ReduceReason implements Serializable {
+@TableName("as_decrease_reason")
+public class DecreaseReason implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,12 +32,12 @@ public class ReduceReason implements Serializable {
      * 减少原因编号
      */
     @TableId
-    private Long reduceReasonId;
+    private Long decreaseReasonId;
 
     /**
      * 减少原因名称
      */
-    private String reduceReasonName;
+    private String decreaseReasonName;
 
     /**
      * 资产数量

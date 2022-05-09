@@ -13,15 +13,15 @@ import java.util.Date;
  * @Version 1.0
  **/
 @Data
-public class ReduceMethodExcel {
+public class DecreaseMethodExcel {
 
     @ColumnWidth(10)
     @ExcelProperty(value = "减少方式编号")
-    private Long reduceMethodId;
+    private Long decreaseMethodId;
 
     @ColumnWidth(20)
     @ExcelProperty(value = "减少方式名称")
-    private String reduceMethodName;
+    private String decreaseMethodName;
 
     @ColumnWidth(20)
     @ExcelProperty(value = "方式标记")
