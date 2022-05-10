@@ -34,9 +34,6 @@ public class TechnicalConditionConverter {
                 if(technicalCondition.getAssetQuantity() == null){
                     technicalConditionVO.setAssetQuantity(0l);
                 }
-//                if(section.getSectionDetailed() != null){
-//                    sectionVO.setHasChildren(section.getSectionDetailed() == 1 ? false : true);
-//                }
 
                 technicalConditionVOS.add(technicalConditionVO);
             }

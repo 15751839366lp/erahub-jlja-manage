@@ -2,6 +2,7 @@ package com.erahub.common.excel.model.asset.metadata;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
+import com.alibaba.excel.annotation.format.NumberFormat;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import lombok.Data;
 
@@ -56,14 +57,17 @@ public class AssetCategoryExcel {
     @ExcelProperty(value = "能力单位")
     private String capacityUnit;
 
+    @NumberFormat("0.00")
     @ColumnWidth(10)
     @ExcelProperty(value = "折旧年限")
     private BigDecimal depreciationPeriod;
 
+    @NumberFormat("0.00")
     @ColumnWidth(10)
     @ExcelProperty(value = "预计总工作量")
     private BigDecimal estimatedTotalWorkload;
 
+    @NumberFormat("0.00")
     @ColumnWidth(10)
     @ExcelProperty(value = "净残值率")
     private BigDecimal netResidualValue;

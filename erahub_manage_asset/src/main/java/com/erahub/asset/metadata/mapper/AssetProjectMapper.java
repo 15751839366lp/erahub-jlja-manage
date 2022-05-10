@@ -21,5 +21,5 @@ public interface AssetProjectMapper extends BaseMapper<AssetProject> {
     IPage<AssetProject> selectAssetProjectPageList(IPage<AssetProject> assetProjectIPage,
                                                                @Param("assetProjectDTO") AssetProjectDTO assetProjectDTO);
 
-    List<AssetProject> selectAssetProjectListByIds(@Param("assetProjectIds") List<Long> assetProjectIds);
+    List<AssetProject> selectAssetProjectListByIds(@Param("assetProjectIds") List<String> assetProjectIds);
 }

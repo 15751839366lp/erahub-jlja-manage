@@ -34,9 +34,6 @@ public class DecreaseReasonConverter {
                 if(decreaseReason.getAssetQuantity() == null){
                     decreaseReasonVO.setAssetQuantity(0l);
                 }
-//                if(section.getSectionDetailed() != null){
-//                    sectionVO.setHasChildren(section.getSectionDetailed() == 1 ? false : true);
-//                }
 
                 decreaseReasonVOS.add(decreaseReasonVO);
             }

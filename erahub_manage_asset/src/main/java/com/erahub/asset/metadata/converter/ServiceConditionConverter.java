@@ -36,9 +36,6 @@ public class ServiceConditionConverter {
                 if(serviceCondition.getAssetQuantity() == null){
                     serviceConditionVO.setAssetQuantity(0l);
                 }
-//                if(section.getSectionDetailed() != null){
-//                    sectionVO.setHasChildren(section.getSectionDetailed() == 1 ? false : true);
-//                }
 
                 serviceConditionVOS.add(serviceConditionVO);
             }

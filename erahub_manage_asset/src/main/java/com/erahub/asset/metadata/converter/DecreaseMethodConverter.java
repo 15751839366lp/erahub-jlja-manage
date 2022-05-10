@@ -34,9 +34,6 @@ public class DecreaseMethodConverter {
                 if(decreaseMethod.getAssetQuantity() == null){
                     decreaseMethodVO.setAssetQuantity(0l);
                 }
-//                if(section.getSectionDetailed() != null){
-//                    sectionVO.setHasChildren(section.getSectionDetailed() == 1 ? false : true);
-//                }
 
                 decreaseMethodVOS.add(decreaseMethodVO);
             }

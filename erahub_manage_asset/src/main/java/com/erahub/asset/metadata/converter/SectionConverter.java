@@ -33,9 +33,6 @@ public class SectionConverter {
                 if(section.getAssetQuantity() == null){
                     sectionVO.setAssetQuantity(0l);
                 }
-//                if(section.getSectionDetailed() != null){
-//                    sectionVO.setHasChildren(section.getSectionDetailed() == 1 ? false : true);
-//                }
 
                 sectionVOS.add(sectionVO);
             }
