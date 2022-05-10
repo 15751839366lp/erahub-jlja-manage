@@ -2,6 +2,7 @@ package com.erahub.common.model.asset.metadata;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -32,6 +33,7 @@ public class AssetProject implements Serializable {
     /**
      * 工程项目编号
      */
+    @TableId
     private String assetProjectId;
 
     /**
