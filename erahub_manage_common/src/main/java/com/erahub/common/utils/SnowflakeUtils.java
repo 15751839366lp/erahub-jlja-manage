@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @Version 1.0
  **/
 @Slf4j
-public class SnowFlakeUtils {
+public class SnowflakeUtils {
     // ==============================Fields===========================================
     /**
      * 开始时间戳 (2000-01-01 00:00:00)
@@ -122,7 +122,7 @@ public class SnowFlakeUtils {
 
     //==============================Constructors=====================================
 
-    public SnowFlakeUtils() {
+    public SnowflakeUtils() {
         this(getWorkerId(), getDataCenterId(), WorkMode.RATE_4096);
     }
 
@@ -131,7 +131,7 @@ public class SnowFlakeUtils {
      * @param workerId     工作ID (0~31)
      * @param dataCenterId 数据中心ID (0~31)
      */
-    public SnowFlakeUtils(long workerId, long dataCenterId) {
+    public SnowflakeUtils(long workerId, long dataCenterId) {
         this(workerId, dataCenterId, WorkMode.RATE_4096);
     }
 
@@ -141,7 +141,7 @@ public class SnowFlakeUtils {
      * @param dataCenterId 数据中心ID (0~31)
      * @param workMode     工作模式
      */
-    public SnowFlakeUtils(long workerId, long dataCenterId, WorkMode workMode) {
+    public SnowflakeUtils(long workerId, long dataCenterId, WorkMode workMode) {
         this.workMode = workMode;
         if (workerId > MAX_WORKER_ID || workerId < 0) {
             throw new IllegalArgumentException(MessageFormat.format("worker Id can't be greater than {0} or less than 0", MAX_WORKER_ID));
@@ -202,7 +202,7 @@ public class SnowFlakeUtils {
     /**
      * 获得下一个ID (该方法是线程安全的)
      *
-     * @return SnowFlakeUtilsId
+     * @return SnowflakeUtilsId
      */
     public synchronized long nextId() {
         long timestamp = timeGen();
@@ -347,10 +347,10 @@ public class SnowFlakeUtils {
      * @param args
      */
     public static void main(String[] args) {
-        SnowFlakeUtils SnowFlake = new SnowFlakeUtils();
+        SnowflakeUtils Snowflake = new SnowflakeUtils();
         ArrayList<Long> longs = new ArrayList<>();
         for (int i = 0; i < 220; i++) {
-            Long id = SnowFlake.nextId();
+            Long id = Snowflake.nextId();
             if(!longs.contains(id)){
                 longs.add(id);
             }
