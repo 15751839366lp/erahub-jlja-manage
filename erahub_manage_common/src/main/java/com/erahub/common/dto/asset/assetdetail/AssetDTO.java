@@ -1,4 +1,4 @@
-package com.erahub.common.dto.asset.assetoperation;
+package com.erahub.common.dto.asset.assetdetail;
 
 import lombok.Data;
 

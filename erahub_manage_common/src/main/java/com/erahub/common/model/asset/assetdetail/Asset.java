@@ -1,4 +1,4 @@
-package com.erahub.common.model.asset.assetoperation;
+package com.erahub.common.model.asset.assetdetail;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

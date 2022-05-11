@@ -1,4 +1,4 @@
-package com.erahub.common.vo.asset.assetoperation;
+package com.erahub.common.vo.asset.assetdetail;
 
 /**
  * @Author lipeng

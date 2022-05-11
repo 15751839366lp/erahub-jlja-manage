@@ -1,7 +1,7 @@
 package com.erahub.asset.assetoperation.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.erahub.common.model.asset.assetoperation.Asset;
+import com.erahub.common.model.asset.assetdetail.Asset;
 
 
 /**

@@ -1,7 +1,7 @@
 package com.erahub.asset.assetoperation.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.erahub.common.model.asset.assetoperation.Asset;
+import com.erahub.common.model.asset.assetdetail.Asset;
 
 /**
  * @Author lipeng

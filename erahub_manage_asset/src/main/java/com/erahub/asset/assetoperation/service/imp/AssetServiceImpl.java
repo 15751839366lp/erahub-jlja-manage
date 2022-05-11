@@ -1,7 +1,7 @@
 package com.erahub.asset.assetoperation.service.imp;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.erahub.common.model.asset.assetoperation.Asset;
+import com.erahub.common.model.asset.assetdetail.Asset;
 import com.erahub.asset.assetoperation.mapper.AssetMapper;
 import com.erahub.asset.assetoperation.service.AssetService;
 import org.springframework.stereotype.Service;

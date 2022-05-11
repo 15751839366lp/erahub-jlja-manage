@@ -1,4 +1,4 @@
-package com.erahub.common.excel.model.asset.assetoperation;
+package com.erahub.common.excel.model.asset.assetdetail;
 
 import lombok.Data;
 

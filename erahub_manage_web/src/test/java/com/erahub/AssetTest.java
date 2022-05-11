@@ -1,6 +1,6 @@
 package com.erahub;
 
-import com.erahub.common.model.asset.assetoperation.Asset;
+import com.erahub.common.model.asset.assetdetail.Asset;
 import com.erahub.asset.assetoperation.service.AssetService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.DataFormatter;
