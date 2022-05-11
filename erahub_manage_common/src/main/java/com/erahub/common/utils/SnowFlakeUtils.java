@@ -347,10 +347,10 @@ public class SnowFlakeUtils {
      * @param args
      */
     public static void main(String[] args) {
-        SnowFlakeUtils snowFlow = new SnowFlakeUtils();
+        SnowFlakeUtils SnowFlake = new SnowFlakeUtils();
         ArrayList<Long> longs = new ArrayList<>();
         for (int i = 0; i < 220; i++) {
-            Long id = snowFlow.nextId();
+            Long id = SnowFlake.nextId();
             if(!longs.contains(id)){
                 longs.add(id);
             }
