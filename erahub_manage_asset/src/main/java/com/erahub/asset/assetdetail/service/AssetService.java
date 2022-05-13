@@ -1,12 +1,16 @@
-package com.erahub.asset.assetoperation.service;
+package com.erahub.asset.assetdetail.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.erahub.common.model.asset.assetdetail.Asset;
 
 /**
- * @Author lipeng
- * @Date 2022/5/2 12:45
- * @Version 1.0
- **/
+ * <p>
+ *  服务类
+ * </p>
+ *
+ * @author lipeng
+ * @since 2022-05-13
+ */
 public interface AssetService extends IService<Asset> {
+
 }

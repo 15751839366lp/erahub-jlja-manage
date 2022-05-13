@@ -1,13 +1,16 @@
-package com.erahub.asset.assetoperation.mapper;
+package com.erahub.asset.assetdetail.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.erahub.common.model.asset.assetdetail.Asset;
 
-
 /**
- * @Author lipeng
- * @Date 2022/5/2 12:44
- * @Version 1.0
- **/
+ * <p>
+ *  Mapper 接口
+ * </p>
+ *
+ * @author lipeng
+ * @since 2022-05-13
+ */
 public interface AssetMapper extends BaseMapper<Asset> {
+
 }
