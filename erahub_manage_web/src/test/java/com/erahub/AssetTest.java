@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StringUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -129,8 +129,8 @@ public class AssetTest {
 
     }
 
-    public static void main(String[] args) {
-        BigDecimal historicalCost = new BigDecimal("337091");
+    public static void main(String[] args) throws IOException {
+        BigDecimal historicalCost = new BigDecimal("18578.56");
         BigDecimal depreciationPeriod = new BigDecimal("20");
         BigDecimal netResidualValue = new BigDecimal("0.05");
         BigDecimal residualValue = historicalCost.multiply(netResidualValue);
@@ -140,7 +140,7 @@ public class AssetTest {
 
         for (int i = 0; i < depreciationPeriod.multiply(new BigDecimal(12)).intValue(); i++) {
             BigDecimal tempDepreciationAmount = tempDepreciationValue
-                    .divide(new BigDecimal(depreciationPeriod.multiply(new BigDecimal(12)).intValue() - i),2);
+                    .divide(new BigDecimal(depreciationPeriod.multiply(new BigDecimal(12)).intValue() - i),2, RoundingMode.HALF_UP);
             tempDepreciationValue = tempDepreciationValue.subtract(tempDepreciationAmount);
             AccumulatedDepreciationAmount = AccumulatedDepreciationAmount.add(tempDepreciationAmount);
             System.out.println("第" + (i + 1) + "次折旧，本期折旧额：" + tempDepreciationAmount
