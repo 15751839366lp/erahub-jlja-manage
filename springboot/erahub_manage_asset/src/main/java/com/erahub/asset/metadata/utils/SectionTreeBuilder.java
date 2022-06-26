@@ -5,7 +5,9 @@ import com.erahub.common.vo.asset.metadata.SectionVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author lipeng
@@ -78,6 +80,16 @@ public class SectionTreeBuilder {
                                 List<SectionVO> child = new ArrayList<>();
                                 child.add(entrySet.getValue());
                                 previousMap.get(prevNodeId).setChildren(child);
+                                //统计父节点数据 Long & BigDecimal
+//                                previousMap.get(prevNodeId).setAssetQuantity(
+//                                        child.stream().collect(
+//                                                Collectors.summingLong(SectionVO::getAssetQuantity)
+//                                        )
+//                                );
+//                                previousMap.get(prevNodeId).setAssetQuantity(
+//                                        child.stream().map(SectionVO -> new BigDecimal(SectionVO.getAssetQuantity()))
+//                                                .reduce(BigDecimal.ZERO, BigDecimal::add).longValue()
+//                                );
                             }
                         }
                     }
@@ -108,6 +120,16 @@ public class SectionTreeBuilder {
             noParentSection.setDetailed(0);
             noParentSection.setStatus(1);
             noParentSection.setChildren(noParentNodes);
+            //统计父节点数据
+//            noParentSection.setAssetQuantity(
+//                    noParentNodes.stream().collect(
+//                            Collectors.summingLong(SectionVO::getAssetQuantity)
+//                    )
+//            );
+//            noParentSection.setAssetQuantity(
+//                    noParentNodes.stream().map(SectionVO -> new BigDecimal(SectionVO.getAssetQuantity()))
+//                            .reduce(BigDecimal.ZERO, BigDecimal::add).longValue()
+//            );
 
             tree.add(noParentSection);
         }
