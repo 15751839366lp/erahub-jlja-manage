@@ -11,7 +11,8 @@
         ((select aa.section_id as asi,ass.section_id as assi from as_asset as aa
         left join
         (select * from as_section where detailed = 0) as ass
-        on instr(aa.section_id,ass.section_id))
+        on instr(aa.section_id,ass.section_id) = 1
+        where aa.section_id &lt;&gt; ass.section_id)
         UNION ALL
         (select section_id as asi,section_id as assi from as_asset)) as temp
 
@@ -68,14 +69,15 @@
         ((select aa.section_id as asi,ass.section_id as assi from as_asset as aa
         left join
         (select * from as_section where detailed = 0) as ass
-        on instr(aa.section_id,ass.section_id))
+        on instr(aa.section_id,ass.section_id) = 1
+        where aa.section_id &lt;&gt; ass.section_id)
         UNION ALL
         (select section_id as asi,section_id as assi from as_asset)) as temp
 
         GROUP BY assi) as aa
         on ass.section_id = aa.section_id where
         <foreach item="item" collection="sectionIdList" separator=" or " index="">
-            instr(#{item},ass.section_id) > 0
+            instr(#{item},ass.section_id) = 1
         </foreach>
     </select>
 
@@ -88,7 +90,8 @@
         ((select aa.section_id as asi,ass.section_id as assi from as_asset as aa
         left join
         (select * from as_section where detailed = 0) as ass
-        on instr(aa.section_id,ass.section_id))
+        on instr(aa.section_id,ass.section_id) = 1
+        where aa.section_id &lt;&gt; ass.section_id)
         UNION ALL
         (select section_id as asi,section_id as assi from as_asset)) as temp
 
@@ -106,7 +109,8 @@
         ((select aa.section_id as asi,ass.section_id as assi from as_asset as aa
         left join
         (select * from as_section where detailed = 0) as ass
-        on instr(aa.section_id,ass.section_id))
+        on instr(aa.section_id,ass.section_id) = 1
+        where aa.section_id &lt;&gt; ass.section_id)
         UNION ALL
         (select section_id as asi,section_id as assi from as_asset)) as temp
 
