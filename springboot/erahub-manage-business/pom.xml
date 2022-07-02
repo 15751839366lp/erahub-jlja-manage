@@ -3,15 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>erahub_manage</artifactId>
+        <artifactId>erahub-manage</artifactId>
         <groupId>com.erahub</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
 
-    <packaging>jar</packaging>
+    <artifactId>erahub-manage-business</artifactId>
 
-    <artifactId>erahub_manage_asset</artifactId>
+    <modules>
+        <module>erahub-manage-business-material</module>
+    </modules>
+
 
     <dependencies>
         <dependency>
@@ -20,10 +24,9 @@
         </dependency>
         <dependency>
             <groupId>com.erahub</groupId>
-            <artifactId>erahub_manage_common</artifactId>
+            <artifactId>erahub-manage-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
 
 </project>
